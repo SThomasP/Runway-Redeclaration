@@ -4,6 +4,7 @@ public class ObstacleOnRunway {
 	Obstacle obstacle;
 	int distanceFromThreshold;
 	int distanceFromCentreLine;
+	Runway runway;
 	
 	public Obstacle getObstacle(){
 		return obstacle;

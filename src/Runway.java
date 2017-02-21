@@ -6,7 +6,6 @@ public class Runway {
 	int asda;
 	int lda;
 	char location;
-	ObstacleOnRunway obstacleOnRunway;
 	
 	public int getToda(){
 		return toda;
@@ -22,10 +21,6 @@ public class Runway {
 	
 	public int getLda(){
 		return lda;
-	}
-	
-	public ObstacleOnRunway getObstacleOnRunway(){
-		return obstacleOnRunway;
 	}
 	
 	public char getLocation(){
@@ -51,9 +46,6 @@ public class Runway {
 		this.location = location;
 	}
 	
-	public void setObstacleOnRunway( ObstacleOnRunway obstacleOnRunway){
-		this.obstacleOnRunway = obstacleOnRunway;
-	}
 	
 	
 }
