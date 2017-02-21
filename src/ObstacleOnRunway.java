@@ -5,6 +5,7 @@ public class ObstacleOnRunway {
 	int distanceFromThreshold;
 	int distanceFromCentreLine;
 	Runway runway;
+	boolean closeToThreshold;
 	
 	public Obstacle getObstacle(){
 		return obstacle;
@@ -29,4 +30,14 @@ public class ObstacleOnRunway {
 	public void setSistanceFromCentreLine(int distanceFromCentreLine){
 		this.distanceFromCentreLine = distanceFromCentreLine;
 	}
+
+	public Runway getRunway() {
+		return runway;
+	}
+
+	public void setRunway(Runway runway) {
+		this.runway = runway;
+	}
+	
+	
 }

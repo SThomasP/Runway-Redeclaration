@@ -34,7 +34,30 @@ public class Calculator {
 	
 	int calculateLda(ObstacleOnRunway or,Aircraft a)
 	{
-		return 1;
+		if(or.closeToThreshold)
+		{
+			int h = or.getObstacle().getHeight(); //height of the obstacle
+			int decrement = 60; //strip end value
+			int compare = h*50; //height calculations --> height of the obstacle * 50
+			int blast = a.getBlastDistance(); //blast from the plane's engines
+			if (compare < blast){ // if blast bigger the height calculations, use blast
+				if (compare < 240) { //if RESA bigger then height calculations, use RESA
+					decrement = decrement + 240; //RESA + strip end
+				}
+				decrement = blast; //blast distance value
+			} else { //otherwise use height calculations
+				decrement = decrement + compare; //height*50 plus strip end
+			}
+			
+			int newLdaOver = or.getRunway().getLda() - or.getDistanceFromThreshold() - decrement;
+			//new LDA = original LDA - obstacle distance from the threshold - calculated 'obstruction'
+			return newLdaOver;
+		}
+		else
+		{
+			return 1;
+		}
+		
 	}
 	
 	

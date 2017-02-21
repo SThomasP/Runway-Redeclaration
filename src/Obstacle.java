@@ -3,6 +3,7 @@ public class Obstacle {
 
 	int height;
 	
+	
 	public int getHeight(){
 		return height;
 	}
