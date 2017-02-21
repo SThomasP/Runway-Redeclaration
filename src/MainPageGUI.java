@@ -2,10 +2,14 @@ import java.awt.Container;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 /**
  * @author Chloe, started on 21/02/17
@@ -24,7 +28,7 @@ public class MainPageGUI {
 		JPanel calculations = new JPanel();
 		calculations.setLayout(new GridLayout(3, 1));
 		JPanel declaredDistance = new JPanel();
-		JTextArea showDistance = new JTextArea(20, 35);
+		JTextArea showDistance = new JTextArea(20, 50);
 		
 		showDistance.append("Declared Distances" + "\n");
 		showDistance.append("TORA : " + "\n");
@@ -33,7 +37,7 @@ public class MainPageGUI {
 		showDistance.append("LDA : " + "\n");
 		
 		JPanel declaredRecipDistance = new JPanel();
-		JTextArea showRecipDistance = new JTextArea(20, 35);
+		JTextArea showRecipDistance = new JTextArea(20, 50);
 		showRecipDistance.append("Declared Distances for Reciprocal" + "\n");
 		showRecipDistance.append("TORA : " + "\n");
 		showRecipDistance.append("TODA : " + "\n");
@@ -41,24 +45,25 @@ public class MainPageGUI {
 		showRecipDistance.append("LDA : " + "\n");
 		
 		JPanel obstacleInfo = new JPanel();
-		obstacleInfo.setLayout(new GridLayout(4,2));
-		JTextField obstacleDist = new JTextField("Obstacle Distance");
-		JTextField obstacleLocation = new JTextField("Obstacle Location");
-		JTextField obstacleDistFromCL = new JTextField("Obstacle Distance From CL");
-		JTextField obstacleDistFromRunway = new JTextField("Obstacle Distance From Runway");
-		JTextArea distance = new JTextArea();
-		JTextArea location = new JTextArea();
-		JTextArea distanceCL = new JTextArea();
-		JTextArea distanceRunway = new JTextArea();
+		obstacleInfo.setLayout(new GridLayout(0, 2, 0, 0));
 		
+		JLabel obstacleDist = new JLabel("Obstacle Distance");
 		obstacleInfo.add(obstacleDist);
-		obstacleInfo.add(distance);
+		
+		JTextField distanceText = new JTextField(5);
+		obstacleInfo.add(distanceText);
+		JLabel obstacleLocation = new JLabel("Obstacle Location");
 		obstacleInfo.add(obstacleLocation);
-		obstacleInfo.add(location);
+		JTextField locationText = new JTextField();
+		obstacleInfo.add(locationText);
+		JLabel obstacleDistFromCL = new JLabel("Obstacle Distance From CL");
 		obstacleInfo.add(obstacleDistFromCL);
-		obstacleInfo.add(distanceCL);
+		JTextField distCLText = new JTextField();
+		obstacleInfo.add(distCLText);
+		JLabel obstacleDistFromRunway = new JLabel("Obstacle Distance From Runway");
 		obstacleInfo.add(obstacleDistFromRunway);
-		obstacleInfo.add(distanceRunway);
+		JTextField distRunwayText = new JTextField();
+		obstacleInfo.add(distRunwayText);
 		
 		declaredDistance.add(showDistance);
 		calculations.add(declaredDistance);
@@ -88,8 +93,9 @@ public class MainPageGUI {
 		mainFrame.add(selectOption);
 
 		content.add(mainFrame);
-		window.setSize(800, 600);
+		window.setSize(1200, 900);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setResizable(false);
 		window.setVisible(true);
 
 	}
