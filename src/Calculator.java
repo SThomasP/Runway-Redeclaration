@@ -19,7 +19,7 @@ public class Calculator {
 	
 	int calculateToda(ObstacleOnRunway or,Aircraft a)
 	{
-		return 1;
+		return 2;
 	}
 	
 	int calculateTora(ObstacleOnRunway or,Aircraft a)
