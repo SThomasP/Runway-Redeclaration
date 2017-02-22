@@ -9,4 +9,10 @@ public class Aircraft {
 	public void setBlastDictance(int blastDistance){
 		this.blastDistance = blastDistance;
 	}
+
+	public Aircraft(int blastDistance) {
+		super();
+		this.blastDistance = blastDistance;
+	}
+	
 }

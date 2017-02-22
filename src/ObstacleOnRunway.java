@@ -38,6 +38,16 @@ public class ObstacleOnRunway {
 	public void setRunway(Runway runway) {
 		this.runway = runway;
 	}
+
+	public ObstacleOnRunway(Obstacle obstacle, int distanceFromThreshold, int distanceFromCentreLine, Runway runway,
+			boolean closeToThreshold) {
+		super();
+		this.obstacle = obstacle;
+		this.distanceFromThreshold = distanceFromThreshold;
+		this.distanceFromCentreLine = distanceFromCentreLine;
+		this.runway = runway;
+		this.closeToThreshold = closeToThreshold;
+	}
 	
 	
 }

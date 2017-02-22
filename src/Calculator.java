@@ -3,9 +3,12 @@ import java.util.ArrayList;
 /**
  * Created by steff on 15/02/2017.
  */
-public class Calculator {
+public final class Calculator {
 	
-	public ArrayList<Integer> calculate(ObstacleOnRunway or,Aircraft a)
+	static int RESA = 240;
+	static int stripEnd = 60;
+	
+	public static ArrayList<Integer> calculate(ObstacleOnRunway or,Aircraft a)
 	{
 		ArrayList<Integer> recalculatedDistances = new ArrayList<Integer>();
 		recalculatedDistances.add(calculateToda(or,a));
@@ -17,45 +20,74 @@ public class Calculator {
 		
 	}
 	
-	int calculateToda(ObstacleOnRunway or,Aircraft a)
+	static int calculateToda(ObstacleOnRunway or,Aircraft a)
 	{
-		return 2;
+		if(or.closeToThreshold){
+			int subtraction = a.getBlastDistance();
+			
+			if (a.getBlastDistance() < RESA + stripEnd){
+				subtraction = RESA + stripEnd;
+			}
+			else
+			{
+				subtraction = a.getBlastDistance();
+			}
+			int newTodaAway = or.getRunway().getToda() - or.getDistanceFromThreshold() - subtraction - or.getRunway().getDisplacedThreshold();
+			return newTodaAway;
+		} else {
+			int subtraction = RESA; //RESA
+			int height = or.getObstacle().getHeight()*50;
+			if (height > RESA){
+				subtraction = height;
+			}
+			int newTodaTowards = or.getDistanceFromThreshold() - stripEnd - subtraction + or.getRunway().getDisplacedThreshold(); 
+			return newTodaTowards;
+		}
 	}
 	
-	int calculateTora(ObstacleOnRunway or,Aircraft a)
+	static int calculateTora(ObstacleOnRunway or,Aircraft a)
 	{
-		return 1;
+		if(or.closeToThreshold){
+			return calculateToda(or,a) + or.getRunway().getClearway();
+		}
+		else
+		{
+			return calculateToda(or,a); //the obstacle blocks clearway 
+		}
 	}
 	
-	int calculateAsda(ObstacleOnRunway or,Aircraft a)
+	static int calculateAsda(ObstacleOnRunway or,Aircraft a)
 	{
-		return 1;
+		if(or.closeToThreshold){
+			return calculateToda(or,a) + or.getRunway().getStopway();
+		}
+		else
+		{
+			return calculateToda(or,a); //the obstacle blocks stopway 
+		}
 	}
 	
-	int calculateLda(ObstacleOnRunway or,Aircraft a)
+	static int calculateLda(ObstacleOnRunway or,Aircraft a)
 	{
 		if(or.closeToThreshold)
 		{
 			int h = or.getObstacle().getHeight(); //height of the obstacle
-			int decrement = 60; //strip end value
-			int compare = h*50; //height calculations --> height of the obstacle * 50
+			int subtraction  = stripEnd + h*50; //strip end value and slope
 			int blast = a.getBlastDistance(); //blast from the plane's engines
-			if (compare < blast){ // if blast bigger the height calculations, use blast
-				if (compare < 240) { //if RESA bigger then height calculations, use RESA
-					decrement = decrement + 240; //RESA + strip end
-				}
-				decrement = blast; //blast distance value
-			} else { //otherwise use height calculations
-				decrement = decrement + compare; //height*50 plus strip end
+			if (subtraction < blast){ // if blast bigger the height calculations, use blast
+				subtraction = blast;
+			
 			}
 			
-			int newLdaOver = or.getRunway().getLda() - or.getDistanceFromThreshold() - decrement;
+			int newLdaOver = or.getRunway().getLda() - or.getDistanceFromThreshold() - subtraction;
 			//new LDA = original LDA - obstacle distance from the threshold - calculated 'obstruction'
 			return newLdaOver;
 		}
 		else
 		{
-			return 1;
+			int newLdaTowards = or.getDistanceFromThreshold() - RESA - stripEnd;
+			//new LDA = distance from threshold - RESA - stripend
+			return newLdaTowards;
 		}
 		
 	}
