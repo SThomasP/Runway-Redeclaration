@@ -8,29 +8,11 @@ public class Runway {
 	int asda;
 	int lda;
 	int displacedThreshold;
-	int stopway;
-	int clearway;
-	
 	
 	public int getToda(){
 		return toda;
 	}
 	
-	public int getStopway() {
-		return stopway;
-	}
-
-	public void setStopway(int stopway) {
-		this.stopway = stopway;
-	}
-
-	public int getClearway() {
-		return clearway;
-	}
-
-	public void setClearway(int clearway) {
-		this.clearway = clearway;
-	}
 
 	public void setDisplacedThreshold(int displacedThreshold) {
 		this.displacedThreshold = displacedThreshold;
@@ -75,8 +57,7 @@ public class Runway {
 		return displacedThreshold;
 	}
 
-	public Runway(int orientation, char location, int toda, int tora, int asda, int lda, int displacedThreshold,
-			int stopway, int clearway) {
+	public Runway(int orientation, char location, int toda, int tora, int asda, int lda, int displacedThreshold) {
 		super();
 		this.orientation = orientation;
 		this.location = location;
@@ -85,8 +66,6 @@ public class Runway {
 		this.asda = asda;
 		this.lda = lda;
 		this.displacedThreshold = displacedThreshold;
-		this.stopway = stopway;
-		this.clearway = clearway;
 	}
 
 
