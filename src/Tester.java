@@ -2,8 +2,8 @@
 public class Tester {
 
 	public static void main(String[] args) {
-		Runway r27 = new Runway(27,'R',3884,3962,3884,3595,0,0,0);
-		Runway r9 = new Runway(9,'L',3902,3902,3902,3595,306,0,0);
+		Runway r27 = new Runway(27,'R',3884,3962,3884,3595,0);
+		Runway r9 = new Runway(9,'L',3902,3900,3902,3595,306);
 		Obstacle truck = new Obstacle(12);
 		Aircraft a1 = new Aircraft(300);
 		ObstacleOnRunway or1 = new ObstacleOnRunway(truck,-50,0,r9,true);

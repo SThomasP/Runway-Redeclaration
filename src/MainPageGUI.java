@@ -19,8 +19,7 @@ public class MainPageGUI {
 
 	public static void init() {
 		JFrame window = new JFrame("Runway Redeclaration");
-		Container content = new Container();
-		content = window.getContentPane();
+		Container content = window.getContentPane();
 
 		JPanel mainFrame = new JPanel();
 		mainFrame.setLayout(new GridLayout(1, 2));
@@ -144,11 +143,13 @@ public class MainPageGUI {
 
 		// JPanel toolbar = new JPanel(); // select runway, import, export
 		// flow layout
-
-		mainFrame.add(new JPanel());
+		TopViewGUI tvg = new TopViewGUI();
+		tvg.init();
+		mainFrame.add(tvg);
+		tvg.init();
 		mainFrame.add(selectOption);
 		content.add(mainFrame);
-		window.setSize(1200, 900);
+		window.setSize(1200, 700);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.setVisible(true);
