@@ -90,7 +90,7 @@ public class MainPageGUI {
 		TopViewGUI tvg = new TopViewGUI();
 		tvg.init();
 		mainFrame.add(tvg);
-		tvg.init();
+
 		mainFrame.add(selectOption);
 
 		content.add(mainFrame);
@@ -98,6 +98,7 @@ public class MainPageGUI {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.setVisible(true);
+		tvg.redrawView();
 
 	}
 
