@@ -1,11 +1,15 @@
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -71,7 +75,6 @@ public class MainPageGUI {
 		// *******************************************
 
 		JPanel obstacles = new JPanel();
-
 		obstacles.setLayout(new GridLayout(2, 1));
 
 		JPanel viewObstacleList = new JPanel();
@@ -143,11 +146,45 @@ public class MainPageGUI {
 
 		// JPanel toolbar = new JPanel(); // select runway, import, export
 		// flow layout
-		TopViewGUI tvg = new TopViewGUI();
-		tvg.init();
-		mainFrame.add(tvg);
+		
+		//*******************************************
+		JPanel viewRunway = new JPanel();
+		viewRunway.setLayout(new BorderLayout());
+		
+        String[] runwayList= {"Select Runway", "Runway 1 09L", "Runway 2 27R", "Runway 3 09L"};
+        JComboBox<String> selectRunway = new JComboBox<String>(runwayList);
+        JButton importXML = new JButton("Import");
+        JButton exportXML = new JButton("Export");
+        JButton exitApp = new JButton("Exit");
+        
+        exitApp.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int exit = JOptionPane.showConfirmDialog(null, "Do you want to exit the program?" , "Exit Runway Redeclaration", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				if (exit == JOptionPane.YES_OPTION)
+				{
+				 window.dispose();
+				}
+			}
+        });
+        
+        JPanel menuBar = new JPanel();
+        menuBar.setLayout(new FlowLayout());
+        menuBar.add(selectRunway);
+        menuBar.add(importXML);
+        menuBar.add(exportXML);
+        menuBar.add(exitApp);
+        
+        TopViewGUI tvg = new TopViewGUI();
+        viewRunway.add(menuBar, BorderLayout.NORTH);
+		viewRunway.add(tvg, BorderLayout.CENTER);
+		
+		tvg.init(); 
+		mainFrame.add(viewRunway);
 		tvg.init();
 		mainFrame.add(selectOption);
+		
 		content.add(mainFrame);
 		window.setSize(1200, 700);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
