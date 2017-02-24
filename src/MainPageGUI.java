@@ -30,16 +30,18 @@ public class MainPageGUI {
 
 		JPanel calculations = new JPanel();
 		calculations.setLayout(new GridLayout(3, 1));
+		
 		JPanel declaredDistance = new JPanel();
-		JTextArea showDistance = new JTextArea(20, 50);
+		declaredDistance.setLayout(new BorderLayout());
+		JTextArea showDistance = new JTextArea(15, 40);
 
-		showDistance.append("Declared Distances" + "\n");
 		showDistance.append("TORA : " + "\n");
 		showDistance.append("TODA : " + "\n");
 		showDistance.append("ASDA : " + "\n");
 		showDistance.append("LDA : " + "\n");
 
 		JPanel declaredRecipDistance = new JPanel();
+		declaredRecipDistance.setLayout(new BorderLayout());
 		JTextArea showRecipDistance = new JTextArea(20, 50);
 		showRecipDistance.append("Declared Distances for Reciprocal" + "\n");
 		showRecipDistance.append("TORA : " + "\n");
@@ -66,7 +68,8 @@ public class MainPageGUI {
 		JTextField distRunwayText = new JTextField();
 		obstacleInfo.add(distRunwayText);
 
-		declaredDistance.add(showDistance);
+		declaredDistance.add(new JLabel("Declared Distances For Runway"), BorderLayout.NORTH);
+		declaredDistance.add(showDistance, BorderLayout.CENTER);
 		calculations.add(declaredDistance);
 		declaredRecipDistance.add(showRecipDistance);
 		calculations.add(declaredRecipDistance);
@@ -131,21 +134,50 @@ public class MainPageGUI {
 
 		// *******************************************
 		JPanel breakdownCalc = new JPanel();
-
+		breakdownCalc.setLayout(new GridLayout(5,1));
 		
+		JPanel toraBreakdown = new JPanel();
+		toraBreakdown.setLayout(new BorderLayout());
+		toraBreakdown.add(new JLabel("TORA Calculation Breakdown"), BorderLayout.NORTH);
+		JTextField toraCalcBrekdown = new JTextField();
+		toraBreakdown.add(toraCalcBrekdown);
+		breakdownCalc.add(toraBreakdown);
 		
+		JPanel todaBreakdown = new JPanel();
+		todaBreakdown.setLayout(new BorderLayout());
+		todaBreakdown.add(new JLabel("TODA Calculation Breakdown"), BorderLayout.NORTH);
+		JTextField todaCalcBrekdown = new JTextField();
+		todaBreakdown.add(todaCalcBrekdown);
+		breakdownCalc.add(todaBreakdown);
+		
+		JPanel asdaBreakdown = new JPanel();
+		asdaBreakdown.setLayout(new BorderLayout());
+		asdaBreakdown.add(new JLabel("ASDA Calculation Breakdown"), BorderLayout.NORTH);
+		JTextField asdaCalcBrekdown = new JTextField();
+		asdaBreakdown.add(asdaCalcBrekdown);
+		breakdownCalc.add(asdaBreakdown);
+		
+		JPanel ldaBreakdown = new JPanel();
+		ldaBreakdown.setLayout(new BorderLayout());
+		ldaBreakdown.add(new JLabel("LDA Calculation Breakdown"), BorderLayout.NORTH);
+		JTextField ldaCalcBrekdown = new JTextField();
+		ldaBreakdown.add(ldaCalcBrekdown);
+		breakdownCalc.add(ldaBreakdown);
+		
+		JPanel refreshCalc = new JPanel();
+		refreshCalc.setLayout(new GridLayout(2,2));
+		refreshCalc.add(new JPanel());
+		JButton refresh = new JButton("Refresh");
+		refreshCalc.add(new JPanel());
+		refreshCalc.add(new JPanel());
+		refreshCalc.add(refresh);
+		breakdownCalc.add(refreshCalc);
 		
 		//********************************************
 		JTabbedPane selectOption = new JTabbedPane();
 		selectOption.add("Calculations", calculations);
 		selectOption.add("Obstacles", obstacles);
 		selectOption.add("Breakdown", breakdownCalc);
-
-		// JPanel runwayView = new JPanel(); // top down, side
-		// gridlayout 2, 1
-
-		// JPanel toolbar = new JPanel(); // select runway, import, export
-		// flow layout
 		
 		//*******************************************
 		JPanel viewRunway = new JPanel();
@@ -156,6 +188,10 @@ public class MainPageGUI {
         JButton importXML = new JButton("Import");
         JButton exportXML = new JButton("Export");
         JButton exitApp = new JButton("Exit");
+        String[] runwayView = {"Top Down View", "Side View"};
+        JComboBox<String> runwayViewType = new JComboBox<String>(runwayView);
+        String[] aircraftDirection = {"Take Off", "Landing"};
+        JComboBox<String> runwayDirection = new JComboBox<String>(aircraftDirection);
         
         exitApp.addActionListener(new ActionListener() {
 
@@ -175,6 +211,8 @@ public class MainPageGUI {
         menuBar.add(importXML);
         menuBar.add(exportXML);
         menuBar.add(exitApp);
+        menuBar.add(runwayViewType);
+        menuBar.add(runwayDirection);
         
         TopViewGUI tvg = new TopViewGUI();
         viewRunway.add(menuBar, BorderLayout.NORTH);
