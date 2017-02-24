@@ -17,6 +17,8 @@ public abstract class ViewGUI extends JPanel {
 
     public abstract void init();
 
+    public abstract void redrawView();
+
 
 }
 
