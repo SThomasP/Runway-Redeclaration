@@ -228,6 +228,8 @@ public class MainPageGUI {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.setVisible(true);
+		tvg.redrawView();
+
 	}
 
 	public static void main(String[] args) {

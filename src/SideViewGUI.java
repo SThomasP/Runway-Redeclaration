@@ -5,4 +5,9 @@ public class SideViewGUI extends ViewGUI {
     public void init() {
 
     }
+
+    @Override
+    public void redrawView() {
+
+    }
 }
