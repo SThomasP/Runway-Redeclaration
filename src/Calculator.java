@@ -8,7 +8,7 @@ public final class Calculator {
 	static int RESA = 240;
 	static int stripEnd = 60;
 	static int slopeFactor = 50;
-	//contains the working of the last calculation done
+	//contains the working of the last calculation done.
 	static String working;
 
 	public static ArrayList<Integer> calculate(ObstacleOnRunway or,Aircraft a)
