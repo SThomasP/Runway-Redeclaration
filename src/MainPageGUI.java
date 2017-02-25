@@ -176,11 +176,9 @@ public class MainPageGUI {
         menuBar.add(exportXML);
         menuBar.add(exitApp);
         
-        TopViewGUI tvg = new TopViewGUI();
+        SideViewGUI tvg = new SideViewGUI();
         viewRunway.add(menuBar, BorderLayout.NORTH);
 		viewRunway.add(tvg, BorderLayout.CENTER);
-		
-		tvg.init(); 
 		mainFrame.add(viewRunway);
 		tvg.init();
 		mainFrame.add(selectOption);
