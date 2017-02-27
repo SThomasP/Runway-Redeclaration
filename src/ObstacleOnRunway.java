@@ -1,6 +1,6 @@
 
 public class ObstacleOnRunway {
-
+	//
 	Obstacle obstacle;
 	int distanceFromThreshold;
 	int distanceFromCentreLine;
