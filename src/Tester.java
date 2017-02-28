@@ -8,8 +8,10 @@ public class Tester {
 		Aircraft a1 = new Aircraft(300);
 		ObstacleOnRunway or1 = new ObstacleOnRunway(truck,-50,0,r9,true);
 		System.out.println(Calculator.calculate(or1, a1));
+		System.out.println(Calculator.working);
 		ObstacleOnRunway or2 = new ObstacleOnRunway(truck,3646,0,r27,false);
 		System.out.println(Calculator.calculate(or2, a1));
+		
 
 		
 	}
