@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -66,7 +67,7 @@ public class MainPageGUI {
 		JTextField distCLText = new JTextField();
 		obstacleInfo.add(distCLText);
 
-		obstacleInfo.add(new JLabel("Obstacle Distance From Runway"));
+		obstacleInfo.add(new JLabel("Obstacle Distance From Threshold"));
 		JTextField distRunwayText = new JTextField();
 		obstacleInfo.add(distRunwayText);
 
@@ -80,6 +81,26 @@ public class MainPageGUI {
 		declaredRecipDistance.add(showRecipDistance);
 		calculations.add(declaredRecipDistance);
 		calculations.add(obstacleInfo);
+		
+
+		submitObstacleInfo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+			
+				//TODO get runway from the input not this
+				Runway inputRunway = new Runway(9,'L',3902,3900,3902,3595,306);
+				Obstacle o = new Obstacle(Integer.parseInt(distanceText.getText()));
+				ObstacleOnRunway or = new ObstacleOnRunway(o,Integer.parseInt(distRunwayText.getText()),Integer.parseInt(distCLText.getText()),inputRunway,toggle.isSelected());
+				ArrayList<Integer >recalcuatedDistances = Calculator.calculate(or);
+				showDistance.setText("TORA : " + inputRunway.tora+ " NewTORA :" + recalcuatedDistances.get(0) + "\n");
+				showDistance.append("TODA : " + inputRunway.toda+ " NewTODA :" + recalcuatedDistances.get(1) + "\n");
+				showDistance.append("ASDA : " + inputRunway.asda+ " NewASDA :" + recalcuatedDistances.get(2) + "\n");
+				showDistance.append("LDAA : " + inputRunway.lda+ " NewLDA :" + recalcuatedDistances.get(3) + "\n");
+				
+				
+			}
+        });
 
 		// *******************************************
 
@@ -140,6 +161,7 @@ public class MainPageGUI {
 		//JButton submitObstacle = new JButton("Submit");
 		addObstacle.add(newObstacle, BorderLayout.CENTER);
 		obstacles.add(addObstacle);
+		
 
 		// *******************************************
 		JPanel breakdownCalc = new JPanel();

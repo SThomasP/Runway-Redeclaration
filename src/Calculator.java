@@ -23,6 +23,19 @@ public final class Calculator {
 
 
 	}
+	public static ArrayList<Integer> calculate(ObstacleOnRunway or)
+	{
+		Aircraft a = new Aircraft(300);
+		working = "";
+		ArrayList<Integer> recalculatedDistances = new ArrayList<Integer>();
+		recalculatedDistances.add(calculateToda(or,a));
+		recalculatedDistances.add(calculateTora(or,a));
+		recalculatedDistances.add(calculateAsda(or,a));
+		recalculatedDistances.add(calculateLda(or,a));
+		return recalculatedDistances;
+
+
+	}
 
 	static int calculateTora(ObstacleOnRunway or,Aircraft a)
 	{
