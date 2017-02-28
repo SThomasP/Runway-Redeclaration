@@ -50,7 +50,7 @@ public class MainPageGUI {
 		showRecipDistance.append("LDA : " + "\n");
 
 		JPanel obstacleInfo = new JPanel();
-		obstacleInfo.setLayout(new GridLayout(0, 2, 0, 0));
+		obstacleInfo.setLayout(new GridLayout(5,2));
 
 		obstacleInfo.add(new JLabel("Obstacle Distance"));
 		JTextField distanceText = new JTextField();
@@ -68,6 +68,10 @@ public class MainPageGUI {
 		JTextField distRunwayText = new JTextField();
 		obstacleInfo.add(distRunwayText);
 
+		JButton submitObstacleInfo = new JButton("Submit");
+		obstacleInfo.add(new JPanel());
+		obstacleInfo.add(submitObstacleInfo);
+		
 		declaredDistance.add(new JLabel("Declared Distances For Runway"), BorderLayout.NORTH);
 		declaredDistance.add(showDistance, BorderLayout.CENTER);
 		calculations.add(declaredDistance);
@@ -111,7 +115,7 @@ public class MainPageGUI {
 		addObstacle.add(addObstacleTitle, BorderLayout.NORTH);
 
 		JPanel newObstacle = new JPanel();
-		newObstacle.setLayout(new GridLayout(4, 2));
+		newObstacle.setLayout(new GridLayout(5, 2));
 
 		JTextField obstacleType = new JTextField();
 		newObstacle.add(new JLabel("Obstacle Type"));
@@ -129,6 +133,7 @@ public class MainPageGUI {
 		JButton submitObstacle = new JButton("Submit");
 		newObstacle.add(submitObstacle);
 
+		//JButton submitObstacle = new JButton("Submit");
 		addObstacle.add(newObstacle, BorderLayout.CENTER);
 		obstacles.add(addObstacle);
 
