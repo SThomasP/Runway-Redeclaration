@@ -11,9 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 /**
  * @author Chloe, started on 21/02/17
@@ -52,13 +54,13 @@ public class MainPageGUI {
 		JPanel obstacleInfo = new JPanel();
 		obstacleInfo.setLayout(new GridLayout(5,2));
 
-		obstacleInfo.add(new JLabel("Obstacle Distance"));
+		obstacleInfo.add(new JLabel("Obstacle Height"));
 		JTextField distanceText = new JTextField();
 		obstacleInfo.add(distanceText);
 
-		obstacleInfo.add(new JLabel("Obstacle Location"));
-		JTextField locationText = new JTextField();
-		obstacleInfo.add(locationText);
+		obstacleInfo.add(new JLabel("Close To Threshold"));
+		JToggleButton toggle = new JToggleButton("Close To Threshold");
+		obstacleInfo.add(toggle);
 
 		obstacleInfo.add(new JLabel("Obstacle Distance From CL"));
 		JTextField distCLText = new JTextField();
@@ -90,8 +92,10 @@ public class MainPageGUI {
 		JPanel labelAndList = new JPanel();
 		labelAndList.setLayout(new GridLayout(1, 2));
 
-		String[] obstacleNames = { "Runway 1", "Runway 2", "Runway 3" };
-		JComboBox<String> listOfObstacles = new JComboBox<String>(obstacleNames);
+		//String[] obstacleNames = { "Runway 1", "Runway 2", "Runway 3" };
+		JComboBox<Runway> listOfObstacles = new JComboBox<Runway>();
+		
+		
 		
 		labelAndList.add(new JLabel("View Obstacle From List"));
 		labelAndList.add(listOfObstacles);
