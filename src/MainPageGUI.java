@@ -231,8 +231,9 @@ public class MainPageGUI {
 		tvg.redrawView();
 
 	}
-
+	
 	public static void main(String[] args) {
 		init();
 	}
 }
+
