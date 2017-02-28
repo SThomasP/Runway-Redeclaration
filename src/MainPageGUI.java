@@ -87,25 +87,6 @@ public class MainPageGUI {
 		calculations.add(obstacleInfo);
 		
 
-		submitObstacleInfo.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-			
-				//TODO get runway from the input not this
-				Runway inputRunway = new Runway(9,'L',3902,3900,3902,3595,306);
-				Obstacle o = new Obstacle(Integer.parseInt(distanceText.getText()));
-				ObstacleOnRunway or = new ObstacleOnRunway(o,Integer.parseInt(distRunwayText.getText()),Integer.parseInt(distCLText.getText()),inputRunway,toggle.isSelected());
-				ArrayList<Integer >recalcuatedDistances = Calculator.calculate(or);
-				showDistance.setText("TORA : " + inputRunway.tora+ " NewTORA :" + recalcuatedDistances.get(0) + "\n");
-				showDistance.append("TODA : " + inputRunway.toda+ " NewTODA :" + recalcuatedDistances.get(1) + "\n");
-				showDistance.append("ASDA : " + inputRunway.asda+ " NewASDA :" + recalcuatedDistances.get(2) + "\n");
-				showDistance.append("LDAA : " + inputRunway.lda+ " NewLDA :" + recalcuatedDistances.get(3) + "\n");
-				
-				
-			}
-        });
-
 		// *******************************************
 
 		JPanel obstacles = new JPanel();
@@ -215,8 +196,8 @@ public class MainPageGUI {
 		JPanel viewRunway = new JPanel();
 		viewRunway.setLayout(new BorderLayout());
 		
-        String[] runwayList= {"Select Runway", "Runway 1 09L", "Runway 2 27R", "Runway 3 09L"};
-        JComboBox<String> selectRunway = new JComboBox<String>(runwayList);
+        Runway[] runwayList= {new Runway(9,'L',3902,3900,3902,3595,306),new Runway(27,'R',3884,3962,3884,3595,0)};
+        JComboBox<Runway> selectRunway = new JComboBox<Runway>(runwayList);
         JButton importXML = new JButton("Import");
         JButton exportXML = new JButton("Export");
         JButton exitApp = new JButton("Exit");
@@ -259,6 +240,25 @@ public class MainPageGUI {
 		window.setResizable(false);
 		window.setVisible(true);
 		tvg.redrawView();
+		
+		submitObstacleInfo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+			
+				//TODO get runway from the input not this
+				Runway inputRunway = (Runway) selectRunway.getSelectedItem();
+				Obstacle o = new Obstacle(Integer.parseInt(distanceText.getText()));
+				ObstacleOnRunway or = new ObstacleOnRunway(o,Integer.parseInt(distRunwayText.getText()),Integer.parseInt(distCLText.getText()),inputRunway,toggle.isSelected());
+				ArrayList<Integer >recalcuatedDistances = Calculator.calculate(or);
+				showDistance.setText("TORA : " + inputRunway.tora+ " NewTORA :" + recalcuatedDistances.get(0) + "\n");
+				showDistance.append("TODA : " + inputRunway.toda+ " NewTODA :" + recalcuatedDistances.get(1) + "\n");
+				showDistance.append("ASDA : " + inputRunway.asda+ " NewASDA :" + recalcuatedDistances.get(2) + "\n");
+				showDistance.append("LDAA : " + inputRunway.lda+ " NewLDA :" + recalcuatedDistances.get(3) + "\n");
+				
+				
+			}
+        });
 
 	}
 	
