@@ -46,7 +46,6 @@ public class MainPageGUI {
 		JPanel declaredRecipDistance = new JPanel();
 		declaredRecipDistance.setLayout(new BorderLayout());
 		JTextArea showRecipDistance = new JTextArea(20, 50);
-		showRecipDistance.append("Declared Distances for Reciprocal" + "\n");
 		showRecipDistance.append("TORA : " + "\n");
 		showRecipDistance.append("TODA : " + "\n");
 		showRecipDistance.append("ASDA : " + "\n");
@@ -78,6 +77,11 @@ public class MainPageGUI {
 		declaredDistance.add(new JLabel("Declared Distances For Runway"), BorderLayout.NORTH);
 		declaredDistance.add(showDistance, BorderLayout.CENTER);
 		calculations.add(declaredDistance);
+		
+		declaredRecipDistance.add(new JLabel("Declared Reciprocal Distances For Runway"), BorderLayout.NORTH);
+		declaredRecipDistance.add(showRecipDistance, BorderLayout.CENTER);
+		
+		
 		declaredRecipDistance.add(showRecipDistance);
 		calculations.add(declaredRecipDistance);
 		calculations.add(obstacleInfo);
@@ -116,8 +120,6 @@ public class MainPageGUI {
 		//String[] obstacleNames = { "Runway 1", "Runway 2", "Runway 3" };
 		JComboBox<Runway> listOfObstacles = new JComboBox<Runway>();
 		
-		
-		
 		labelAndList.add(new JLabel("View Obstacle From List"));
 		labelAndList.add(listOfObstacles);
 
@@ -153,12 +155,11 @@ public class MainPageGUI {
 		JTextField obstacleHeight = new JTextField();
 		newObstacle.add(new JLabel("Obstacle Height"));
 		newObstacle.add(obstacleHeight);
-
+		
 		newObstacle.add(new JPanel());
 		JButton submitObstacle = new JButton("Submit");
 		newObstacle.add(submitObstacle);
 
-		//JButton submitObstacle = new JButton("Submit");
 		addObstacle.add(newObstacle, BorderLayout.CENTER);
 		obstacles.add(addObstacle);
 		
