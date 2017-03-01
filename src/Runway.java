@@ -1,6 +1,11 @@
 
 public class Runway {
 	
+	@Override
+	public String toString() {
+		return String.valueOf(orientation) + location;
+	}
+
 	int orientation;
 	char location;
 	int toda;

@@ -1,10 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 /**
  * Created by steff on 21/02/2017.
  */
 public abstract class ViewGUI extends JPanel {
+
+    protected Line2D todaLine, toraLine, ldaLine, asdaLine;
+    protected String todaString, toraString, ldaString, asdaString;
 
     public Runway getRunway() {
         return runway;
