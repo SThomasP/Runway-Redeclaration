@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,7 +37,8 @@ public class MainPageGUI {
 		JPanel declaredDistance = new JPanel();
 		declaredDistance.setLayout(new BorderLayout());
 		JTextArea showDistance = new JTextArea(15, 40);
-
+		showDistance.setFont(new Font("Arial", Font.PLAIN, 18));
+		showDistance.setEditable(false);
 		showDistance.append("TORA : " + "\n");
 		showDistance.append("TODA : " + "\n");
 		showDistance.append("ASDA : " + "\n");
@@ -45,6 +47,8 @@ public class MainPageGUI {
 		JPanel declaredRecipDistance = new JPanel();
 		declaredRecipDistance.setLayout(new BorderLayout());
 		JTextArea showRecipDistance = new JTextArea(20, 50);
+		showRecipDistance.setFont(new Font("Arial", Font.PLAIN, 18));
+		showRecipDistance.setEditable(false);
 		showRecipDistance.append("TORA : " + "\n");
 		showRecipDistance.append("TODA : " + "\n");
 		showRecipDistance.append("ASDA : " + "\n");
@@ -122,7 +126,7 @@ public class MainPageGUI {
 		addObstacle.add(addObstacleTitle, BorderLayout.NORTH);
 
 		JPanel newObstacle = new JPanel();
-		newObstacle.setLayout(new GridLayout(5, 2));
+		newObstacle.setLayout(new GridLayout(4, 2));
 
 		JTextField obstacleType = new JTextField();
 		newObstacle.add(new JLabel("Obstacle Type"));
@@ -250,12 +254,10 @@ public class MainPageGUI {
 				Obstacle o = new Obstacle(Integer.parseInt(distanceText.getText()));
 				ObstacleOnRunway or = new ObstacleOnRunway(o,Integer.parseInt(distRunwayText.getText()),Integer.parseInt(distCLText.getText()),inputRunway,toggle.isSelected());
 				ArrayList<Integer >recalcuatedDistances = Calculator.calculate(or);
-				showDistance.setText("TORA : " + inputRunway.tora+ " NewTORA :" + recalcuatedDistances.get(0) + "\n");
-				showDistance.append("TODA : " + inputRunway.toda+ " NewTODA :" + recalcuatedDistances.get(1) + "\n");
-				showDistance.append("ASDA : " + inputRunway.asda+ " NewASDA :" + recalcuatedDistances.get(2) + "\n");
-				showDistance.append("LDAA : " + inputRunway.lda+ " NewLDA :" + recalcuatedDistances.get(3) + "\n");
-				
-				
+				showDistance.setText("TORA : " + inputRunway.tora+ " \t" + " \t" + " NewTORA :" + recalcuatedDistances.get(0) + "\n");
+				showDistance.append("TODA : " + inputRunway.toda+ " \t" + " \t" + " NewTODA :" + recalcuatedDistances.get(1) + "\n");
+				showDistance.append("ASDA : " + inputRunway.asda+ " \t" + " \t" + " NewASDA :" + recalcuatedDistances.get(2) + "\n");
+				showDistance.append("LDA : " + inputRunway.lda+ " \t" + " \t" + " NewLDA :" + recalcuatedDistances.get(3) + "\n");
 			}
         });
 
