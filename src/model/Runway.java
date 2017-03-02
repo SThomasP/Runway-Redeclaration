@@ -52,6 +52,36 @@ public class Runway {
         recalculate(new Aircraft(300));
     }
 
+
+    private void recalculateTora(Aircraft aircraft, boolean closeToThreshold) {
+//		working += System.lineSeparator() + "Tora Calculation" + System.lineSeparator();
+        if (closeToThreshold) {
+            int subtraction;
+//			working += "Subtraction: Max (" + RESA + "(RESA) + " + stripEnd + "(Strip End)"+ "," + aircraft.getBlastDistance() + "(Blast Distance))" + System.lineSeparator();
+            if (aircraft.getBlastDistance() < RESA + stripEnd) {
+                subtraction = RESA + stripEnd;
+            } else {
+                subtraction = aircraft.getBlastDistance();
+            }
+//			working += "Tora = " + or.getRunway().getTora() + "(Old Tora) - " + or.getDistanceFromThreshold() + "(Distance From Threshold) - "  + subtraction + "(Subtraction) - "  + or.getRunway().getDisplacedThreshold() + "(Displaced Threshold)" + System.lineSeparator();
+            int newToraAway = toraOriginal - obstacle.distanceFromThreshold - subtraction - displacedThreshold;
+//			working += "= " + newToraAway + System.lineSeparator();
+
+            toraCurrent = newToraAway;
+        } else {
+            int subtraction = RESA; //RESA
+            int height = obstacle.height * slopeFactor;
+//			working += "Subtraction: Max (" + RESA + "(RESA)" + "," + obstacle.height + "(model.Obstacle Height) + " + slopeFactor + "(Slope Factor))" + System.lineSeparator();
+            if (height > RESA) {
+                subtraction = height;
+            }
+//			working += "Toda = " + or.getDistanceFromThreshold() + "(Distance From Threshold) - " + stripEnd + "(Strip End) - "  + subtraction + "(Subtraction) + "  + or.getRunway().getDisplacedThreshold() + "(Displaced Threshold)" + System.lineSeparator();
+            int newToraTowards = obstacle.distanceFromThreshold - stripEnd - subtraction + displacedThreshold;
+//			working += "= " + newToraTowards + System.lineSeparator();
+            toraCurrent = newToraTowards;
+        }
+    }
+    
     private void recalculateToda(Aircraft aircraft, boolean closeToThreshold) {
 //		working += "Toda Calculation" + System.lineSeparator();
         if (closeToThreshold) {
@@ -71,35 +101,6 @@ public class Runway {
 //			working += "Toda = Tora";
             todaCurrent = toraCurrent;
 
-        }
-    }
-
-    private void recalculateTora(Aircraft aircraft, boolean closeToThreshold) {
-//		working += System.lineSeparator() + "Tora Calculation" + System.lineSeparator();
-        if (closeToThreshold) {
-            int subtraction;
-//			working += "Subtraction: Max (" + RESA + "(RESA) + " + stripEnd + "(Strip End)"+ "," + aircraft.getBlastDistance() + "(Blast Distance))" + System.lineSeparator();
-            if (aircraft.getBlastDistance() < RESA + stripEnd) {
-                subtraction = RESA + stripEnd;
-            } else {
-                subtraction = aircraft.getBlastDistance();
-            }
-//			working += "Tora = " + or.getRunway().getTora() + "(Old Tora) - " + or.getDistanceFromThreshold() + "(Distance From Threshold) - "  + subtraction + "(Subtraction) - "  + or.getRunway().getDisplacedThreshold() + "(Displaced Threshold)" + System.lineSeparator();
-            int newToraAway = toraCurrent - obstacle.distanceFromThreshold - subtraction - displacedThreshold;
-//			working += "= " + newToraAway + System.lineSeparator();
-
-            toraCurrent = newToraAway;
-        } else {
-            int subtraction = RESA; //RESA
-            int height = obstacle.height * slopeFactor;
-//			working += "Subtraction: Max (" + RESA + "(RESA)" + "," + obstacle.height + "(model.Obstacle Height) + " + slopeFactor + "(Slope Factor))" + System.lineSeparator();
-            if (height > RESA) {
-                subtraction = height;
-            }
-//			working += "Toda = " + or.getDistanceFromThreshold() + "(Distance From Threshold) - " + stripEnd + "(Strip End) - "  + subtraction + "(Subtraction) + "  + or.getRunway().getDisplacedThreshold() + "(Displaced Threshold)" + System.lineSeparator();
-            int newToraTowards = obstacle.distanceFromThreshold - stripEnd - subtraction + displacedThreshold;
-//			working += "= " + newToraTowards + System.lineSeparator();
-            toraCurrent = newToraTowards;
         }
     }
 
