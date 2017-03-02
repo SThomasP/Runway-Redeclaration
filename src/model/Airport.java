@@ -1,11 +1,13 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Airport {
+	/*
+	 An airport, containing a list of runways and the currently active runway
+	 */
+
 	private ArrayList <Runway> listOfRunways;
-	private HashMap<String,Integer> commonObstacles;
 	private Runway currentRunway;
 	
 	public Airport(Runway currentRunway){

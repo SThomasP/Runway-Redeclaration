@@ -1,6 +1,9 @@
 package model;
 
 public class Aircraft {
+	/*
+	Simple representation of the aircraft, containing it's blast distance.
+	 */
 	private int blastDistance;
 
 	public int getBlastDistance(){

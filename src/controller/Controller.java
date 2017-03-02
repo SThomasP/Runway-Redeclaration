@@ -18,32 +18,34 @@ public class Controller {
     private ActionListener submitButtonPress;
 
 
-
-
-    public  ActionListener getSubmitButtonPress(){
+    public ActionListener getSubmitButtonPress() {
         return submitButtonPress;
     }
 
     public Controller() {
+        // create an action listener for when the submit button is pressed.
         submitButtonPress = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Runway inputRunway = airport.getCurrentRunway();
                 inputRunway.addObstacle(gui.getNewObstacle());
-                gui.setAdjustedFigures(inputRunway.getToda(),inputRunway.getTora(),inputRunway.getLda(),inputRunway.getAsda());
+                gui.setAdjustedFigures(inputRunway.getToda(), inputRunway.getTora(), inputRunway.getLda(), inputRunway.getAsda());
             }
 
         };
+        //create and init the GUI
         gui = new MainPageGUI();
         gui.init(this);
         String[] runways = {"09L", "27R", "09R", "27L"};
         gui.updateRunwayList(runways);
-        airport = new Airport(new Runway(9,'L',3902,3900,3902,3595,306));
+        // create the model with a single runway
+        airport = new Airport(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306));
         Runway currentRunway = airport.getCurrentRunway();
-        gui.setOriginalFigures(currentRunway.getToda(),currentRunway.getTora(),currentRunway.getLda(),currentRunway.getAsda());
+        //add the figures to the gui
+        gui.setOriginalFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(), currentRunway.getAsda());
     }
 
-    public static void main(String[] args){
-        Controller  c = new Controller();
+    public static void main(String[] args) {
+        Controller c = new Controller();
     }
 }
