@@ -1,3 +1,5 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -10,15 +12,10 @@ public abstract class ViewGUI extends JPanel {
     protected Line2D todaLine, toraLine, ldaLine, asdaLine;
     protected String todaString, toraString, ldaString, asdaString;
 
-    public Runway getRunway() {
-        return runway;
-    }
 
-    public void setRunway(Runway runway) {
-        this.runway = runway;
-    }
+    public void redrawDistances(int toda, int tora, int lda, int asda){
 
-    protected Runway runway;
+    }
 
     public abstract void init();
 

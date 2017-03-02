@@ -1,12 +1,13 @@
+package model;
 
 public class Aircraft {
-	int blastDistance;
-	
+	private int blastDistance;
+
 	public int getBlastDistance(){
 		return blastDistance;
 	}
 	
-	public void setBlastDictance(int blastDistance){
+	public void setBlastDistance(int blastDistance){
 		this.blastDistance = blastDistance;
 	}
 
