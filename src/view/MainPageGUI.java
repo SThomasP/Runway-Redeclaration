@@ -72,6 +72,10 @@ public class MainPageGUI extends JFrame {
     private JComboBox<String> runwayViewType;
     private JButton importButton;
     private JButton exportButton;
+    private JTextArea todaCalcBrekdown;
+    private JTextArea asdaCalcBrekdown;
+    private JTextArea ldaCalcBrekdown;
+    private JTextArea toraCalcBrekdown;
 
     private static Font displayFont = new Font("Arial", Font.PLAIN, 18);
 
@@ -88,7 +92,7 @@ public class MainPageGUI extends JFrame {
         distances.setValueAt(String.valueOf(asda),2,1);
         distances.setValueAt(String.valueOf(lda),3,1);
     }
-
+    
 
     public MainPageGUI() {
         super("Runway Redeclaration");
@@ -220,28 +224,28 @@ public class MainPageGUI extends JFrame {
         JPanel toraBreakdown = new JPanel();
         toraBreakdown.setLayout(new BorderLayout());
         toraBreakdown.add(new JLabel("TORA Calculation Breakdown"), BorderLayout.NORTH);
-        JTextField toraCalcBrekdown = new JTextField();
+        toraCalcBrekdown = new JTextArea();
         toraBreakdown.add(toraCalcBrekdown);
         breakdownCalc.add(toraBreakdown);
 
         JPanel todaBreakdown = new JPanel();
         todaBreakdown.setLayout(new BorderLayout());
         todaBreakdown.add(new JLabel("TODA Calculation Breakdown"), BorderLayout.NORTH);
-        JTextField todaCalcBrekdown = new JTextField();
+        todaCalcBrekdown = new JTextArea();
         todaBreakdown.add(todaCalcBrekdown);
         breakdownCalc.add(todaBreakdown);
 
         JPanel asdaBreakdown = new JPanel();
         asdaBreakdown.setLayout(new BorderLayout());
         asdaBreakdown.add(new JLabel("ASDA Calculation Breakdown"), BorderLayout.NORTH);
-        JTextField asdaCalcBrekdown = new JTextField();
+        asdaCalcBrekdown = new JTextArea();
         asdaBreakdown.add(asdaCalcBrekdown);
         breakdownCalc.add(asdaBreakdown);
 
         JPanel ldaBreakdown = new JPanel();
         ldaBreakdown.setLayout(new BorderLayout());
         ldaBreakdown.add(new JLabel("LDA Calculation Breakdown"), BorderLayout.NORTH);
-        JTextField ldaCalcBrekdown = new JTextField();
+        ldaCalcBrekdown = new JTextArea();
         ldaBreakdown.add(ldaCalcBrekdown);
         breakdownCalc.add(ldaBreakdown);
 
@@ -252,6 +256,7 @@ public class MainPageGUI extends JFrame {
         refreshCalc.add(new JPanel());
         refreshCalc.add(new JPanel());
         refreshCalc.add(refresh);
+        refresh.addActionListener(c.getRefreshButtonPress());
         breakdownCalc.add(refreshCalc);
 
         //********************************************
@@ -299,6 +304,25 @@ public class MainPageGUI extends JFrame {
     public Obstacle getNewObstacle() {
         Obstacle toReturn = new Obstacle(Integer.valueOf(oHeight.getText()),Integer.valueOf(oDistanceFromCL.getText()),Integer.valueOf(oDistanceFromT.getText()));
         return toReturn;
+    }
+    
+    
+    public void setToraWorking(String tora)
+    {
+    	toraCalcBrekdown.setText(tora);
+    }
+    public void setTodaWorking(String toda)
+    {
+    	todaCalcBrekdown.setText(toda);
+    }
+   
+    public void setAsdaWorking(String asda)
+    {
+    	asdaCalcBrekdown.setText(asda);
+    }
+    public void setLdaWorking(String lda)
+    {
+    	ldaCalcBrekdown.setText(lda);
     }
 }
 

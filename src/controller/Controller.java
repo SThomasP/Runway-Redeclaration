@@ -16,13 +16,20 @@ public class Controller {
     private Airport airport;
     private MainPageGUI gui;
     private ActionListener submitButtonPress;
+    private ActionListener refreshButtonPress;
 
 
     public ActionListener getSubmitButtonPress() {
         return submitButtonPress;
     }
+    
 
-    public Controller() {
+    public ActionListener getRefreshButtonPress() {
+		return refreshButtonPress;
+	}
+
+
+	public Controller() {
         // create an action listener for when the submit button is pressed.
         submitButtonPress = new ActionListener() {
             @Override
@@ -30,6 +37,16 @@ public class Controller {
                 Runway inputRunway = airport.getCurrentRunway();
                 inputRunway.addObstacle(gui.getNewObstacle());
                 gui.setAdjustedFigures(inputRunway.getToda(), inputRunway.getTora(), inputRunway.getLda(), inputRunway.getAsda());
+            }
+
+        };
+        refreshButtonPress = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.setTodaWorking(Runway.todaworking);
+                gui.setToraWorking(Runway.toraworking);
+                gui.setAsdaWorking(Runway.asdaworking);
+                gui.setLdaWorking(Runway.ldaworking);
             }
 
         };
