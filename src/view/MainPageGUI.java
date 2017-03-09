@@ -1,17 +1,27 @@
 package view;
 
-import controller.Controller;
-import model.Obstacle;
-
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
-
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
+
+import controller.Controller;
+import model.Obstacle;
 
 /**
  * @author Chloe, started on 21/02/17
@@ -60,7 +70,7 @@ public class MainPageGUI extends JFrame {
     }
 
     private JTable distances;
-    private JTable recipricalDistances;
+    private JTable reciprocalDistances;
     private TopViewGUI topView;
     private SideViewGUI sideView;
     private JButton submitButton;
@@ -72,11 +82,15 @@ public class MainPageGUI extends JFrame {
     private JComboBox<String> runwayViewType;
     private JButton importButton;
     private JButton exportButton;
-    private JTextArea todaCalcBrekdown;
-    private JTextArea asdaCalcBrekdown;
-    private JTextArea ldaCalcBrekdown;
-    private JTextArea toraCalcBrekdown;
-
+    private JTextArea todaCalcBreakdown;
+    private JTextArea asdaCalcBreakdown;
+    private JTextArea ldaCalcBreakdown;
+    private JTextArea toraCalcBreakdown;
+    private JTextField obstacleName; 
+    private JTextField obstacleHeight;
+    private JComboBox<String> obstacleType;
+   
+    
     private static Font displayFont = new Font("Arial", Font.PLAIN, 18);
 
     public void updateRunwayList(String[] runwayNames) {
@@ -124,12 +138,17 @@ public class MainPageGUI extends JFrame {
 
         JPanel declaredRecipDistance = new JPanel();
         declaredRecipDistance.setLayout(new BorderLayout());
-        recipricalDistances = new JTable(new DistanceTableModel());
-        recipricalDistances.setFont(displayFont);
-        JScrollPane rdScroll = new JScrollPane(recipricalDistances,JScrollPane.VERTICAL_SCROLLBAR_NEVER,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        reciprocalDistances = new JTable(new DistanceTableModel());
+        reciprocalDistances.setFont(displayFont);
+        JScrollPane rdScroll = new JScrollPane(reciprocalDistances,JScrollPane.VERTICAL_SCROLLBAR_NEVER,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         JPanel obstacleInfo = new JPanel();
-        obstacleInfo.setLayout(new GridLayout(5, 2));
+        obstacleInfo.setLayout(new GridLayout(6, 2));
+        
+        obstacleInfo.add(new JLabel("Obstacle Name"));
+        JComboBox<String> obstacleNames = new JComboBox<String>();
+        obstacleNames.setModel(new DefaultComboBoxModel (c.getList().toArray()));
+        obstacleInfo.add(obstacleNames);
 
         obstacleInfo.add(new JLabel("Obstacle Height"));
         oHeight = new JTextField();
@@ -172,7 +191,7 @@ public class MainPageGUI extends JFrame {
         //String[] obstacleNames = { "Runway 1", "Runway 2", "Runway 3" };
         JComboBox<String> listOfObstacles = new JComboBox<>();
 
-        labelAndList.add(new JLabel("view Obstacle From List"));
+        labelAndList.add(new JLabel("View Obstacle From List"));
         labelAndList.add(listOfObstacles);
 
         JPanel displayObstacleInfo = new JPanel();
@@ -196,21 +215,24 @@ public class MainPageGUI extends JFrame {
         JPanel newObstacle = new JPanel();
         newObstacle.setLayout(new GridLayout(4, 2));
 
-        JTextField obstacleType = new JTextField();
+       // JTextField obstacleType = new JTextField();
+        String[] typeOfObstacle = {"Aircraft Part", "Vehicle"};
+        obstacleType = new JComboBox<String>(typeOfObstacle);
         newObstacle.add(new JLabel("Obstacle Type"));
         newObstacle.add(obstacleType);
 
-        JTextField obstacleName = new JTextField();
+        obstacleName = new JTextField();
         newObstacle.add(new JLabel("Obstacle Name"));
         newObstacle.add(obstacleName);
 
-        JTextField obstacleHeight = new JTextField();
+        obstacleHeight = new JTextField();
         newObstacle.add(new JLabel("Obstacle Height"));
         newObstacle.add(obstacleHeight);
 
         newObstacle.add(new JPanel());
         JButton submitObstacle = new JButton("Submit");
         newObstacle.add(submitObstacle);
+        submitObstacle.addActionListener(c.getAddObstacleButtonPress());
 
         addObstacle.add(newObstacle, BorderLayout.CENTER);
         obstacles.add(addObstacle);
@@ -224,29 +246,29 @@ public class MainPageGUI extends JFrame {
         JPanel toraBreakdown = new JPanel();
         toraBreakdown.setLayout(new BorderLayout());
         toraBreakdown.add(new JLabel("TORA Calculation Breakdown"), BorderLayout.NORTH);
-        toraCalcBrekdown = new JTextArea();
-        toraBreakdown.add(toraCalcBrekdown);
+        toraCalcBreakdown = new JTextArea();
+        toraBreakdown.add(toraCalcBreakdown);
         breakdownCalc.add(toraBreakdown);
 
         JPanel todaBreakdown = new JPanel();
         todaBreakdown.setLayout(new BorderLayout());
         todaBreakdown.add(new JLabel("TODA Calculation Breakdown"), BorderLayout.NORTH);
-        todaCalcBrekdown = new JTextArea();
-        todaBreakdown.add(todaCalcBrekdown);
+        todaCalcBreakdown = new JTextArea();
+        todaBreakdown.add(todaCalcBreakdown);
         breakdownCalc.add(todaBreakdown);
 
         JPanel asdaBreakdown = new JPanel();
         asdaBreakdown.setLayout(new BorderLayout());
         asdaBreakdown.add(new JLabel("ASDA Calculation Breakdown"), BorderLayout.NORTH);
-        asdaCalcBrekdown = new JTextArea();
-        asdaBreakdown.add(asdaCalcBrekdown);
+        asdaCalcBreakdown = new JTextArea();
+        asdaBreakdown.add(asdaCalcBreakdown);
         breakdownCalc.add(asdaBreakdown);
 
         JPanel ldaBreakdown = new JPanel();
         ldaBreakdown.setLayout(new BorderLayout());
         ldaBreakdown.add(new JLabel("LDA Calculation Breakdown"), BorderLayout.NORTH);
-        ldaCalcBrekdown = new JTextArea();
-        ldaBreakdown.add(ldaCalcBrekdown);
+        ldaCalcBreakdown = new JTextArea();
+        ldaBreakdown.add(ldaCalcBreakdown);
         breakdownCalc.add(ldaBreakdown);
 
         JPanel refreshCalc = new JPanel();
@@ -306,23 +328,38 @@ public class MainPageGUI extends JFrame {
         return toReturn;
     }
     
+    public String getObstacleType() {
+    	//System.out.println(obstacleType.getSelectedItem().toString());
+    	return obstacleType.getSelectedItem().toString();
+    }
+    
+    public String getObstacleName() {
+    //	System.out.println(obstacleName.getText());
+    	return obstacleName.getText();
+    }
+    
+    public int getObstacleHeight() {
+    //	System.out.println(obstacleHeight.getText());
+    	int heightInt = Integer.parseInt(obstacleHeight.getText());
+    	return heightInt;
+    }
     
     public void setToraWorking(String tora)
     {
-    	toraCalcBrekdown.setText(tora);
+    	toraCalcBreakdown.setText(tora);
     }
     public void setTodaWorking(String toda)
     {
-    	todaCalcBrekdown.setText(toda);
+    	todaCalcBreakdown.setText(toda);
     }
    
     public void setAsdaWorking(String asda)
     {
-    	asdaCalcBrekdown.setText(asda);
+    	asdaCalcBreakdown.setText(asda);
     }
     public void setLdaWorking(String lda)
     {
-    	ldaCalcBrekdown.setText(lda);
+    	ldaCalcBreakdown.setText(lda);
     }
 }
 
