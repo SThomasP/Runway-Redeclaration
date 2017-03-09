@@ -6,7 +6,7 @@ import java.awt.geom.Line2D;
 public class TopViewGUI extends ViewGUI {
 
     private Rectangle runwayRec;
-    private Line2D centreLine;
+    private Line2D centreLine, toraLine, todaLine, asdaLine, ldaLine;
     private Polygon clearArea;
     private Line2D[] sideLines;
     private final static Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
@@ -46,6 +46,10 @@ public class TopViewGUI extends ViewGUI {
         }
         runwayRec = new Rectangle((int) (0.05 * width), (int) (0.45 * height), (int) (0.9 * width), (int) (0.10 * height));
         centreLine = new Line2D.Float((float) x[2], (float) (height / 2), (float) x[3], (float) (height / 2));
+        toraLine = new Line2D.Float((float) x[4], (float) (height/1.75), (float) x[1], (float) (height/1.75));
+        todaLine = new Line2D.Float((float) x[4], (float) (height/1.7), (float) x[1], (float) (height/1.7));
+        asdaLine = new Line2D.Float((float) x[4], (float) (height/1.65), (float) x[1], (float) (height/1.65));
+        ldaLine = new Line2D.Float((float) x[4], (float) (height/1.6), (float) x[1], (float) (height/1.6));
         repaint();
     }
 
@@ -57,6 +61,14 @@ public class TopViewGUI extends ViewGUI {
         fillShape(Color.gray, g, runwayRec);
         outlineShape(Color.black, g, runwayRec, outline);
         outlineShape(Color.white, g, centreLine, dashed);
+        outlineShape(Color.blue, g, toraLine, outline);
+        outlineShape(Color.orange, g, todaLine, outline);
+        outlineShape(Color.blue, g, asdaLine, outline);
+        outlineShape(Color.orange, g, ldaLine, outline);
+        g.drawString("TORA", 500, 360);
+        g.drawString("TODA", 500, 373);
+        g.drawString("ASDA", 500, 385);
+        g.drawString("LDA", 500, 397);
         for (Line2D line: sideLines){
             outlineShape(Color.white, g, line, outline);
         }
