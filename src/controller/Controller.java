@@ -43,7 +43,7 @@ public class Controller {
 	public ActionListener getAddObstacleButtonPress() {
 		return addObstacleButtonPress;
 	}
-	
+
 	public ArrayList<Obstacle> getList() {
 		System.out.println(listOfObstacles);
 		return listOfObstacles;
@@ -60,19 +60,24 @@ public class Controller {
 		}
 		return true;
 	}
-
-	public void outputFromList() {
+	
+	public String[] outputFromList() {
 		InputStream fis;
 		String line;
+		ArrayList<String> obstacleNames = new ArrayList<String>();
+		ArrayList<String> obstacleHeight = new ArrayList<String>();
 		try {
 			fis = new FileInputStream("obstacleList.txt");
 			InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
 			BufferedReader br = new BufferedReader(isr);
 			while ((line = br.readLine()) != null) {
-		    String t = line.split("\\s+")[0];
-			String s =	line.split("\\s+")[1];
-			System.out.println(t+ " " + s);
+				String t = line.split("\\s+")[0];
+				String s = line.split("\\s+")[1];
+				System.out.println(t + " " + s);
+				obstacleNames.add(t);
+				obstacleHeight.add(s);
 			}
+			br.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,7 +85,17 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+    return obstacleNames.toArray(new String[obstacleNames.size()]);
+	}
+	
+	public void putObstacle() {
+		String[] lines;
+		lines = outputFromList();
+		for(String s : lines) {
+			gui.getObstacleBox().addItem(s);
+			gui.getHeightBox().setText(s);
+		}
 	}
 
 	public void writeObstacleList() {
@@ -95,8 +110,9 @@ public class Controller {
 			output.close();
 			Obstacle o = new Obstacle(gui.getObstacleName(), gui.getObstacleHeight());
 			listOfObstacles.add(o);
-			 System.out.println(listOfObstacles);
-			outputFromList();
+			getList();
+			//putObstacle();
+			// outputFromList();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -122,9 +138,7 @@ public class Controller {
 				gui.setToraWorking(Runway.toraworking);
 				gui.setAsdaWorking(Runway.asdaworking);
 				gui.setLdaWorking(Runway.ldaworking);
-				
 			}
-
 		};
 
 		addObstacleButtonPress = new ActionListener() {
@@ -132,6 +146,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				writeObstacleList();
+				putObstacle();
 			}
 
 		};

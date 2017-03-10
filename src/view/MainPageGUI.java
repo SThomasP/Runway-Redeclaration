@@ -89,6 +89,7 @@ public class MainPageGUI extends JFrame {
     private JTextField obstacleName; 
     private JTextField obstacleHeight;
     private JComboBox<String> obstacleType;
+    private JComboBox<String> obstacleNames;
    
     
     private static Font displayFont = new Font("Arial", Font.PLAIN, 18);
@@ -146,8 +147,8 @@ public class MainPageGUI extends JFrame {
         obstacleInfo.setLayout(new GridLayout(6, 2));
         
         obstacleInfo.add(new JLabel("Obstacle Name"));
-        JComboBox<String> obstacleNames = new JComboBox<String>();
-        obstacleNames.setModel(new DefaultComboBoxModel (c.getList().toArray()));
+        obstacleNames = new JComboBox<String>();
+
         obstacleInfo.add(obstacleNames);
 
         obstacleInfo.add(new JLabel("Obstacle Height"));
@@ -326,6 +327,14 @@ public class MainPageGUI extends JFrame {
     public Obstacle getNewObstacle() {
         Obstacle toReturn = new Obstacle(Integer.valueOf(oHeight.getText()),Integer.valueOf(oDistanceFromCL.getText()),Integer.valueOf(oDistanceFromT.getText()));
         return toReturn;
+    }
+    
+    public JComboBox getObstacleBox() {
+    	return obstacleNames;
+    }
+    
+    public JTextField getHeightBox() {
+    	return obstacleHeight;
     }
     
     public String getObstacleType() {
