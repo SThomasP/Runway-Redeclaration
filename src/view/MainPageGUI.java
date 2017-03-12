@@ -93,7 +93,7 @@ public class MainPageGUI extends JFrame {
 		return todaCalcBreakdown;
 	}
 
-	private static Font displayFont = new Font("Arial", Font.PLAIN, 18);
+	public static Font displayFont = new Font("Arial", Font.PLAIN, 18);
 
 	public void updateRunwayList(ArrayList<Runway> runwayNames) {
 		runways.removeAllItems();
@@ -357,7 +357,6 @@ public class MainPageGUI extends JFrame {
 		setResizable(false);
 		setVisible(true);
 		tvg.redrawView();
-
 		tvg.changeRunway("09L", "27R",3902,50,306);
 		tvg.addObstacle(25,75, 7, 10,10);
 

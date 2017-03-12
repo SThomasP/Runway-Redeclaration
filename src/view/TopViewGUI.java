@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 
 public class TopViewGUI extends ViewGUI {
@@ -9,7 +10,6 @@ public class TopViewGUI extends ViewGUI {
     private Line2D centreLine;
     private Polygon clearArea;
     private Line2D[] sideLines;
-    private String nameString, inverseString;
     private Rectangle obstacleRec;
     private final static Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
     private final static Stroke outline = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
@@ -48,11 +48,7 @@ public class TopViewGUI extends ViewGUI {
     }
 
     public boolean checkLanding() {
-    	if(landing) {
-    		return true;
-    	} else {
-    		return false;
-    	}
+    	return  landing;
     }
     
     public void redrawView() {
@@ -103,8 +99,20 @@ public class TopViewGUI extends ViewGUI {
         length = rescaleHorizontal(length);
         dFromCL = getHeight()/2 + rescaleVertical(dFromCL);
         obstacleRec = new Rectangle(dFromT,dFromCL,width, length);
+        repaint();
     }
 
+    private static void drawRunwayName(String name, int rotation, int x, int y, Graphics g){
+        Graphics2D g2d = (Graphics2D) g.create();
+        System.out.println(x +","+y+","+name);
+        AffineTransform at = new AffineTransform();
+        at.rotate(Math.PI / rotation);
+        g2d.setTransform(at);
+        g2d.setColor(Color.white);
+        g2d.setFont(MainPageGUI.displayFont);
+        g2d.drawString(name,x,y);
+        g2d.dispose();
+    }
 
     public void paint(Graphics g) {
         super.paint(g);
@@ -117,6 +125,8 @@ public class TopViewGUI extends ViewGUI {
         outlineShape(Color.orange, g, todaLine, outline);
         outlineShape(Color.blue, g, asdaLine, outline);
         outlineShape(Color.orange, g, ldaLine, outline);
+        drawRunwayName(name,2,getWidth()/5, getHeight()/2 - 18, g);
+        drawRunwayName(inverseName, -2, 4 * getWidth()/5, getHeight()/2 - 18, g);
         g.drawString(toraString, 500, 360);
         g.drawString(todaString, 500, 373);
         g.drawString(asdaString, 500, 385);
@@ -126,8 +136,6 @@ public class TopViewGUI extends ViewGUI {
         }
         if (obstacleOnRunway){
             fillShape(Color.black,g,obstacleRec);
-            System.out.println("obstacle width:"+obstacleRec.getWidth());
-            System.out.println("obstacle height:"+obstacleRec.getHeight());
             
         }
     }
