@@ -14,6 +14,7 @@ public abstract class ViewGUI extends JPanel {
     protected int thresholdDistance, runwayLength, runwayWidth;
     protected String name, inverseName;
     protected boolean obstacleOnRunway = false;
+    protected boolean landing;
 
 
     public  void redrawDistances(int toda, int tora, int lda, int asda){
@@ -23,6 +24,8 @@ public abstract class ViewGUI extends JPanel {
         this.ldaString = "LDA: "+lda+"m";
     }
 
+    public abstract boolean checkLanding();
+    
     public abstract void init();
 
     public abstract void redrawView();
