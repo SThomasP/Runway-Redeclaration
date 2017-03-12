@@ -1,8 +1,8 @@
 package model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public final class Obstacle {
+public final class Obstacle implements Serializable {
 
 	/*
 	Final class representation of an obstacle just used for data storage
@@ -27,6 +27,13 @@ public final class Obstacle {
 		this.height = obstacleHeight;
 	}
 
+	public int getObstacleHeight() {
+		return height;
+	}
+	
+	public String getName() {
+		return name;
+	}
 
 
 }

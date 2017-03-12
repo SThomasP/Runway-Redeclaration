@@ -2,17 +2,15 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import model.Airport;
 import model.Obstacle;
@@ -29,8 +27,13 @@ public class Controller {
 	private ActionListener submitButtonPress;
 	private ActionListener refreshButtonPress;
 	private ActionListener addObstacleButtonPress;
+	private ActionListener refreshMainButtonPress;
 	private File obstacleList;
 	private ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
+
+	public ActionListener getRefreshMainButtonPress() {
+		return refreshMainButtonPress;
+	}
 
 	public ActionListener getSubmitButtonPress() {
 		return submitButtonPress;
@@ -60,59 +63,48 @@ public class Controller {
 		}
 		return true;
 	}
-	
-	public String[] outputFromList() {
-		InputStream fis;
-		String line;
-		ArrayList<String> obstacleNames = new ArrayList<String>();
-		ArrayList<String> obstacleHeight = new ArrayList<String>();
+
+	public void outputFromList() throws ClassNotFoundException {
+		FileInputStream fis;
+		// if (checkFileExists())
 		try {
 			fis = new FileInputStream("obstacleList.txt");
-			InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
-			BufferedReader br = new BufferedReader(isr);
-			while ((line = br.readLine()) != null) {
-				String t = line.split("\\s+")[0];
-				String s = line.split("\\s+")[1];
-				System.out.println(t + " " + s);
-				obstacleNames.add(t);
-				obstacleHeight.add(s);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			listOfObstacles = (ArrayList<Obstacle>) ois.readObject();
+			System.out.println("Read file");
+			for (Obstacle e : listOfObstacles) {
+				System.out.println(e.getName());
 			}
-			br.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ois.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-    return obstacleNames.toArray(new String[obstacleNames.size()]);
 	}
-	
+
 	public void putObstacle() {
-		String[] lines;
-		lines = outputFromList();
-		for(String s : lines) {
-			gui.getObstacleBox().addItem(s);
-			gui.getHeightBox().setText(s);
+		gui.getObstacleBox().removeAllItems();
+		for (Obstacle o : listOfObstacles) {
+			gui.getObstacleBox().addItem(o.getName());
 		}
 	}
 
 	public void writeObstacleList() {
-		obstacleList = new File("obstacleList.txt");
+		File obstacleFile = new File("obstacleList.txt");
 		try {
+
 			String name = gui.getObstacleName();
 			int height = gui.getObstacleHeight();
-			String type = gui.getObstacleType();
-			BufferedWriter output = new BufferedWriter(new FileWriter(obstacleList, true));
-			output.write(name + " " + height + " " + type);
-			output.newLine();
-			output.close();
-			Obstacle o = new Obstacle(gui.getObstacleName(), gui.getObstacleHeight());
+
+			FileOutputStream fos = new FileOutputStream(obstacleFile);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+			Obstacle o = new Obstacle(name, height);
 			listOfObstacles.add(o);
-			getList();
-			//putObstacle();
-			// outputFromList();
+			System.out.println("Added " + name);
+			oos.writeObject(listOfObstacles);
+			oos.close();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -145,10 +137,39 @@ public class Controller {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				writeObstacleList();
-				putObstacle();
-			}
 
+				int yesNoButton = JOptionPane.YES_NO_OPTION;
+				JOptionPane.showConfirmDialog(null, "Would you like to add this obstacle?", "Confirm", yesNoButton);
+				if (yesNoButton == JOptionPane.YES_OPTION) {
+					writeObstacleList();
+					putObstacle();
+					JOptionPane.showMessageDialog(gui, "Obstacle Added");
+				}
+
+			}
+		};
+
+		refreshMainButtonPress = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					outputFromList();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			//	putObstacle();
+				System.out.println(gui.getObstacleBox().getSelectedItem().toString());
+				for (Obstacle o : listOfObstacles) {
+					
+					if (gui.getObstacleBox().getSelectedItem().toString().equals(o.getName())) {
+						gui.getHeightBox().setText(Integer.toString(o.getObstacleHeight()));
+					}
+					System.out.println(listOfObstacles.size());
+				}
+			}
 		};
 		// create and init the GUI
 		gui = new MainPageGUI();

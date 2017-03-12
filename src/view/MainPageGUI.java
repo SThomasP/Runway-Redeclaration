@@ -82,6 +82,7 @@ public class MainPageGUI extends JFrame {
     private JComboBox<String> runwayViewType;
     private JButton importButton;
     private JButton exportButton;
+    private JButton refreshMain;
     private JTextArea todaCalcBreakdown;
     private JTextArea asdaCalcBreakdown;
     private JTextArea ldaCalcBreakdown;
@@ -165,7 +166,10 @@ public class MainPageGUI extends JFrame {
 
         submitButton = new JButton("Submit");
         submitButton.addActionListener(c.getSubmitButtonPress());
-        obstacleInfo.add(new JPanel());
+        
+        refreshMain = new JButton("Refresh");
+        refreshMain.addActionListener(c.getRefreshMainButtonPress());
+        obstacleInfo.add(refreshMain);
         obstacleInfo.add(submitButton);
 
         declaredDistance.add(new JLabel("Declared Distances For Runway"), BorderLayout.NORTH);
@@ -334,7 +338,7 @@ public class MainPageGUI extends JFrame {
     }
     
     public JTextField getHeightBox() {
-    	return obstacleHeight;
+    	return oHeight;
     }
     
     public String getObstacleType() {
