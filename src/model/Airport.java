@@ -10,12 +10,24 @@ public class Airport {
 	private ArrayList <Runway> listOfRunways;
 	private Runway currentRunway;
 	
-	public Airport(Runway currentRunway){
-		this.currentRunway = currentRunway;
+	public Airport(ArrayList<Runway> runways){
+		
+		currentRunway = runways.get(0);
+		listOfRunways = runways;
 	}
 
 	public Runway getCurrentRunway(){
 		return currentRunway;
 	}
+
+	public ArrayList<Runway> getListOfRunways() {
+		return listOfRunways;
+	}
+
+	public void setCurrentRunway(Runway currentRunway) {
+		this.currentRunway = currentRunway;
+	}
+
+	
 
 }
