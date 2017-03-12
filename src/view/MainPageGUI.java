@@ -86,8 +86,10 @@ public class MainPageGUI extends JFrame {
 	private JTextField obstacleHeight;
 	private JTextField obstacleWidth;
 	private JTextField obstacleLength;
+	private JTextArea displayObstacle;
 	private JComboBox<String> obstacleType;
 	private JComboBox<String> obstacleNames;
+	private JComboBox<String> listToViewObstacles;
 
 	public JTextArea getTodaCalc() {
 		return todaCalcBreakdown;
@@ -150,7 +152,7 @@ public class MainPageGUI extends JFrame {
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		JPanel obstacleInfo = new JPanel();
-		obstacleInfo.setLayout(new GridLayout(8, 2));
+		obstacleInfo.setLayout(new GridLayout(7, 2));
 
 		obstacleInfo.add(new JLabel("Obstacle Name"));
 		obstacleNames = new JComboBox<String>();
@@ -160,6 +162,14 @@ public class MainPageGUI extends JFrame {
 		obstacleInfo.add(new JLabel("Obstacle Height"));
 		oHeight = new JTextField();
 		obstacleInfo.add(oHeight);
+		
+		obstacleInfo.add(new JLabel("Obstacle Width"));
+		oWidth = new JTextField();
+		obstacleInfo.add(oWidth);
+
+		obstacleInfo.add(new JLabel("Obstacle Length"));
+		oLength = new JTextField();
+		obstacleInfo.add(oLength);
 
 		obstacleInfo.add(new JLabel("Obstacle Distance From CL"));
 		oDistanceFromCL = new JTextField();
@@ -168,14 +178,6 @@ public class MainPageGUI extends JFrame {
 		obstacleInfo.add(new JLabel("Obstacle Distance From Threshold"));
 		oDistanceFromT = new JTextField();
 		obstacleInfo.add(oDistanceFromT);
-
-		obstacleInfo.add(new JLabel("Obstacle Width"));
-		oWidth = new JTextField();
-		obstacleInfo.add(oWidth);
-
-		obstacleInfo.add(new JLabel("Obstacle Length"));
-		oLength = new JTextField();
-		obstacleInfo.add(oLength);
 
 		submitButton = new JButton("Submit");
 		submitButton.addActionListener(c.getSubmitButtonPress());
@@ -206,15 +208,17 @@ public class MainPageGUI extends JFrame {
 		labelAndList.setLayout(new GridLayout(1, 2));
 
 		// String[] obstacleNames = { "Runway 1", "Runway 2", "Runway 3" };
-		JComboBox<String> listOfObstacles = new JComboBox<>();
+		listToViewObstacles = new JComboBox<>();
 
 		labelAndList.add(new JLabel("View Obstacle From List"));
-		labelAndList.add(listOfObstacles);
+		labelAndList.add(listToViewObstacles);
 
 		JPanel displayObstacleInfo = new JPanel();
-		JTextArea displayObstacle = new JTextArea(20, 50);
+	    displayObstacle = new JTextArea(20, 50);
+	    JScrollPane scroll = new JScrollPane(displayObstacle);
+	    scroll.setVisible(true);
 		viewObstacleList.add(labelAndList, BorderLayout.NORTH);
-		displayObstacleInfo.add(displayObstacle);
+		displayObstacleInfo.add(scroll);
 		viewObstacleList.add(displayObstacleInfo, BorderLayout.CENTER);
 
 		obstacles.add(viewObstacleList);
@@ -371,7 +375,15 @@ public class MainPageGUI extends JFrame {
 	public JComboBox getObstacleBox() {
 		return obstacleNames;
 	}
+	
+	public JComboBox getViewObstaclesList() {
+		return listToViewObstacles;
+	}
 
+	public JTextArea getDisplayObstacle() {
+		return displayObstacle;
+	}
+	
 	public JTextField getHeightBox() {
 		return oHeight;
 	}
