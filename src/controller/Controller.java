@@ -100,6 +100,7 @@ public class Controller {
 		gui.getObstacleBox().removeAllItems();
 		for (Obstacle o : listOfObstacles) {
 			gui.getObstacleBox().addItem(o.getName());
+			gui.getViewObstaclesList().addItem(o.getName());
 		}
 	}
 
@@ -165,7 +166,7 @@ public class Controller {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				putObstacle();
+				
 				for(Obstacle o : listOfObstacles) {
 					if (gui.getObstacleBox().getSelectedItem().toString().equals(o.getName())) {
 						gui.getHeightBox().setText(Integer.toString(o.getObstacleHeight()));
@@ -194,6 +195,19 @@ public class Controller {
 		gui.init(this);
 		putObstacle();
 
+		gui.getViewObstaclesList().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				for(Obstacle o : listOfObstacles) {
+					if(gui.getViewObstaclesList().getSelectedItem().toString().equals(o.getName())) {
+						gui.getDisplayObstacle().append("Name   " + o.getName() + "\t" + "Height:   "+ o.getObstacleHeight() + "\t"+ "Width:   " + o.getObstacleWidth() + "\t"+ "Length:   " + o.getObstacleLength() + "\n");
+					}
+				}
+			}
+			
+		});
+		
 		// create the model with a single runway
 		ArrayList<Runway> listOfRunways = new ArrayList<Runway>();
 		listOfRunways.add(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306));
