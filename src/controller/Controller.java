@@ -33,14 +33,12 @@ public class Controller {
 	private ActionListener submitButtonPress;
 	private ActionListener refreshButtonPress;
 	private ActionListener addObstacleButtonPress;
+	private ActionListener chooseCurrentRunway;
 	private File obstacleList;
 	private ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
 
-    private Airport airport;
-    private MainPageGUI gui;
-    private ActionListener submitButtonPress;
-    private ActionListener refreshButtonPress;
-    private ActionListener chooseCurrentRunway;
+ 
+   
 
 	public ActionListener getRefreshButtonPress() {
 		return refreshButtonPress;
@@ -114,6 +112,7 @@ public class Controller {
 		}
 	}
 
+	
 	public void writeObstacleList() {
 		obstacleList = new File("obstacleList.txt");
 		try {
@@ -156,8 +155,17 @@ public class Controller {
 				gui.setLdaWorking(Runway.ldaworking);
 			}
 		};
+		
+		addObstacleButtonPress = new ActionListener() {
 
-        };
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				writeObstacleList();
+				putObstacle();
+			}
+
+		};
+
         //changes current runway and shows its values
         chooseCurrentRunway = new ActionListener() {
             @Override
@@ -167,6 +175,7 @@ public class Controller {
                 gui.setAdjustedFigures(airport.getCurrentRunway().getToda(), airport.getCurrentRunway().getTora(), airport.getCurrentRunway().getLda(), airport.getCurrentRunway().getAsda());            }
 
         };
+        
         //create and init the GUI
         gui = new MainPageGUI();
         gui.init(this);
@@ -181,28 +190,9 @@ public class Controller {
         Runway currentRunway = airport.getCurrentRunway();
         //add the figures to the gui
         gui.setOriginalFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(), currentRunway.getAsda());
-    }
-		addObstacleButtonPress = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				writeObstacleList();
-				putObstacle();
-			}
-
-		};
-		// create and init the GUI
-		gui = new MainPageGUI();
-		gui.init(this);
-		String[] runways = { "09L", "27R", "09R", "27L" };
-		gui.updateRunwayList(runways);
-		// create the model with a single runway
-		airport = new Airport(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306));
-		Runway currentRunway = airport.getCurrentRunway();
-		// add the figures to the gui
-		gui.setOriginalFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),
-				currentRunway.getAsda());
 	}
+		
+		
 
 	public static void main(String[] args) {
 		Controller c = new Controller();
