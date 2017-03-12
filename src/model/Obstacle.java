@@ -7,7 +7,7 @@ public final class Obstacle implements Serializable {
 	/*
 	Final class representation of an obstacle just used for data storage
 	 */
-
+	private static final long serialVersionUID = 1L;
 	private int width;
 	private int length;
  	public int height;
