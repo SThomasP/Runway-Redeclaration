@@ -317,13 +317,14 @@ public class MainPageGUI extends JFrame {
         mainFrame.add(viewRunway);
         tvg.init();
         mainFrame.add(selectOption);
-
         content.add(mainFrame);
         setSize(1200, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
         tvg.redrawView();
+        tvg.changeRunway("09L","27R",3902,50,0);
+        tvg.addObstacle(25,25,10,10,10);
 
     }
 

@@ -53,10 +53,6 @@ public class Controller {
 		return chooseCurrentRunway;
 	}
 
-
-	public ActionListener getSubmitButtonPress() {
-        return submitButtonPress;
-    }
     
 	public ActionListener getAddObstacleButtonPress() {
 		return addObstacleButtonPress;
