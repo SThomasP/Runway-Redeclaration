@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 
@@ -23,6 +25,33 @@ public class TopViewGUI extends ViewGUI {
         todaString = "TODA";
         asdaString = "ASDA";
         ldaString = "LDA";
+        addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("("+e.getX()+","+e.getY()+")");
+                System.out.println("("+getWidth()+","+getHeight()+")");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
     }
 
 
@@ -102,15 +131,15 @@ public class TopViewGUI extends ViewGUI {
         repaint();
     }
 
-    private static void drawRunwayName(String name, int rotation, int x, int y, Graphics g){
-        Graphics2D g2d = (Graphics2D) g.create();
-        System.out.println(x +","+y+","+name);
-        AffineTransform at = new AffineTransform();
-        at.rotate(Math.PI / rotation);
-        g2d.setTransform(at);
+    private static void drawRunwayName(String name, double rotation, int x, int y, Graphics g){
+        rotation = Math.toRadians(rotation);
+        Graphics2D g2d =  (Graphics2D) g.create();
+        g2d.rotate(rotation);
         g2d.setColor(Color.white);
         g2d.setFont(MainPageGUI.displayFont);
-        g2d.drawString(name,x,y);
+        int newX = (int) (x*Math.cos(rotation) + y*Math.sin(rotation));
+        int  newY = (int) (-x*Math.sin(rotation) + y*Math.cos(rotation));
+        g2d.drawString(name,newX,newY);
         g2d.dispose();
     }
 
@@ -125,8 +154,6 @@ public class TopViewGUI extends ViewGUI {
         outlineShape(Color.orange, g, todaLine, outline);
         outlineShape(Color.blue, g, asdaLine, outline);
         outlineShape(Color.orange, g, ldaLine, outline);
-        drawRunwayName(name,2,getWidth()/5, getHeight()/2 - 18, g);
-        drawRunwayName(inverseName, -2, 4 * getWidth()/5, getHeight()/2 - 18, g);
         g.drawString(toraString, 500, 360);
         g.drawString(todaString, 500, 373);
         g.drawString(asdaString, 500, 385);
@@ -138,5 +165,8 @@ public class TopViewGUI extends ViewGUI {
             fillShape(Color.black,g,obstacleRec);
             
         }
+
+        drawRunwayName(name,90,getWidth()/5, getHeight()/2 - 18, g);
+        drawRunwayName(inverseName, -90, 4 * getWidth()/5, getHeight()/2 + 18, g);
     }
 }
