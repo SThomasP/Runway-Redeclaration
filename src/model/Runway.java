@@ -47,9 +47,13 @@ public class Runway {
 
 	public void recalculate(Aircraft aircraft) {
 		boolean closeToThreshold = ldaOriginal / 2 > obstacle.distanceFromThreshold;
+		toraworking = "";
 		recalculateTora(aircraft, closeToThreshold);
+		todaworking = "";
 		recalculateToda(aircraft, closeToThreshold);
+		ldaworking = "";
 		recalculateLda(aircraft, closeToThreshold);
+		asdaworking = "";
 		recalculateAsda(aircraft, closeToThreshold);
 	}
 

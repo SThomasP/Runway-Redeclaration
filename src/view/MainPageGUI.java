@@ -362,6 +362,9 @@ public class MainPageGUI extends JFrame {
 		setVisible(true);
 		tvg.redrawView();
 
+		tvg.changeRunway("09L", "27R",3902,50,306);
+		tvg.addObstacle(25,75, 7, 10,10);
+
 	}
 
 	public Obstacle getNewObstacle() {
