@@ -2,13 +2,14 @@ package view;
 
 import controller.Controller;
 import model.Obstacle;
+import model.Runway;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -68,7 +69,7 @@ public class MainPageGUI extends JFrame {
     private JTextField oDistanceFromCL;
     private JTextField oDistanceFromT;
     private JComboBox<String> runwayUses;
-    private JComboBox<String> runways;
+    private JComboBox<Runway> runways;
     private JComboBox<String> runwayViewType;
     private JButton importButton;
     private JButton exportButton;
@@ -79,14 +80,18 @@ public class MainPageGUI extends JFrame {
 
     private static Font displayFont = new Font("Arial", Font.PLAIN, 18);
 
-    public void updateRunwayList(String[] runwayNames) {
+    public void updateRunwayList(ArrayList<Runway> runwayNames) {
         runways.removeAllItems();
-        for (String runway : runwayNames) {
+        for (Runway runway : runwayNames) {
             runways.addItem(runway);
         }
     }
 
-    public void setAdjustedFigures(int toda, int tora, int lda, int asda) {
+    public Runway getSelectedRunway() {
+		return (Runway) runways.getSelectedItem();
+	}
+
+	public void setAdjustedFigures(int toda, int tora, int lda, int asda) {
         distances.setValueAt(String.valueOf(tora),0,1);
         distances.setValueAt(String.valueOf(toda),1,1);
         distances.setValueAt(String.valueOf(asda),2,1);
@@ -270,6 +275,7 @@ public class MainPageGUI extends JFrame {
         viewRunway.setLayout(new BorderLayout());
 
         runways = new JComboBox<>();
+        runways.addActionListener(c.getChooseCurrentRunway());
         importButton = new JButton("Import");
         exportButton = new JButton("Export");
         String[] runwayView = {"Top Down view", "Side view"};
