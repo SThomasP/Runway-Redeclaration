@@ -6,12 +6,21 @@ public class SideViewGUI extends ViewGUI {
 
 
     private Rectangle runwayRec;
+    private boolean landing = true;
 
     @Override
     public void init() {
         setBackground(Color.cyan);
     }
 
+    public boolean checkLanding() {
+    	if(landing) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
     @Override
     public void redrawView() {
         int width = getWidth();

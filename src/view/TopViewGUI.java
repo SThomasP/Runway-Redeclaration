@@ -11,13 +11,22 @@ public class TopViewGUI extends ViewGUI {
     private Line2D[] sideLines;
     private final static Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
     private final static Stroke outline = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
-
+    private boolean landing = true;
+    
     public void init() {
         setBackground(new Color(51, 204, 51));
         clearArea = new Polygon();
         runwayRec = new Rectangle();
     }
 
+    public boolean checkLanding() {
+    	if(landing) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
     public void redrawView() {
         clearArea.reset();
         int height = getHeight();

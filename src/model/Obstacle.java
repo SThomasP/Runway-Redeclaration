@@ -8,6 +8,8 @@ public final class Obstacle implements Serializable {
 	Final class representation of an obstacle just used for data storage
 	 */
 
+	private int width;
+	private int length;
  	public int height;
 	public int distanceFromThreshold;
 	public int distanceFromCentreLine;
@@ -22,13 +24,23 @@ public final class Obstacle implements Serializable {
 		
 	}
 	
-	public Obstacle(String obstacleName, int obstacleHeight) {
+	public Obstacle(String obstacleName, int obstacleHeight, int obstacleWidth, int obstacleLength) {
 		this.name = obstacleName;
 		this.height = obstacleHeight;
+		this.width = obstacleWidth;
+		this.length = obstacleLength;
 	}
 
 	public int getObstacleHeight() {
 		return height;
+	}
+	
+	public int getObstacleWidth() {
+		return width;
+	}
+	
+	public int getObstacleLength() {
+		return length;
 	}
 	
 	public String getName() {

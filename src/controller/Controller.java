@@ -48,16 +48,10 @@ public class Controller {
 		return refreshButtonPress;
 	}
 
-
-    public ActionListener getChooseCurrentRunway() {
+	public ActionListener getChooseCurrentRunway() {
 		return chooseCurrentRunway;
 	}
 
-
-	public ActionListener getSubmitButtonPress() {
-        return submitButtonPress;
-    }
-    
 	public ActionListener getAddObstacleButtonPress() {
 		return addObstacleButtonPress;
 	}
@@ -98,26 +92,28 @@ public class Controller {
 	}
 
 	public void putObstacle() {
+		try {
+			outputFromList();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		gui.getObstacleBox().removeAllItems();
 		for (Obstacle o : listOfObstacles) {
 			gui.getObstacleBox().addItem(o.getName());
 		}
 	}
 
-	
 	public void writeObstacleList() {
 		File obstacleFile = new File("obstacleList.txt");
 		try {
-
 			String name = gui.getObstacleName();
 			int height = gui.getObstacleHeight();
-
+			int width = gui.getObstacleWidth();
+			int length = gui.getObstacleLength();
 			FileOutputStream fos = new FileOutputStream(obstacleFile);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-			Obstacle o = new Obstacle(name, height);
+			Obstacle o = new Obstacle(name, height, width, length);
 			listOfObstacles.add(o);
-			System.out.println("Added " + name);
 			oos.writeObject(listOfObstacles);
 			oos.close();
 
@@ -128,15 +124,16 @@ public class Controller {
 	}
 
 	public Controller() {
-        // create an action listener for when the submit button is pressed.
-        submitButtonPress = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Runway inputRunway = airport.getCurrentRunway();
-                inputRunway.addObstacle(gui.getNewObstacle());
-                gui.setAdjustedFigures(inputRunway.getToda(), inputRunway.getTora(), inputRunway.getLda(), inputRunway.getAsda());
-                
-            }
+		// create an action listener for when the submit button is pressed.
+		submitButtonPress = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Runway inputRunway = airport.getCurrentRunway();
+				inputRunway.addObstacle(gui.getNewObstacle());
+				gui.setAdjustedFigures(inputRunway.getToda(), inputRunway.getTora(), inputRunway.getLda(),
+						inputRunway.getAsda());
+
+			}
 
 		};
 		refreshButtonPress = new ActionListener() {
@@ -148,7 +145,7 @@ public class Controller {
 				gui.setLdaWorking(Runway.ldaworking);
 			}
 		};
-		
+
 		addObstacleButtonPress = new ActionListener() {
 
 			@Override
@@ -161,7 +158,6 @@ public class Controller {
 					putObstacle();
 					JOptionPane.showMessageDialog(gui, "Obstacle Added");
 				}
-
 			}
 		};
 
@@ -169,52 +165,48 @@ public class Controller {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					outputFromList();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			//	putObstacle();
-				System.out.println(gui.getObstacleBox().getSelectedItem().toString());
-				for (Obstacle o : listOfObstacles) {
-					
+				putObstacle();
+				for(Obstacle o : listOfObstacles) {
 					if (gui.getObstacleBox().getSelectedItem().toString().equals(o.getName())) {
 						gui.getHeightBox().setText(Integer.toString(o.getObstacleHeight()));
+						gui.getWidthBox().setText(Integer.toString(o.getObstacleWidth()));
+						gui.getLengthBox().setText(Integer.toString(o.getObstacleLength()));
 					}
-					System.out.println(listOfObstacles.size());
 				}
 			}
 		};
 
-        //changes current runway and shows its values
-        chooseCurrentRunway = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                airport.setCurrentRunway(gui.getSelectedRunway());
-                gui.setOriginalFigures(airport.getCurrentRunway().getTodaOriginal(), airport.getCurrentRunway().getToraOriginal(), airport.getCurrentRunway().getLdaOriginal(), airport.getCurrentRunway().getAsdaOriginal());
-                gui.setAdjustedFigures(airport.getCurrentRunway().getToda(), airport.getCurrentRunway().getTora(), airport.getCurrentRunway().getLda(), airport.getCurrentRunway().getAsda());            }
+		// changes current runway and shows its values
+		chooseCurrentRunway = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				airport.setCurrentRunway(gui.getSelectedRunway());
+				gui.setOriginalFigures(airport.getCurrentRunway().getTodaOriginal(),
+						airport.getCurrentRunway().getToraOriginal(), airport.getCurrentRunway().getLdaOriginal(),
+						airport.getCurrentRunway().getAsdaOriginal());
+				gui.setAdjustedFigures(airport.getCurrentRunway().getToda(), airport.getCurrentRunway().getTora(),
+						airport.getCurrentRunway().getLda(), airport.getCurrentRunway().getAsda());
+			}
+		};
 
-        };
-        
-        //create and init the GUI
-        gui = new MainPageGUI();
-        gui.init(this);
-        // create the model with a single runway
-        ArrayList<Runway> listOfRunways = new ArrayList<Runway>();
-        listOfRunways.add(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306));
-        listOfRunways.add(new Runway(27, 'R', 3902, 3900, 3902, 3902, 0));
-        airport = new Airport(listOfRunways);
-        gui.updateRunwayList(airport.getListOfRunways());
-        
-        
-        Runway currentRunway = airport.getCurrentRunway();
-        //add the figures to the gui
-        gui.setOriginalFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(), currentRunway.getAsda());
+		// create and init the GUI
+		gui = new MainPageGUI();
+		gui.init(this);
+		putObstacle();
+
+		// create the model with a single runway
+		ArrayList<Runway> listOfRunways = new ArrayList<Runway>();
+		listOfRunways.add(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306));
+		listOfRunways.add(new Runway(27, 'R', 3902, 3900, 3902, 3902, 0));
+
+		airport = new Airport(listOfRunways);
+		gui.updateRunwayList(airport.getListOfRunways());
+
+		Runway currentRunway = airport.getCurrentRunway();
+		// add the figures to the gui
+		gui.setOriginalFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),
+				currentRunway.getAsda());
 	}
-		
-		
 
 	public static void main(String[] args) {
 		Controller c = new Controller();

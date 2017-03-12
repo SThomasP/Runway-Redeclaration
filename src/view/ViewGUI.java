@@ -11,12 +11,15 @@ public abstract class ViewGUI extends JPanel {
 
     protected Line2D todaLine, toraLine, ldaLine, asdaLine;
     protected String todaString, toraString, ldaString, asdaString;
+    protected boolean landing;
 
 
     public void redrawDistances(int toda, int tora, int lda, int asda){
 
     }
 
+    public abstract boolean checkLanding();
+    
     public abstract void init();
 
     public abstract void redrawView();
