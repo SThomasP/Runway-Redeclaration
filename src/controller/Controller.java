@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 import model.Airport;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
  */
 public class Controller {
 
+	private ReadObstacleXMLFile readnwrite = new ReadObstacleXMLFile() ;
 	private Airport airport;
 	private MainPageGUI gui;
 	private ActionListener submitButtonPress;
@@ -34,7 +36,7 @@ public class Controller {
 	private ActionListener chooseCurrentRunway;
 	private ActionListener refreshMainButtonPress;
 	private File obstacleList;
-	private ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
+	public ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
 
 	public ActionListener getRefreshMainButtonPress() {
 		return refreshMainButtonPress;
@@ -77,15 +79,16 @@ public class Controller {
 		FileInputStream fis;
 		// if (checkFileExists())
 		try {
-			fis = new FileInputStream("obstacleList.txt");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			listOfObstacles = (ArrayList<Obstacle>) ois.readObject();
-			System.out.println("Read file");
+			//fis = new FileInputStream("obstacleList.txt");
+			//ObjectInputStream ois = new ObjectInputStream(fis);
+			listOfObstacles = readnwrite.read();
+			System.out.println(listOfObstacles.size());
 			for (Obstacle e : listOfObstacles) {
 				System.out.println(e.getName());
+
 			}
-			ois.close();
-		} catch (IOException e) {
+			//ois.close();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -112,14 +115,16 @@ public class Controller {
 			int height = gui.getObstacleHeight();
 			int width = gui.getObstacleWidth();
 			int length = gui.getObstacleLength();
-			FileOutputStream fos = new FileOutputStream(obstacleFile);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			//FileOutputStream fos = new FileOutputStream(obstacleFile);
+			//ObjectOutputStream oos = new ObjectOutputStream(fos);
 			Obstacle o = new Obstacle(name, height, width, length);
 			listOfObstacles.add(o);
-			oos.writeObject(listOfObstacles);
-			oos.close();
+			System.out.println(listOfObstacles);
+			readnwrite.write(listOfObstacles);
+			//oos.writeObject(listOfObstacles);
+			//oos.close();
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -200,6 +205,7 @@ public class Controller {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				gui.getDisplayObstacle().setText("");
 				for(Obstacle o : listOfObstacles) {
 					if(gui.getViewObstaclesList().getSelectedItem().toString().equals(o.getName())) {
 						gui.getDisplayObstacle().append("Name   " + o.getName() + "\t" + "Height:   "+ o.getObstacleHeight() + "\t"+ "Width:   " + o.getObstacleWidth() + "\t"+ "Length:   " + o.getObstacleLength() + "\n");
