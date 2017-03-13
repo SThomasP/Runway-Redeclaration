@@ -396,6 +396,14 @@ public class MainPageGUI extends JFrame {
 		return oLength;
 	}
 
+	public JTextField getDistanceCLBox() {
+		return oDistanceFromCL;
+	}
+	
+	public JTextField getDistanceFromTBox() {
+		return oDistanceFromT;
+	}
+	
 	public String getObstacleType() {
 		return obstacleType.getSelectedItem().toString();
 	}
