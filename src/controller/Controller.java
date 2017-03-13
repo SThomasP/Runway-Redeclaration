@@ -98,6 +98,7 @@ public class Controller {
 			e.printStackTrace();
 		}
 		gui.getObstacleBox().removeAllItems();
+		
 		for (Obstacle o : listOfObstacles) {
 			gui.getObstacleBox().addItem(o.getName());
 			gui.getViewObstaclesList().addItem(o.getName());

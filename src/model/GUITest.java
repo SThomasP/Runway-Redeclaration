@@ -1,5 +1,6 @@
 package model;
 import static org.junit.Assert.assertEquals;
+
 import controller.Controller;
 import view.MainPageGUI;
 
@@ -10,15 +11,16 @@ public class GUITest {
 	 * created on 13/03/17
 	 * JUnit Testing for the GUI
 	 */
+	
 	@org.junit.Test
-	public void testLoadGUI() {
+	public void testLoadGUI() throws Exception {
 		MainPageGUI gui = new MainPageGUI();
 		Controller c = new Controller();
 		gui.init(c);
 	}
 
 	@org.junit.Test
-	public void checkStartObstacleNameField() {
+	public void checkStartObstacleNameField() throws Exception {
 		MainPageGUI gui = new MainPageGUI();
 		Controller c = new Controller();
 		gui.init(c);
@@ -26,7 +28,7 @@ public class GUITest {
 	}
 	
 	@org.junit.Test
-	public void checkStartObstacleTypeField() {
+	public void checkStartObstacleTypeField() throws Exception {
 		MainPageGUI gui = new MainPageGUI();
 		Controller c = new Controller();
 		gui.init(c);
@@ -34,7 +36,7 @@ public class GUITest {
 	}
 	
 	@org.junit.Test
-	public void checkStartObstacleHeightField() {
+	public void checkStartObstacleHeightField() throws Exception {
 		MainPageGUI gui = new MainPageGUI();
 		Controller c = new Controller();
 		gui.init(c);
@@ -43,7 +45,7 @@ public class GUITest {
 	}
 	
 	@org.junit.Test
-	public void checkStartObstacleWidthField() {
+	public void checkStartObstacleWidthField() throws Exception {
 		MainPageGUI gui = new MainPageGUI();
 		Controller c = new Controller();
 		gui.init(c);
@@ -52,7 +54,7 @@ public class GUITest {
 	}
 	
 	@org.junit.Test
-	public void checkStartObstacleLengthField() {
+	public void checkStartObstacleLengthField() throws Exception {
 		MainPageGUI gui = new MainPageGUI();
 		Controller c = new Controller();
 		gui.init(c);
@@ -60,11 +62,11 @@ public class GUITest {
 		assertEquals(gui.getObstacleLength(), 0);
 	}
 	
-//	@org.junit.Test
-//	public void checkCalcObstacleBox() {
-//		MainPageGUI gui = new MainPageGUI();
-//		Controller c = new Controller();
-//		gui.init(c);
-//		String test = gui.getObstacleBox().getSelectedItem().toString();
-//	}
+	@org.junit.Test
+	public void checkCalcObstacleBox() {
+		MainPageGUI gui = new MainPageGUI();
+		Controller c = new Controller();
+		gui.init(c);
+		Object test = gui.getObstacleBox().getSelectedItem();
+	}
 }
