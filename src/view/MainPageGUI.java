@@ -162,7 +162,7 @@ public class MainPageGUI extends JFrame {
 		obstacleInfo.add(new JLabel("Obstacle Height"));
 		oHeight = new JTextField();
 		obstacleInfo.add(oHeight);
-		
+
 		obstacleInfo.add(new JLabel("Obstacle Width"));
 		oWidth = new JTextField();
 		obstacleInfo.add(oWidth);
@@ -214,9 +214,9 @@ public class MainPageGUI extends JFrame {
 		labelAndList.add(listToViewObstacles);
 
 		JPanel displayObstacleInfo = new JPanel();
-	    displayObstacle = new JTextArea(20, 50);
-	    JScrollPane scroll = new JScrollPane(displayObstacle);
-	    scroll.setVisible(true);
+		displayObstacle = new JTextArea(20, 50);
+		JScrollPane scroll = new JScrollPane(displayObstacle);
+		scroll.setVisible(true);
 		viewObstacleList.add(labelAndList, BorderLayout.NORTH);
 		displayObstacleInfo.add(scroll);
 		viewObstacleList.add(displayObstacleInfo, BorderLayout.CENTER);
@@ -361,8 +361,8 @@ public class MainPageGUI extends JFrame {
 		setResizable(false);
 		setVisible(true);
 		tvg.redrawView();
-		tvg.changeRunway("09L", "27R",3902,50,306);
-		tvg.addObstacle(25,75, 7, 10,10);
+		tvg.changeRunway("09L", "27R", 3902, 50, 306);
+		tvg.addObstacle(25, 75, 7, 10, 10);
 
 	}
 
@@ -375,7 +375,7 @@ public class MainPageGUI extends JFrame {
 	public JComboBox getObstacleBox() {
 		return obstacleNames;
 	}
-	
+
 	public JComboBox getViewObstaclesList() {
 		return listToViewObstacles;
 	}
@@ -383,7 +383,7 @@ public class MainPageGUI extends JFrame {
 	public JTextArea getDisplayObstacle() {
 		return displayObstacle;
 	}
-	
+
 	public JTextField getHeightBox() {
 		return oHeight;
 	}
@@ -391,11 +391,11 @@ public class MainPageGUI extends JFrame {
 	public JTextField getWidthBox() {
 		return oWidth;
 	}
-	
+
 	public JTextField getLengthBox() {
 		return oLength;
 	}
-	
+
 	public String getObstacleType() {
 		return obstacleType.getSelectedItem().toString();
 	}
@@ -405,17 +405,32 @@ public class MainPageGUI extends JFrame {
 	}
 
 	public int getObstacleHeight() {
-		int heightInt = Integer.parseInt(obstacleHeight.getText());
+		int heightInt;
+		if (obstacleHeight.getText().equals("")) {
+			heightInt = 0;
+		} else {
+			heightInt = Integer.parseInt(obstacleHeight.getText());
+		}
 		return heightInt;
 	}
 
 	public int getObstacleWidth() {
-		int widthInt = Integer.parseInt(obstacleWidth.getText());
+		int widthInt;
+		if (obstacleWidth.getText().equals("")) {
+			widthInt = 0;
+		} else {
+			widthInt = Integer.parseInt(obstacleWidth.getText());
+		}
 		return widthInt;
 	}
 
 	public int getObstacleLength() {
-		int lengthInt = Integer.parseInt(obstacleLength.getText());
+		int lengthInt;
+		if (obstacleLength.getText().equals("")) {
+			lengthInt = 0;
+		} else {
+			lengthInt = Integer.parseInt(obstacleLength.getText());
+		}
 		return lengthInt;
 	}
 
