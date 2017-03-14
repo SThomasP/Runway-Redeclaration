@@ -1,9 +1,6 @@
 package view;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 
 public class TopViewGUI extends ViewGUI {
@@ -25,33 +22,6 @@ public class TopViewGUI extends ViewGUI {
         todaString = "TODA";
         asdaString = "ASDA";
         ldaString = "LDA";
-        addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("("+e.getX()+","+e.getY()+")");
-                System.out.println("("+getWidth()+","+getHeight()+")");
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
     }
 
 
@@ -69,11 +39,36 @@ public class TopViewGUI extends ViewGUI {
         super.redrawDistances(toda, tora, lda, asda);
         int height = getHeight();
         int width = getWidth();
+        toda = rescaleHorizontal(toda);
+        tora = rescaleHorizontal(tora);
+        asda = rescaleHorizontal(asda);
+        lda = rescaleHorizontal(lda);
         int[] x = {0, (int) (width * 0.17), (int) (width * 0.25), (int) (width * 0.75), (int) (width * 0.83), width};
-        toraLine = new Line2D.Float((float) x[4], (float) (height/1.75), (float) x[1], (float) (height/1.75));
-        todaLine = new Line2D.Float((float) x[4], (float) (height/1.7), (float) x[1], (float) (height/1.7));
-        asdaLine = new Line2D.Float((float) x[4], (float) (height/1.65), (float) x[1], (float) (height/1.65));
-        ldaLine = new Line2D.Float((float) x[4], (float) (height/1.6), (float) x[1], (float) (height/1.6));
+        if (obstacleOnRunway){
+            if(obstacleRec.getCenterX() > width/2) {
+                toraLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 1.75), (float) x[1], (float) (height / 1.75));
+                todaLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 2.4), (float) x[1] , (float) (height / 2.4));
+                asdaLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 1.65), (float) x[1], (float) (height / 1.65));
+                ldaLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 2.7), (float) x[1] + thresholdDistance, (float) (height / 2.7));
+            }
+            else {
+                toraLine = new Line2D.Float((float) x[4], (float) (height / 1.75), (float) obstacleRec.getMaxX(), (float) (height / 1.75));
+                todaLine = new Line2D.Float((float) x[4], (float) (height / 2.4), (float) obstacleRec.getMaxX(), (float) (height / 2.4));
+                asdaLine = new Line2D.Float((float) (width*0.95), (float) (height / 1.65), (float) obstacleRec.getMaxX(), (float) (height / 1.65));
+                if (obstacleRec.getMaxX() > x[1] +thresholdDistance) {
+                    ldaLine = new Line2D.Float((float) x[4], (float) (height / 2.7), (float) obstacleRec.getMaxX(), (float) (height / 2.7));
+                }
+                else {
+                    ldaLine = new Line2D.Float((float) x[4], (float) (height / 2.7), (float) x[1]+thresholdDistance, (float) (height / 2.7));
+                }
+            }
+        }
+        else {
+            toraLine = new Line2D.Float((float) x[4], (float) (height / 1.75), (float) x[1], (float) (height / 1.75));
+            todaLine = new Line2D.Float((float) width, (float) (height / 2.4), (float) x[1], (float) (height / 2.4));
+            asdaLine = new Line2D.Float((float) (width*0.95), (float) (height / 1.65), (float) x[1], (float) (height / 1.65));
+            ldaLine = new Line2D.Float((float) x[4], (float) (height / 2.7), (float) x[1] + thresholdDistance, (float) (height / 2.7));
+        }
     }
 
     public boolean checkLanding() {
@@ -101,9 +96,9 @@ public class TopViewGUI extends ViewGUI {
         runwayRec = new Rectangle((int) (0.05 * width), (int) (0.45 * height), (int) (0.9 * width), (int) (0.10 * height));
         centreLine = new Line2D.Float((float) x[2], (float) (height / 2), (float) x[3], (float) (height / 2));
         toraLine = new Line2D.Float((float) x[4], (float) (height/1.75), (float) x[1], (float) (height/1.75));
-        todaLine = new Line2D.Float((float) width, (float) (height/1.7), (float) x[1], (float) (height/1.7));
+        todaLine = new Line2D.Float((float) width, (float) (height/2.4), (float) x[1], (float) (height/2.4));
         asdaLine = new Line2D.Float((float) 0.95*width, (float) (height/1.65), (float) x[1], (float) (height/1.65));
-        ldaLine = new Line2D.Float((float) x[4], (float) (height/1.6), (float) x[1], (float) (height/1.6));
+        ldaLine = new Line2D.Float((float) x[4], (float) (height/2.7), (float) x[1], (float) (height/2.7));
         sideLines = new Line2D[20];
         double halfway = height / 2;
         for (int i = 0; i < 10; i++) {
@@ -123,11 +118,11 @@ public class TopViewGUI extends ViewGUI {
     @Override
     public void addObstacle(int width, int length, int height, int dFromT, int dFromCL) {
         obstacleOnRunway = true;
-        dFromT = (int) (getWidth()*0.05) + thresholdDistance + rescaleHorizontal(dFromT);
+        dFromT = (int) (getWidth()*0.17) + thresholdDistance + rescaleHorizontal(dFromT);
         width = rescaleVertical(width);
         length = rescaleHorizontal(length);
         dFromCL = getHeight()/2 + rescaleVertical(dFromCL);
-        obstacleRec = new Rectangle(dFromT,dFromCL,width, length);
+        obstacleRec = new Rectangle(dFromT,dFromCL,length, width);
         repaint();
     }
 
@@ -151,10 +146,10 @@ public class TopViewGUI extends ViewGUI {
         outlineShape(Color.black, g, runwayRec, outline);
         outlineShape(Color.white, g, centreLine, dashed);
         outlineShape(Color.blue, g, toraLine, outline);
-        outlineShape(Color.orange, g, todaLine, outline);
-        outlineShape(Color.blue, g, asdaLine, outline);
+        outlineShape(Color.blue, g, todaLine, outline);
+        outlineShape(Color.orange, g, asdaLine, outline);
         outlineShape(Color.orange, g, ldaLine, outline);
-        g.drawString(toraString, 500, 360);
+        g.drawString(toraString, 500,365);
         g.drawString(todaString, 500, 373);
         g.drawString(asdaString, 500, 385);
         g.drawString(ldaString, 500, 397);

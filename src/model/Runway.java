@@ -1,5 +1,7 @@
 package model;
 
+import java.text.DecimalFormat;
+
 public class Runway {
 
 	static final int RESA = 240;
@@ -161,7 +163,8 @@ public class Runway {
 
 	@Override
 	public String toString() {
-		return String.valueOf(orientation) + location;
+		DecimalFormat format  = new DecimalFormat("00");
+		return format.format(orientation)+location;
 	}
 
 	public int getTodaOriginal() {

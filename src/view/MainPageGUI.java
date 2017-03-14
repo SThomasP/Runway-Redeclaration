@@ -23,6 +23,10 @@ import model.Obstacle;
 
 public class MainPageGUI extends JFrame {
 
+	public void addObstacleToViews() {
+		topView.addObstacle(getCurrentObstacleWidth(),getCurrentObstacleLength(),getCurrentObstacleHeight(), getDistanceFromT(), getDistanceFromCL());
+	}
+
 	private class DistanceTableModel extends AbstractTableModel {
 
 		private String[][] tableData;
@@ -118,6 +122,7 @@ public class MainPageGUI extends JFrame {
 		distances.setValueAt(String.valueOf(toda), 1, 1);
 		distances.setValueAt(String.valueOf(asda), 2, 1);
 		distances.setValueAt(String.valueOf(lda), 3, 1);
+		topView.redrawDistances(toda,tora,lda,asda);
 	}
 
 	public JComboBox<Runway> getRunways() {
@@ -359,11 +364,11 @@ public class MainPageGUI extends JFrame {
 		menuBar.add(runwayViewType);
 		menuBar.add(runwayUses);
 
-		TopViewGUI tvg = new TopViewGUI();
+		topView = new TopViewGUI();
 		viewRunway.add(menuBar, BorderLayout.NORTH);
-		viewRunway.add(tvg, BorderLayout.CENTER);
+		viewRunway.add(topView, BorderLayout.CENTER);
 		mainFrame.add(viewRunway);
-		tvg.init();
+		topView.init();
 		mainFrame.add(selectOption);
 
 		content.add(mainFrame);
@@ -371,9 +376,8 @@ public class MainPageGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
-		tvg.redrawView();
-		tvg.changeRunway("09L", "27R", 3902, 50, 306);
-		tvg.addObstacle(25, 75, 7, 10, 10);
+		topView.redrawView();
+		topView.changeRunway("09L", "27R", 3902, 50, 306);
 
 	}
 
@@ -425,6 +429,56 @@ public class MainPageGUI extends JFrame {
 
 	public String getObstacleName() {
 		return obstacleName.getText();
+	}
+
+	public int getDistanceFromCL() {
+		int heightInt;
+		if (oDistanceFromCL.getText().equals("")) {
+			heightInt = 0;
+		} else {
+			heightInt = Integer.parseInt(oDistanceFromCL.getText());
+		}
+		return heightInt;
+	}
+
+	public int getDistanceFromT() {
+		int heightInt;
+		if (oDistanceFromT.getText().equals("")) {
+			heightInt = 0;
+		} else {
+			heightInt = Integer.parseInt(oDistanceFromT.getText());
+		}
+		return heightInt;
+	}
+
+	public int getCurrentObstacleHeight() {
+		int heightInt;
+		if (oHeight.getText().equals("")) {
+			heightInt = 0;
+		} else {
+			heightInt = Integer.parseInt(oHeight.getText());
+		}
+		return heightInt;
+	}
+
+	public int getCurrentObstacleWidth() {
+		int widthInt;
+		if (oWidth.getText().equals("")) {
+			widthInt = 0;
+		} else {
+			widthInt = Integer.parseInt(oWidth.getText());
+		}
+		return widthInt;
+	}
+
+	public int getCurrentObstacleLength() {
+		int lengthInt;
+		if (oLength.getText().equals("")) {
+			lengthInt = 0;
+		} else {
+			lengthInt = Integer.parseInt(oLength.getText());
+		}
+		return lengthInt;
 	}
 
 	public int getObstacleHeight() {

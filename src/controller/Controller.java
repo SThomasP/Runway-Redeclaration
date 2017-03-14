@@ -166,6 +166,7 @@ public class Controller {
 		submitButtonPress = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				gui.addObstacleToViews();
 				Runway inputRunway = airport.getCurrentRunway();
 				inputRunway.addObstacle(gui.getNewObstacle());
 				gui.setAdjustedFigures(inputRunway.getToda(), inputRunway.getTora(), inputRunway.getLda(),
