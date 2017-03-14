@@ -43,7 +43,7 @@ public class Controller {
 	public ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
 
 
-	
+
 	public ActionListener getImportAirport() {
 		return importAirport;
 	}
@@ -90,18 +90,13 @@ public class Controller {
 	}
 
 	public void outputFromList() throws ClassNotFoundException {
-		FileInputStream fis;
-		// if (checkFileExists())
 		try {
-			//fis = new FileInputStream("obstacleList.txt");
-			//ObjectInputStream ois = new ObjectInputStream(fis);
 			listOfObstacles = readnwrite.read();
 			System.out.println(listOfObstacles.size());
 			for (Obstacle e : listOfObstacles) {
 				System.out.println(e.getName());
 
 			}
-			//ois.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -115,6 +110,7 @@ public class Controller {
 			e.printStackTrace();
 		}
 		gui.getObstacleBox().removeAllItems();
+		gui.getViewObstaclesList().removeAllItems();
 		for (Obstacle o : listOfObstacles) {
 			gui.getObstacleBox().addItem(o.getName());
 			gui.getViewObstaclesList().addItem(o.getName());
@@ -122,20 +118,15 @@ public class Controller {
 	}
 
 	public void writeObstacleList() {
-		File obstacleFile = new File("obstacleList.txt");
 		try {
 			String name = gui.getObstacleName();
 			int height = gui.getObstacleHeight();
 			int width = gui.getObstacleWidth();
 			int length = gui.getObstacleLength();
-			//FileOutputStream fos = new FileOutputStream(obstacleFile);
-			//ObjectOutputStream oos = new ObjectOutputStream(fos);
 			Obstacle o = new Obstacle(name, height, width, length);
 			listOfObstacles.add(o);
 			System.out.println(listOfObstacles);
 			readnwrite.write(listOfObstacles);
-			//oos.writeObject(listOfObstacles);
-			//oos.close();
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -148,16 +139,16 @@ public class Controller {
 		exportAirport = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				airportXML.write(airport);
 			}
 
 		};
-		
+
 		importAirport = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				airport = airportXML.read();
 				//needs to remove choose current runway or it will output a null pointer exception
 				//this is because a time the list will be empty
@@ -169,9 +160,6 @@ public class Controller {
 			}
 
 		};
-		
-
-
 
 
 		// create an action listener for when the submit button is pressed.
@@ -216,11 +204,15 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				for(Obstacle o : listOfObstacles) {
-					if (gui.getObstacleBox().getSelectedItem().toString().equals(o.getName())) {
-						gui.getHeightBox().setText(Integer.toString(o.getObstacleHeight()));
-						gui.getWidthBox().setText(Integer.toString(o.getObstacleWidth()));
-						gui.getLengthBox().setText(Integer.toString(o.getObstacleLength()));
+				//STOPS IT FROM TRYING TO LOOK AT A EMPTY LIST
+				if(gui.getObstacleNames().getItemCount() != 0)
+				{
+					for(Obstacle o : listOfObstacles) {
+						if (gui.getObstacleBox().getSelectedItem().toString().equals(o.getName())) {
+							gui.getHeightBox().setText(Integer.toString(o.getObstacleHeight()));
+							gui.getWidthBox().setText(Integer.toString(o.getObstacleWidth()));
+							gui.getLengthBox().setText(Integer.toString(o.getObstacleLength()));
+						}
 					}
 				}
 			}
@@ -248,10 +240,14 @@ public class Controller {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				gui.getDisplayObstacle().setText("");
-				for(Obstacle o : listOfObstacles) {
-					if(gui.getViewObstaclesList().getSelectedItem().toString().equals(o.getName())) {
-						gui.getDisplayObstacle().append("Name   " + o.getName() + "\t" + "Height:   "+ o.getObstacleHeight() + "\t"+ "Width:   " + o.getObstacleWidth() + "\t"+ "Length:   " + o.getObstacleLength() + "\n");
+				//stops null pointer execption
+				if(gui.getViewObstaclesList().getItemCount() != 0)
+				{
+					gui.getDisplayObstacle().setText("");
+					for(Obstacle o : listOfObstacles) {
+						if(gui.getViewObstaclesList().getSelectedItem().toString().equals(o.getName())) {
+							gui.getDisplayObstacle().append("Name   " + o.getName() + "\t" + "Height:   "+ o.getObstacleHeight() + "\t"+ "Width:   " + o.getObstacleWidth() + "\t"+ "Length:   " + o.getObstacleLength() + "\n");
+						}
 					}
 				}
 			}

@@ -160,6 +160,7 @@ public class MainPageGUI extends JFrame {
 
 		obstacleInfo.add(new JLabel("Obstacle Name"));
 		obstacleNames = new JComboBox<String>();
+		obstacleNames.addActionListener(c.getRefreshMainButtonPress());
 
 		obstacleInfo.add(obstacleNames);
 
@@ -186,8 +187,7 @@ public class MainPageGUI extends JFrame {
 		submitButton = new JButton("Submit");
 		submitButton.addActionListener(c.getSubmitButtonPress());
 
-		refreshMain = new JButton("Refresh");
-		refreshMain.addActionListener(c.getRefreshMainButtonPress());
+		JLabel refreshMain = new JLabel("");
 		obstacleInfo.add(refreshMain);
 		obstacleInfo.add(submitButton);
 
@@ -370,6 +370,10 @@ public class MainPageGUI extends JFrame {
 		tvg.changeRunway("09L", "27R", 3902, 50, 306);
 		tvg.addObstacle(25, 75, 7, 10, 10);
 
+	}
+
+	public JComboBox<String> getObstacleNames() {
+		return obstacleNames;
 	}
 
 	public Obstacle getNewObstacle() {
