@@ -16,6 +16,10 @@ public class Runway {
 
 	private final int orientation;
 	private final char location;
+
+	private final int inverseOrientation;
+	private final char inverseLocation;
+
 	private final int todaOriginal;
 	private final int toraOriginal;
 	private final int asdaOriginal;
@@ -24,13 +28,22 @@ public class Runway {
 	private int toraCurrent;
 	private int asdaCurrent;
 	private int ldaCurrent;
+	private final int width;
 	private Obstacle obstacle;
 	private final int displacedThreshold;
 
 
-	public Runway(int orientation, char location, int toda, int tora, int asda, int lda, int displacedThreshold) {
+	public Runway(int orientation, char location, int toda, int tora, int asda, int lda, int displacedThreshold, int width) {
+		this.width = width;
 		this.orientation = orientation;
+		inverseOrientation = 36 - orientation;
 		this.location = location;
+		if (location == 'L'){
+			inverseLocation = 'R';
+		}
+		else{
+			inverseLocation = 'L';
+		}
 		this.todaCurrent = toda;
 		this.toraCurrent = tora;
 		this.asdaCurrent = asda;
@@ -49,7 +62,7 @@ public class Runway {
 
 	
 	public void recalculate(Aircraft aircraft) {
-		boolean closeToThreshold = ldaOriginal / 2 > obstacle.distanceFromThreshold;
+		boolean closeToThreshold = ldaOriginal / 2 > obstacle.getDistanceFromThreshold();
 		toraworking = "";
 		recalculateTora(aircraft, closeToThreshold);
 		todaworking = "";
@@ -74,20 +87,20 @@ public class Runway {
 			} else {
 				subtraction = aircraft.getBlastDistance();
 			}
-			toraworking += "Tora = " + toraOriginal + "(Old Tora) - " + obstacle.distanceFromThreshold  + "(Distance From Threshold) - "  + subtraction + "(Subtraction) - "  + displacedThreshold + "(Displaced Threshold)" + System.lineSeparator();
-			int newToraAway = toraOriginal - obstacle.distanceFromThreshold - subtraction - displacedThreshold;
+			toraworking += "Tora = " + toraOriginal + "(Old Tora) - " + obstacle.getDistanceFromThreshold()  + "(Distance From Threshold) - "  + subtraction + "(Subtraction) - "  + displacedThreshold + "(Displaced Threshold)" + System.lineSeparator();
+			int newToraAway = toraOriginal - obstacle.getDistanceFromThreshold() - subtraction - displacedThreshold;
 			toraworking += "= " + newToraAway + System.lineSeparator();
 
 			toraCurrent = newToraAway;
 		} else {
 			int subtraction = RESA; //RESA
-			int height = obstacle.height * slopeFactor;
-			toraworking += "Subtraction: Max (" + RESA + "(RESA)" + "," + obstacle.height + "(model.Obstacle Height) + " + slopeFactor + "(Slope Factor))" + System.lineSeparator();
+			int height = obstacle.getObstacleHeight() * slopeFactor;
+			toraworking += "Subtraction: Max (" + RESA + "(RESA)" + "," + obstacle.getObstacleHeight() + "(model.Obstacle Height) + " + slopeFactor + "(Slope Factor))" + System.lineSeparator();
 			if (height > RESA) {
 				subtraction = height;
 			}
-			toraworking += "Toda = " + obstacle.distanceFromThreshold + "(Distance From Threshold) - " + stripEnd + "(Strip End) - "  + subtraction + "(Subtraction) + "  + displacedThreshold + "(Displaced Threshold)" + System.lineSeparator();
-			int newToraTowards = obstacle.distanceFromThreshold - stripEnd - subtraction + displacedThreshold;
+			toraworking += "Toda = " + obstacle.getDistanceFromThreshold() + "(Distance From Threshold) - " + stripEnd + "(Strip End) - "  + subtraction + "(Subtraction) + "  + displacedThreshold + "(Displaced Threshold)" + System.lineSeparator();
+			int newToraTowards = obstacle.getDistanceFromThreshold() - stripEnd - subtraction + displacedThreshold;
 			toraworking += "= " + newToraTowards + System.lineSeparator();
 			toraCurrent = newToraTowards;
 		}
@@ -102,8 +115,8 @@ public class Runway {
 			} else {
 				subtraction = aircraft.getBlastDistance();
 			}
-			todaworking += "Toda = " + todaOriginal + "(Old Toda) - " + obstacle.distanceFromThreshold + "(Distance From Threshold) - "  + subtraction + "(Subtraction) - "  + displacedThreshold + "(Displaced Threshold)" + System.lineSeparator();
-			int newTodaAway = todaOriginal - obstacle.distanceFromThreshold - subtraction - displacedThreshold;
+			todaworking += "Toda = " + todaOriginal + "(Old Toda) - " + obstacle.getDistanceFromThreshold() + "(Distance From Threshold) - "  + subtraction + "(Subtraction) - "  + displacedThreshold + "(Displaced Threshold)" + System.lineSeparator();
+			int newTodaAway = todaOriginal - obstacle.getDistanceFromThreshold() - subtraction - displacedThreshold;
 			todaworking += "= " + newTodaAway + System.lineSeparator();
 			todaCurrent = newTodaAway;
 		} else {
@@ -116,8 +129,8 @@ public class Runway {
 
 	private void recalculateLda(Aircraft aircraft, boolean closeToThreshold) {
 		if (closeToThreshold) {
-						ldaworking += "New Resa: Max (" + RESA + "(RESA)" + "," + obstacle.height + "(model.Obstacle Height) + " + slopeFactor + "(Slope Factor))" + System.lineSeparator();
-			int h = obstacle.height; //height of the obstacle
+						ldaworking += "New Resa: Max (" + RESA + "(RESA)" + "," + obstacle.getObstacleHeight() + "(model.Obstacle Height) + " + slopeFactor + "(Slope Factor))" + System.lineSeparator();
+			int h = obstacle.getObstacleHeight(); //height of the obstacle
 			int newRESA = Math.max(h * slopeFactor, RESA);
 						ldaworking += "Subtraction: Max (" + newRESA + "(newRESA) + " + stripEnd + "(Strip End)"+ "," + aircraft.getBlastDistance() + "(Blast Distance))" + System.lineSeparator();
 			int subtraction = stripEnd + newRESA; //strip end value and slope
@@ -126,14 +139,14 @@ public class Runway {
 				subtraction = blast;
 
 			}
-					ldaworking += "Tora = " + ldaOriginal + "(Old Lda) - " + obstacle.distanceFromThreshold + "(Distance From Threshold) - "  + subtraction + "(Subtraction) - " + System.lineSeparator();
-			int newLdaOver = ldaOriginal - obstacle.distanceFromThreshold - subtraction;
+					ldaworking += "Tora = " + ldaOriginal + "(Old Lda) - " + obstacle.getDistanceFromThreshold() + "(Distance From Threshold) - "  + subtraction + "(Subtraction) - " + System.lineSeparator();
+			int newLdaOver = ldaOriginal - obstacle.getDistanceFromThreshold() - subtraction;
 			//new LDA = original LDA - obstacle distance from the threshold - calculated 'obstruction'
 						ldaworking += "= " + newLdaOver + System.lineSeparator();
 			ldaCurrent = newLdaOver;
 		} else {
-						ldaworking += "LDA = " + obstacle.distanceFromThreshold + "(Distance From Threshold) - " + obstacle.distanceFromThreshold + "(Distance From Threshold) - "  + RESA + "(RESA) - "  + stripEnd + "(Strip End)" + System.lineSeparator();
-			int newLdaTowards = obstacle.distanceFromThreshold - RESA - stripEnd;
+						ldaworking += "LDA = " + obstacle.getDistanceFromThreshold() + "(Distance From Threshold) - " + obstacle.getDistanceFromThreshold() + "(Distance From Threshold) - "  + RESA + "(RESA) - "  + stripEnd + "(Strip End)" + System.lineSeparator();
+			int newLdaTowards = obstacle.getDistanceFromThreshold() - RESA - stripEnd;
 			//new LDA = distance from threshold - RESA - stripend
 						ldaworking += "= " + newLdaTowards + System.lineSeparator();
 			ldaCurrent = newLdaTowards;
@@ -149,8 +162,8 @@ public class Runway {
 			} else {
 				subtraction = aircraft.getBlastDistance();
 			}
-						asdaworking += "Tora = " + asdaOriginal + "(Old Asda) - " + obstacle.distanceFromThreshold + "(Distance From Threshold) - "  + subtraction + "(Subtraction) - "  + displacedThreshold + "(Displaced Threshold)" + System.lineSeparator();
-			int newAsdaAway = asdaOriginal - obstacle.distanceFromThreshold - subtraction - displacedThreshold;
+						asdaworking += "Tora = " + asdaOriginal + "(Old Asda) - " + obstacle.getDistanceFromThreshold() + "(Distance From Threshold) - "  + subtraction + "(Subtraction) - "  + displacedThreshold + "(Displaced Threshold)" + System.lineSeparator();
+			int newAsdaAway = asdaOriginal - obstacle.getDistanceFromThreshold() - subtraction - displacedThreshold;
 						asdaworking += "= " + newAsdaAway + System.lineSeparator();
 			asdaCurrent = newAsdaAway;
 		} else {
@@ -215,5 +228,16 @@ public class Runway {
 	}
 
 
+	public boolean isObstaclePresent() {
+		return obstacle != null;
+	}
 
+	public String inverse() {
+		DecimalFormat format  = new DecimalFormat("00");
+		return format.format(inverseOrientation)+inverseLocation;
+	}
+
+	public int getWidth() {
+		return width;
+	}
 }

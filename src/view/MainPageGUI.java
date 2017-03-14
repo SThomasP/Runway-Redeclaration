@@ -27,6 +27,18 @@ public class MainPageGUI extends JFrame {
 		topView.addObstacle(getCurrentObstacleWidth(),getCurrentObstacleLength(),getCurrentObstacleHeight(), getDistanceFromT(), getDistanceFromCL());
 	}
 
+	public void updateGraphicRunway() {
+		Runway r = getSelectedRunway();
+		topView.changeRunway(r.toString(), r.inverse(), r.getToraOriginal(), r.getWidth(), r.getDisplacedThreshold());
+		topView.redrawDistances(r.getTodaOriginal(),r.getToraOriginal(),r.getLdaOriginal(),r.getAsdaOriginal());
+		topView.removeObstacle();
+		if (r.isObstaclePresent()){
+			Obstacle o = r.getObstacle();
+			topView.addObstacle(o.getObstacleWidth(),o.getObstacleLength(),o.getObstacleHeight(),o.getDistanceFromThreshold(),o.getDistanceFromCentreLine());
+		}
+		topView.repaint();
+	}
+
 	private class DistanceTableModel extends AbstractTableModel {
 
 		private String[][] tableData;
@@ -376,8 +388,9 @@ public class MainPageGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
+		topView.changeRunway("D","DD",0,0,0);
 		topView.redrawView();
-		topView.changeRunway("09L", "27R", 3902, 50, 306);
+
 
 	}
 

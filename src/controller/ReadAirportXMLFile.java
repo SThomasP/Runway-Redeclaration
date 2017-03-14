@@ -60,7 +60,7 @@ public class ReadAirportXMLFile {
 					displacedThreshold = Integer.parseInt(eElement.getElementsByTagName("displacedThreshold").item(0).getTextContent());
 
 
-					newRun = new Runway(orientation,location,tora,toda,asda,lda,displacedThreshold);
+					newRun = new Runway(orientation,location,tora,toda,asda,lda,displacedThreshold,50);
 					listOfRunways.add(newRun);
 
 				}
