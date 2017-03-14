@@ -30,8 +30,8 @@ public class MainPageGUI extends JFrame {
 
 		public DistanceTableModel() {
 			tableData = new String[][] { { "TORA", "", "" }, { "TODA", "", "" }, { "ASDA", "", "" },
-					{ "LDA", "", "" } };
-			columnNames = new String[] { "Distance", "Current", "Original" };
+				{ "LDA", "", "" } };
+				columnNames = new String[] { "Distance", "Current", "Original" };
 		}
 
 		@Override
@@ -113,6 +113,10 @@ public class MainPageGUI extends JFrame {
 		distances.setValueAt(String.valueOf(toda), 1, 1);
 		distances.setValueAt(String.valueOf(asda), 2, 1);
 		distances.setValueAt(String.valueOf(lda), 3, 1);
+	}
+
+	public JComboBox<Runway> getRunways() {
+		return runways;
 	}
 
 	public MainPageGUI() {
@@ -334,7 +338,9 @@ public class MainPageGUI extends JFrame {
 		runways = new JComboBox<>();
 		runways.addActionListener(c.getChooseCurrentRunway());
 		importButton = new JButton("Import");
+		importButton.addActionListener(c.getImportAirport());
 		exportButton = new JButton("Export");
+		exportButton.addActionListener(c.getExportAirport());
 		String[] runwayView = { "Top Down view", "Side view" };
 		runwayViewType = new JComboBox<String>(runwayView);
 		String[] aircraftDirection = { "Take Off", "Landing" };
@@ -399,11 +405,11 @@ public class MainPageGUI extends JFrame {
 	public JTextField getDistanceCLBox() {
 		return oDistanceFromCL;
 	}
-	
+
 	public JTextField getDistanceFromTBox() {
 		return oDistanceFromT;
 	}
-	
+
 	public String getObstacleType() {
 		return obstacleType.getSelectedItem().toString();
 	}

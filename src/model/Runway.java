@@ -45,6 +45,7 @@ public class Runway {
 		recalculate();
 	}
 
+	
 	public void recalculate(Aircraft aircraft) {
 		boolean closeToThreshold = ldaOriginal / 2 > obstacle.distanceFromThreshold;
 		toraworking = "";
@@ -202,6 +203,14 @@ public class Runway {
 	public int getDisplacedThreshold() {
 		return displacedThreshold;
 	}
+	public int getOrientation() {
+		return orientation;
+	}
+
+	public Obstacle getObstacle() {
+		return obstacle;
+	}
+
 
 
 }

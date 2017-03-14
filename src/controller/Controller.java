@@ -28,8 +28,12 @@ import java.util.ArrayList;
 public class Controller {
 
 	private ReadObstacleXMLFile readnwrite = new ReadObstacleXMLFile() ;
+	private ReadAirportXMLFile airportXML = new ReadAirportXMLFile() ;
+
 	private Airport airport;
 	private MainPageGUI gui;
+	private ActionListener importAirport;
+	private ActionListener exportAirport;
 	private ActionListener submitButtonPress;
 	private ActionListener refreshButtonPress;
 	private ActionListener addObstacleButtonPress;
@@ -37,6 +41,16 @@ public class Controller {
 	private ActionListener refreshMainButtonPress;
 	private File obstacleList;
 	public ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
+
+
+	
+	public ActionListener getImportAirport() {
+		return importAirport;
+	}
+
+	public ActionListener getExportAirport() {
+		return exportAirport;
+	}
 
 	public ActionListener getRefreshMainButtonPress() {
 		return refreshMainButtonPress;
@@ -101,7 +115,6 @@ public class Controller {
 			e.printStackTrace();
 		}
 		gui.getObstacleBox().removeAllItems();
-		
 		for (Obstacle o : listOfObstacles) {
 			gui.getObstacleBox().addItem(o.getName());
 			gui.getViewObstaclesList().addItem(o.getName());
@@ -131,6 +144,36 @@ public class Controller {
 	}
 
 	public Controller() {
+		// create an action listener for when the export button is pressed.
+		exportAirport = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				airportXML.write(airport);
+			}
+
+		};
+		
+		importAirport = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				airport = airportXML.read();
+				//needs to remove choose current runway or it will output a null pointer exception
+				//this is because a time the list will be empty
+				gui.getRunways().removeActionListener(chooseCurrentRunway);
+				gui.updateRunwayList(airport.getListOfRunways());
+				gui.getRunways().addActionListener(chooseCurrentRunway);
+
+
+			}
+
+		};
+		
+
+
+
+
 		// create an action listener for when the submit button is pressed.
 		submitButtonPress = new ActionListener() {
 			@Override
@@ -172,7 +215,7 @@ public class Controller {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				for(Obstacle o : listOfObstacles) {
 					if (gui.getObstacleBox().getSelectedItem().toString().equals(o.getName())) {
 						gui.getHeightBox().setText(Integer.toString(o.getObstacleHeight()));
@@ -212,9 +255,9 @@ public class Controller {
 					}
 				}
 			}
-			
+
 		});
-		
+
 		// create the model with a single runway
 		ArrayList<Runway> listOfRunways = new ArrayList<Runway>();
 		listOfRunways.add(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306));
