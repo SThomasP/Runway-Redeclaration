@@ -146,13 +146,4 @@ public class GUITest {
 		assertEquals(gui.getDistanceTable().getValueAt(2, 2), Integer.toString(3902));
 		assertEquals(gui.getDistanceTable().getValueAt(3, 2), Integer.toString(3595));
 	}
-	
-	@org.junit.Test 
-	public void checkObstacleNameInCalc() {
-		MainPageGUI gui = new MainPageGUI();
-		Controller c = new Controller();
-		gui.init(c);
-		//gui.getObstacleNames()
-		assertEquals(gui.getObstacleNames().getSelectedItem().toString(), "Jet engine");
-	}
 }
