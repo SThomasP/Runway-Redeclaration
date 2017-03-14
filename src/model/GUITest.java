@@ -137,7 +137,7 @@ public class GUITest {
 		Controller c = new Controller();
 		gui.init(c);
 		ArrayList<Runway> listOfRunways = new ArrayList<Runway>();
-		listOfRunways.add(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306));
+		listOfRunways.add(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306,50));
 		Airport airport = new Airport(listOfRunways);
 		Runway currentRunway = airport.getCurrentRunway();
 		gui.setOriginalFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),

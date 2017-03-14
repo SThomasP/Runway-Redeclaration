@@ -39,10 +39,6 @@ public class TopViewGUI extends ViewGUI {
         super.redrawDistances(toda, tora, lda, asda);
         int height = getHeight();
         int width = getWidth();
-        toda = rescaleHorizontal(toda);
-        tora = rescaleHorizontal(tora);
-        asda = rescaleHorizontal(asda);
-        lda = rescaleHorizontal(lda);
         int[] x = {0, (int) (width * 0.17), (int) (width * 0.25), (int) (width * 0.75), (int) (width * 0.83), width};
         if (obstacleOnRunway){
             if(obstacleRec.getCenterX() > width/2) {
@@ -53,7 +49,7 @@ public class TopViewGUI extends ViewGUI {
             }
             else {
                 toraLine = new Line2D.Float((float) x[4], (float) (height / 1.75), (float) obstacleRec.getMaxX(), (float) (height / 1.75));
-                todaLine = new Line2D.Float((float) x[4], (float) (height / 2.4), (float) obstacleRec.getMaxX(), (float) (height / 2.4));
+                todaLine = new Line2D.Float((float) width, (float) (height / 2.4), (float) obstacleRec.getMaxX(), (float) (height / 2.4));
                 asdaLine = new Line2D.Float((float) (width*0.95), (float) (height / 1.65), (float) obstacleRec.getMaxX(), (float) (height / 1.65));
                 if (obstacleRec.getMaxX() > x[1] +thresholdDistance) {
                     ldaLine = new Line2D.Float((float) x[4], (float) (height / 2.7), (float) obstacleRec.getMaxX(), (float) (height / 2.7));
@@ -149,10 +145,10 @@ public class TopViewGUI extends ViewGUI {
         outlineShape(Color.blue, g, todaLine, outline);
         outlineShape(Color.orange, g, asdaLine, outline);
         outlineShape(Color.orange, g, ldaLine, outline);
-        g.drawString(toraString, 500,365);
-        g.drawString(todaString, 500, 373);
-        g.drawString(asdaString, 500, 385);
-        g.drawString(ldaString, 500, 397);
+        g.drawString(toraString, (int) toraLine.getX2(), (int) toraLine.getY1() + 15);
+        g.drawString(todaString, (int) todaLine.getX2(), (int) todaLine.getY1() + 15);
+        g.drawString(asdaString, (int) asdaLine.getX2(), (int) asdaLine.getY1() + 15);
+        g.drawString(ldaString, (int) ldaLine.getX2(), (int) ldaLine.getY1() + 15);
         for (Line2D line: sideLines){
             outlineShape(Color.white, g, line, outline);
         }

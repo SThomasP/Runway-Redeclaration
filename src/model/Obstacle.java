@@ -10,9 +10,9 @@ public final class Obstacle implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int width;
 	private int length;
- 	public int height;
-	public int distanceFromThreshold;
-	public int distanceFromCentreLine;
+ 	private int height;
+	private int distanceFromThreshold;
+	private int distanceFromCentreLine;
 	private String name;
 	private String type;
 	//ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
@@ -41,6 +41,15 @@ public final class Obstacle implements Serializable {
 	
 	public int getObstacleLength() {
 		return length;
+	}
+
+
+	public int getDistanceFromThreshold() {
+		return distanceFromThreshold;
+	}
+
+	public int getDistanceFromCentreLine() {
+		return distanceFromCentreLine;
 	}
 	
 	public String getName() {
