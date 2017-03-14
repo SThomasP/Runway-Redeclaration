@@ -2,7 +2,9 @@ package model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import javax.swing.JOptionPane;
+import java.awt.AWTException;
+import java.awt.Event;
+import java.awt.Robot;
 
 import controller.Controller;
 import view.MainPageGUI;
@@ -120,4 +122,20 @@ public class GUITest {
 		Controller c = new Controller();
 		assertTrue(gui.isResizable());
 	}
+	
+	@org.junit.Test 
+	public void checkRefreshMainButtonClick() {
+		MainPageGUI gui = new MainPageGUI();
+		Controller c = new Controller();
+		assertTrue(c.getRefreshMainButtonPress() != null);
+	}
+	
+	@org.junit.Test
+	public void checkDataInTable() {
+		MainPageGUI gui = new MainPageGUI();
+		Controller c = new Controller();
+		gui.init(c);
+		assertEquals(gui.getDistanceTable().getValueAt(0,2), 3900);
+		}
 }
+
