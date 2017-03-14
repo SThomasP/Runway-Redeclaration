@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.awt.AWTException;
 import java.awt.Event;
 import java.awt.Robot;
+import java.util.ArrayList;
 
 import controller.Controller;
 import view.MainPageGUI;
@@ -135,7 +136,16 @@ public class GUITest {
 		MainPageGUI gui = new MainPageGUI();
 		Controller c = new Controller();
 		gui.init(c);
-		assertEquals(gui.getDistanceTable().getValueAt(0,2), 3900);
+		ArrayList<Runway> listOfRunways = new ArrayList<Runway>();
+		listOfRunways.add(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306));
+		Airport airport = new Airport(listOfRunways);
+		Runway currentRunway = airport.getCurrentRunway();
+		gui.setOriginalFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),
+				currentRunway.getAsda());
+		assertEquals(gui.getDistanceTable().getValueAt(0,2), Integer.toString(3900));
+		assertEquals(gui.getDistanceTable().getValueAt(1,2), Integer.toString(3902));
+		assertEquals(gui.getDistanceTable().getValueAt(2,2), Integer.toString(3902));
+		assertEquals(gui.getDistanceTable().getValueAt(3,2), Integer.toString(3595));
 		}
 }
 

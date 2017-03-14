@@ -94,6 +94,11 @@ public class MainPageGUI extends JFrame {
 	public JTextArea getTodaCalc() {
 		return todaCalcBreakdown;
 	}
+	
+
+	public JTable getDistanceTable() {
+		return distances;
+	}
 
 	public static Font displayFont = new Font("Arial", Font.PLAIN, 18);
 
