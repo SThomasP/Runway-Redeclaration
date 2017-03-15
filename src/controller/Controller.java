@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -17,6 +18,8 @@ import model.Airport;
 import model.Obstacle;
 import model.Runway;
 import view.MainPageGUI;
+import view.SideViewGUI;
+import view.TopViewGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,8 +30,8 @@ import java.util.ArrayList;
  */
 public class Controller {
 
-	private ReadObstacleXMLFile readnwrite = new ReadObstacleXMLFile() ;
-	private ReadAirportXMLFile airportXML = new ReadAirportXMLFile() ;
+	private ReadObstacleXMLFile readnwrite = new ReadObstacleXMLFile();
+	private ReadAirportXMLFile airportXML = new ReadAirportXMLFile();
 
 	private Airport airport;
 	private MainPageGUI gui;
@@ -41,8 +44,8 @@ public class Controller {
 	private ActionListener refreshMainButtonPress;
 	private File obstacleList;
 	public ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
-
-
+	SideViewGUI sideGUI;
+	TopViewGUI topGUI;
 
 	public ActionListener getImportAirport() {
 		return importAirport;
@@ -150,17 +153,16 @@ public class Controller {
 			public void actionPerformed(ActionEvent e) {
 
 				airport = airportXML.read();
-				//needs to remove choose current runway or it will output a null pointer exception
-				//this is because a time the list will be empty
+				// needs to remove choose current runway or it will output a
+				// null pointer exception
+				// this is because a time the list will be empty
 				gui.getRunways().removeActionListener(chooseCurrentRunway);
 				gui.updateRunwayList(airport.getListOfRunways());
 				gui.getRunways().addActionListener(chooseCurrentRunway);
 
-
 			}
 
 		};
-
 
 		// create an action listener for when the submit button is pressed.
 		submitButtonPress = new ActionListener() {
@@ -205,10 +207,9 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				//STOPS IT FROM TRYING TO LOOK AT A EMPTY LIST
-				if(gui.getObstacleNames().getItemCount() != 0)
-				{
-					for(Obstacle o : listOfObstacles) {
+				// STOPS IT FROM TRYING TO LOOK AT A EMPTY LIST
+				if (gui.getObstacleNames().getItemCount() != 0) {
+					for (Obstacle o : listOfObstacles) {
 						if (gui.getObstacleBox().getSelectedItem().toString().equals(o.getName())) {
 							gui.getHeightBox().setText(Integer.toString(o.getObstacleHeight()));
 							gui.getWidthBox().setText(Integer.toString(o.getObstacleWidth()));
@@ -238,17 +239,55 @@ public class Controller {
 		gui.init(this);
 		putObstacle();
 
+		gui.getRunwayViews().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (gui.getRunwayViews().getSelectedItem().toString().equals("Side view")) {
+					sideGUI = new SideViewGUI();
+
+					gui.getPanel().remove(gui.getTopView());
+					gui.getPanel().repaint();
+					gui.getPanel().revalidate();
+					gui.getPanel().add(sideGUI, BorderLayout.CENTER);
+					sideGUI.init();
+					sideGUI.redrawView();
+					sideGUI.revalidate();
+					// gui.getPanel().repaint();
+					// gui.getPanel().revalidate();
+
+					// } else if
+					// (gui.getRunwayViews().getSelectedItem().toString().equals("Top
+					// Down view")) {
+					// gui.getPanel().remove(gui.getSideView());
+					// topGUI = new TopViewGUI();
+					// gui.getPanel().repaint();
+					// gui.getPanel().revalidate();
+					// gui.getPanel().add(topGUI, BorderLayout.CENTER);
+					// topGUI.init();
+					// topGUI.changeRunway("D", "DD", 0, 0, 0);
+					// topGUI.redrawView();
+					// topGUI.revalidate();
+					//
+				}
+
+			}
+
+		});
+
 		gui.getViewObstaclesList().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//stops null pointer execption
-				if(gui.getViewObstaclesList().getItemCount() != 0)
-				{
+				// stops null pointer execption
+				if (gui.getViewObstaclesList().getItemCount() != 0) {
 					gui.getDisplayObstacle().setText("");
-					for(Obstacle o : listOfObstacles) {
-						if(gui.getViewObstaclesList().getSelectedItem().toString().equals(o.getName())) {
-							gui.getDisplayObstacle().append("Name   " + o.getName() + "\t" + "Height:   "+ o.getObstacleHeight() + "\t"+ "Width:   " + o.getObstacleWidth() + "\t"+ "Length:   " + o.getObstacleLength() + "\n");
+					for (Obstacle o : listOfObstacles) {
+						if (gui.getViewObstaclesList().getSelectedItem().toString().equals(o.getName())) {
+							gui.getDisplayObstacle()
+									.append("Name   " + o.getName() + "\t" + "Height:   " + o.getObstacleHeight() + "\t"
+											+ "Width:   " + o.getObstacleWidth() + "\t" + "Length:   "
+											+ o.getObstacleLength() + "\n");
 						}
 					}
 				}
@@ -258,8 +297,8 @@ public class Controller {
 
 		// create the model with a single runway
 		ArrayList<Runway> listOfRunways = new ArrayList<Runway>();
-		listOfRunways.add(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306,50));
-		listOfRunways.add(new Runway(27, 'R', 3902, 3900, 3902, 3902, 0,50));
+		listOfRunways.add(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306, 50));
+		listOfRunways.add(new Runway(27, 'R', 3902, 3900, 3902, 3902, 0, 50));
 
 		airport = new Airport(listOfRunways);
 		gui.updateRunwayList(airport.getListOfRunways());

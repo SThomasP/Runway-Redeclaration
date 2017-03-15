@@ -80,6 +80,7 @@ public class MainPageGUI extends JFrame {
 
 	private JTable distances;
 	private JTable reciprocalDistances;
+	private JPanel viewRunway;
 	private TopViewGUI topView;
 	private SideViewGUI sideView;
 	private JButton submitButton;
@@ -107,13 +108,28 @@ public class MainPageGUI extends JFrame {
 	private JComboBox<String> obstacleNames;
 	private JComboBox<String> listToViewObstacles;
 
+	public TopViewGUI getTopView() {
+		return topView;
+	}
+	
+	public SideViewGUI getSideView() {
+		return sideView;
+	}
+	
 	public JTextArea getTodaCalc() {
 		return todaCalcBreakdown;
 	}
 	
-
+	public JPanel getPanel() {
+		return viewRunway;
+	}
+	
 	public JTable getDistanceTable() {
 		return distances;
+	}
+	
+	public JComboBox getRunwayViews() {
+		return runwayViewType;
 	}
 
 	public static Font displayFont = new Font("Arial", Font.PLAIN, 18);
@@ -354,7 +370,7 @@ public class MainPageGUI extends JFrame {
 		selectOption.add("Breakdown", breakdownCalc);
 
 		// *******************************************
-		JPanel viewRunway = new JPanel();
+		viewRunway = new JPanel();
 		viewRunway.setLayout(new BorderLayout());
 
 		runways = new JComboBox<>();
