@@ -36,6 +36,13 @@ public class TopViewGUI extends ViewGUI {
         return  (int) ((float) (original)/runwayLength*runwayRec.getWidth());
     }
 
+    public Rectangle getObstacleRec(){
+        return obstacleRec;
+    }
+
+    public Point[] getPoints(){
+
+    }
 
     @Override
     public void redrawDistances(int toda, int tora, int lda, int asda) {

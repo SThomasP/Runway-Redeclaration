@@ -45,8 +45,6 @@ public class Controller {
 	private ActionListener refreshMainButtonPress;
 	private File obstacleList;
 	public ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
-	SideViewGUI sideGUI;
-	TopViewGUI topGUI;
 
 	public ActionListener getImportAirport() {
 		return importAirport;
@@ -74,6 +72,10 @@ public class Controller {
 
 	public ActionListener getAddObstacleButtonPress() {
 		return addObstacleButtonPress;
+	}
+
+	public MainPageGUI getGui(){
+		return gui;
 	}
 
 	public ArrayList<Obstacle> getList() {

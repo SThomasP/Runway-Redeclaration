@@ -1,6 +1,8 @@
 package model;
 
 
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 
 
@@ -12,7 +14,7 @@ public class RunwayTest {
 
 	//normal running methods
 	
-    @org.junit.Test
+    @Test
     public void landingOver() throws Exception {
         Runway testRunway = new Runway(27, 'R',3962, 3884,3884,3884,0,50);
         Obstacle testObstacle = new Obstacle(25,10,500);
@@ -20,7 +22,7 @@ public class RunwayTest {
         assertEquals(testRunway.getLda(),2074);
     }
 
-    @org.junit.Test
+    @Test
     public void landingTowards() throws Exception {
         Runway testRunway = new Runway(9, 'L',3902, 3902,3902,3595,306,50);
         Obstacle testObstacle = new Obstacle(25,10,2600);
@@ -28,7 +30,7 @@ public class RunwayTest {
         assertEquals(testRunway.getLda(),2300);
     }
 
-    @org.junit.Test
+    @Test
     public void takeOffTowards() throws Exception {
         Runway testRunway = new Runway(9, 'L',3902, 3902,3902,3595,306,50);
         Obstacle testObstacle = new Obstacle(25,10,2500);
@@ -39,7 +41,7 @@ public class RunwayTest {
 
     }
 
-    @org.junit.Test
+    @Test
     public void takeOffAway() throws Exception {
         Runway testRunway = new Runway(27, 'R',3962, 3884,3884,3884,0,50);
         Obstacle testObstacle = new Obstacle(25,10,500);
@@ -52,7 +54,7 @@ public class RunwayTest {
     
     //boundry testing
     
-    @org.junit.Test
+    @Test
     public void resaBoundryTowards() throws Exception {
         Runway testRunway = new Runway(16, 'C',3900, 3902,3902,3595,306,50);
         for(int i = 1; i <= 4;i++)
@@ -65,7 +67,7 @@ public class RunwayTest {
         }
         
     }
-    @org.junit.Test
+    @Test
     public void heighSlopeFactorBoundryTowards() throws Exception {
         Runway testRunway = new Runway(16, 'C',3900, 3902,3902,3595,306,50);
         Obstacle testObstacle = new Obstacle(5,10,2000);
@@ -75,7 +77,7 @@ public class RunwayTest {
         assertEquals(testRunway.getAsda(),1996);
     }
     
-    @org.junit.Test
+    @Test
     public void BlastDistanceBoundryAway() throws Exception {
         Runway testRunway = new Runway(16, 'C',3900, 3902,3902,3595,306,50);
         for(int i = 1; i <= 4;i++)
@@ -87,7 +89,7 @@ public class RunwayTest {
         }
         
     }
-    @org.junit.Test
+    @Test
     public void heighSlopeFactorBoundryAway() throws Exception {
         Runway testRunway = new Runway(16, 'C',3900, 3902,3902,3595,306,50);
         Obstacle testObstacle = new Obstacle(5,10,50);
