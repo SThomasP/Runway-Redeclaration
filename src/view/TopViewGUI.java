@@ -26,10 +26,13 @@ public class TopViewGUI extends ViewGUI {
 
 
     private int rescaleVertical(int original){
+
+        System.out.println("Width:"+ (10.0/runwayRec.getHeight()*runwayWidth));
         return (int) ((float) (original)/runwayWidth*runwayRec.getHeight());
     }
 
     protected int rescaleHorizontal(int original){
+        System.out.println("Length:"+  (10.0/runwayRec.getWidth()*runwayLength));
         return  (int) ((float) (original)/runwayLength*runwayRec.getWidth());
     }
 

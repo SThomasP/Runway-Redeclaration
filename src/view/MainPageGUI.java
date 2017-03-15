@@ -59,6 +59,8 @@ public class MainPageGUI extends JFrame {
     public void addObstacleToViews() {
         topView.addObstacle(getCurrentObstacleWidth(), getCurrentObstacleLength(), getCurrentObstacleHeight(), getDistanceFromT(), getDistanceFromCL());
         sideView.addObstacle(getCurrentObstacleWidth(), getCurrentObstacleLength(), getCurrentObstacleHeight(), getDistanceFromT(), getDistanceFromCL());
+        topView.repaint();
+        sideView.repaint();
     }
 
     public void updateGraphicRunway() {
