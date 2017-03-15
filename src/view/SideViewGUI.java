@@ -25,13 +25,11 @@ public class SideViewGUI extends ViewGUI {
     public void redrawView() {
         int width = getWidth();
         int height = getHeight();
-        int x4 = (int) (width * 0.83);
-        int x1 = (int) (width * 0.17);
+        int x4 = (int) (width * 0.87);
+        int x1 = (int) (width * 0.12);
         runwayRec = new Rectangle((int) (0.05*width), (int) (0.8*height), (int) (0.9*width),(int) (0.05*height));
         takeOffTri.reset();
         takeOffTri.addPoint(x4,(int) (0.8*height));
-        System.out.println(rescaleVertical(50));
-        System.out.println(rescaleHorizontal(50*50));
         takeOffTri.addPoint(x4, (int) (0.8*height) - rescaleVertical(50));
         takeOffTri.addPoint(x4 - rescaleHorizontal(50*50), (int) (0.8 * height));
         repaint();
@@ -39,11 +37,13 @@ public class SideViewGUI extends ViewGUI {
 
     @Override
     protected int rescaleHorizontal(int original) {
-        return (int) ((float) (original)/runwayLength*runwayRec.getWidth());
+        double toReturn = (double) original / runwayLength * getWidth()*(0.87-0.12);
+        return (int) (toReturn);
     }
 
     protected int rescaleVertical(int original) {
-        return (int) (original/500*runwayRec.getY());
+        double toReturn = (double) original / 500 * runwayRec.getY();
+        return (int) toReturn;
     }
 
     @Override
@@ -62,8 +62,8 @@ public class SideViewGUI extends ViewGUI {
         super.paint(g);
         outlineShape(Color.black,g, runwayRec, new BasicStroke(2,BasicStroke.CAP_BUTT,BasicStroke.JOIN_BEVEL));
         fillShape(Color.black,g,takeOffTri);
-        for(int i = 0; i< takeOffTri.npoints; i++){
-            System.out.println("("+takeOffTri.xpoints[i]+","+takeOffTri.ypoints[i]+")");
+        if  (obstacleOnRunway){
+            fillShape(Color.RED,g,obstacleRec);
         }
     }
 }

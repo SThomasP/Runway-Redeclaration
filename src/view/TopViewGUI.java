@@ -111,8 +111,8 @@ public class TopViewGUI extends ViewGUI {
     public void addObstacle(int width, int length, int height, int dFromT, int dFromCL) {
         obstacleOnRunway = true;
         dFromT = (int) (getWidth()*0.17) + thresholdDistance + rescaleHorizontal(dFromT);
-        width = rescaleVertical(width);
-        length = rescaleHorizontal(length);
+        width = Math.max(rescaleVertical(width), 10);
+        length = Math.max(rescaleHorizontal(length), 10);
         dFromCL = getHeight()/2 + rescaleVertical(dFromCL);
         obstacleRec = new Rectangle(dFromT,dFromCL,length, width);
         repaint();

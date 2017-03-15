@@ -65,6 +65,8 @@ public class MainPageGUI extends JFrame {
         Runway r = getSelectedRunway();
         topView.changeRunway(r.toString(), r.inverse(), r.getToraOriginal(), r.getWidth(), r.getDisplacedThreshold());
         sideView.changeRunway(r.toString(), r.inverse(), r.getToraOriginal(), r.getWidth(), r.getDisplacedThreshold());
+        topView.redrawView();
+        sideView.redrawView();
         topView.redrawDistances(r.getTodaOriginal(), r.getToraOriginal(), r.getLdaOriginal(), r.getAsdaOriginal());
         sideView.redrawDistances(r.getTodaOriginal(), r.getToraOriginal(), r.getLdaOriginal(), r.getAsdaOriginal());
         topView.removeObstacle();
@@ -379,8 +381,8 @@ public class MainPageGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
-        topView.changeRunway("D", "DD", 0, 0, 0);
-        sideView.changeRunway("D", "DD", 0, 0, 0);
+        topView.changeRunway("D", "DD", 1, 1, 1);
+        sideView.changeRunway("D", "DD", 1, 1, 1);
         topView.redrawView();
         sideView.redrawView();
 
