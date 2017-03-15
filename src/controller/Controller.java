@@ -11,8 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import javax.swing.text.View;
 
 import model.Airport;
 import model.Obstacle;
@@ -20,6 +20,7 @@ import model.Runway;
 import view.MainPageGUI;
 import view.SideViewGUI;
 import view.TopViewGUI;
+import view.ViewGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -243,35 +244,9 @@ public class Controller {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (gui.getRunwayViews().getSelectedItem().toString().equals("Side view")) {
-					sideGUI = new SideViewGUI();
-
-					gui.getPanel().remove(gui.getTopView());
-					gui.getPanel().repaint();
-					gui.getPanel().revalidate();
-					gui.getPanel().add(sideGUI, BorderLayout.CENTER);
-					sideGUI.init();
-					sideGUI.redrawView();
-					sideGUI.revalidate();
-					// gui.getPanel().repaint();
-					// gui.getPanel().revalidate();
-
-					// } else if
-					// (gui.getRunwayViews().getSelectedItem().toString().equals("Top
-					// Down view")) {
-					// gui.getPanel().remove(gui.getSideView());
-					// topGUI = new TopViewGUI();
-					// gui.getPanel().repaint();
-					// gui.getPanel().revalidate();
-					// gui.getPanel().add(topGUI, BorderLayout.CENTER);
-					// topGUI.init();
-					// topGUI.changeRunway("D", "DD", 0, 0, 0);
-					// topGUI.redrawView();
-					// topGUI.revalidate();
-					//
-				}
-
+				gui.refreshViews();
 			}
+
 
 		});
 

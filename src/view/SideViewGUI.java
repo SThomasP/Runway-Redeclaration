@@ -29,7 +29,11 @@ public class SideViewGUI extends ViewGUI {
         int x1 = (int) (width * 0.17);
         runwayRec = new Rectangle((int) (0.05*width), (int) (0.8*height), (int) (0.9*width),(int) (0.05*height));
         takeOffTri.reset();
-       // takeOffTri.addPoint();
+        takeOffTri.addPoint(x4,(int) (0.8*height));
+        System.out.println(rescaleVertical(50));
+        System.out.println(rescaleHorizontal(50*50));
+        takeOffTri.addPoint(x4, (int) (0.8*height) - rescaleVertical(50));
+        takeOffTri.addPoint(x4 - rescaleHorizontal(50*50), (int) (0.8 * height));
         repaint();
     }
 
@@ -57,5 +61,9 @@ public class SideViewGUI extends ViewGUI {
     public void paint(Graphics g) {
         super.paint(g);
         outlineShape(Color.black,g, runwayRec, new BasicStroke(2,BasicStroke.CAP_BUTT,BasicStroke.JOIN_BEVEL));
+        fillShape(Color.black,g,takeOffTri);
+        for(int i = 0; i< takeOffTri.npoints; i++){
+            System.out.println("("+takeOffTri.xpoints[i]+","+takeOffTri.ypoints[i]+")");
+        }
     }
 }
