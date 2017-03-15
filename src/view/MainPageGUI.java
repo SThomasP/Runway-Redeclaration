@@ -30,13 +30,18 @@ public class MainPageGUI extends JFrame {
 	public void updateGraphicRunway() {
 		Runway r = getSelectedRunway();
 		topView.changeRunway(r.toString(), r.inverse(), r.getToraOriginal(), r.getWidth(), r.getDisplacedThreshold());
+		sideView.changeRunway(r.toString(), r.inverse(), r.getToraOriginal(), r.getWidth(), r.getDisplacedThreshold());
 		topView.redrawDistances(r.getTodaOriginal(),r.getToraOriginal(),r.getLdaOriginal(),r.getAsdaOriginal());
+		sideView.redrawDistances(r.getTodaOriginal(),r.getToraOriginal(),r.getLdaOriginal(),r.getAsdaOriginal());
 		topView.removeObstacle();
+		sideView.removeObstacle();
 		if (r.isObstaclePresent()){
 			Obstacle o = r.getObstacle();
 			topView.addObstacle(o.getObstacleWidth(),o.getObstacleLength(),o.getObstacleHeight(),o.getDistanceFromThreshold(),o.getDistanceFromCentreLine());
+			sideView.addObstacle(o.getObstacleWidth(),o.getObstacleLength(),o.getObstacleHeight(),o.getDistanceFromThreshold(),o.getDistanceFromCentreLine());
 		}
 		topView.repaint();
+		sideView.repaint();
 	}
 
 	private class DistanceTableModel extends AbstractTableModel {
@@ -377,10 +382,12 @@ public class MainPageGUI extends JFrame {
 		menuBar.add(runwayUses);
 
 		topView = new TopViewGUI();
+		sideView = new SideViewGUI();
 		viewRunway.add(menuBar, BorderLayout.NORTH);
-		viewRunway.add(topView, BorderLayout.CENTER);
+		viewRunway.add(sideView, BorderLayout.CENTER);
 		mainFrame.add(viewRunway);
 		topView.init();
+		sideView.init();
 		mainFrame.add(selectOption);
 
 		content.add(mainFrame);
@@ -389,7 +396,9 @@ public class MainPageGUI extends JFrame {
 		setResizable(false);
 		setVisible(true);
 		topView.changeRunway("D","DD",0,0,0);
+		sideView.changeRunway("D","DD",0,0,0);
 		topView.redrawView();
+		sideView.redrawView();
 
 
 	}

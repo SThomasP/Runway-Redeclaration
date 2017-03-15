@@ -24,7 +24,9 @@ public abstract class ViewGUI extends JPanel {
         this.ldaString = "LDA: "+lda+"m";
     }
 
-    public abstract boolean checkLanding();
+    public  boolean checkLanding(){
+        return landing;
+    };
     
     public abstract void init();
 
@@ -38,7 +40,6 @@ public abstract class ViewGUI extends JPanel {
         this.runwayLength = tora;
         this.runwayWidth = width;
         this.thresholdDistance = rescaleHorizontal(thresholdDistance);
-        System.out.println("Threshold:"+ this.thresholdDistance);
     }
 
     protected static void outlineShape(Color c, Graphics g, Shape shape, Stroke stroke){

@@ -67,10 +67,6 @@ public class TopViewGUI extends ViewGUI {
         }
     }
 
-    public boolean checkLanding() {
-    	return  landing;
-    }
-    
     public void redrawView() {
         clearArea.reset();
         int height = getHeight();
