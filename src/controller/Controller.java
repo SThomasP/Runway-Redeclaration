@@ -167,6 +167,13 @@ public class Controller {
 				gui.getRunways().removeActionListener(chooseCurrentRunway);
 				gui.updateRunwayList(airport.getListOfRunways());
 				gui.getRunways().addActionListener(chooseCurrentRunway);
+				gui.updateGraphicRunway();
+				Runway currentRunway = airport.getCurrentRunway();
+				// add the figures to the gui
+				gui.setOriginalFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),
+						currentRunway.getAsda());
+				gui.setAdjustedFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),
+						currentRunway.getAsda());
 
 			}
 
