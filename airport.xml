@@ -1,9 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Airport><runway id="9L"><location>L</location><orientation>9</orientation><tora>3902</tora><toda>3900</toda><asda>3902</asda><lda>3595</lda><displacedThreshold>306</displacedThreshold></runway><runway id="27R"><location>R</location><orientation>27</orientation><tora>3902</tora><toda>3900</toda><asda>3902</asda><lda>3902</lda><displacedThreshold>0</displacedThreshold></runway>
-	<runway id="16C">
-		<location>C</location>
-		<orientation>16</orientation>
-		<tora>2000</tora>
-		<toda>2100</toda>
-		<asda>2200</asda>
-		<lda>1900</lda>
-		<displacedThreshold>100</displacedThreshold></runway></Airport>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Airport><runway id="09L"><location>L</location><orientation>9</orientation><tora>3244</tora><toda>3246</toda><asda>3246</asda><lda>3245</lda><displacedThreshold>306</displacedThreshold><obstacle><height>3</height><distanceFromCentreLine>0</distanceFromCentreLine><distanceFromThreshold>50</distanceFromThreshold></obstacle></runway><runway id="27R"><location>R</location><orientation>27</orientation><tora>3900</tora><toda>3902</toda><asda>3902</asda><lda>3902</lda><displacedThreshold>0</displacedThreshold><obstacle/></runway></Airport>
