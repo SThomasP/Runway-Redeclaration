@@ -43,6 +43,7 @@ public class Controller {
 	private ActionListener addObstacleButtonPress;
 	private ActionListener chooseCurrentRunway;
 	private ActionListener refreshMainButtonPress;
+	private ActionListener changeRunwayUse;
 	private File obstacleList;
 	public ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
 
@@ -81,6 +82,10 @@ public class Controller {
 	public ArrayList<Obstacle> getList() {
 		System.out.println(listOfObstacles);
 		return listOfObstacles;
+	}
+
+	public ActionListener getChangeRunwayUse() {
+		return changeRunwayUse;
 	}
 
 	public boolean checkFileExists() {
@@ -205,6 +210,14 @@ public class Controller {
 			}
 		};
 
+		changeRunwayUse = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JComboBox box = (JComboBox) e.getSource();
+				gui.changeRunwayUse((String) box.getSelectedItem());
+			}
+		};
+
 		refreshMainButtonPress = new ActionListener() {
 
 			@Override
@@ -271,6 +284,7 @@ public class Controller {
 			}
 
 		});
+
 
 		// create the model with a single runway
 		ArrayList<Runway> listOfRunways = new ArrayList<Runway>();

@@ -17,8 +17,8 @@ public abstract class ViewGUI extends JPanel {
     protected int action = 0;
 
 
-    public final static int TAKEOFF  = 1;
-    public final static int LANDING = 0;
+    public final static int TAKEOFF  = 0;
+    public final static int LANDING = 1;
 
     protected final static Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
     protected final static Stroke outline = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);

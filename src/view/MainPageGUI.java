@@ -22,6 +22,7 @@ public class MainPageGUI extends JFrame {
 
     public static Font displayFont = new Font("Arial", Font.PLAIN, 18);
     public static final String[] runwayViews = {"Top Down View", "Side View"};
+    private  static final String[] runwayUsesArray = {"Take Off", "Landing"};
     private JTable distances;
     private JTable reciprocalDistances;
     private JPanel viewRunway;
@@ -357,9 +358,8 @@ public class MainPageGUI extends JFrame {
         exportButton = new JButton("Export");
         exportButton.addActionListener(c.getExportAirport());
         runwayViewType = new JComboBox<String>(runwayViews);
-        String[] aircraftDirection = {"Take Off", "Landing"};
-        runwayUses = new JComboBox<>(aircraftDirection);
-
+        runwayUses = new JComboBox<>(runwayUsesArray);
+        runwayUses.addActionListener(c.getChangeRunwayUse());
         JPanel menuBar = new JPanel();
         menuBar.setLayout(new FlowLayout());
         menuBar.add(runways);
@@ -537,6 +537,19 @@ public class MainPageGUI extends JFrame {
 
     public void setLdaWorking(String lda) {
         ldaCalcBreakdown.setText(lda);
+    }
+
+    public void changeRunwayUse(String runwayUse) {
+        if (runwayUse == runwayUsesArray[ViewGUI.TAKEOFF]){
+            topView.setAction(ViewGUI.TAKEOFF);
+            sideView.setAction(ViewGUI.TAKEOFF);
+        }
+        else if (runwayUse == runwayUsesArray[ViewGUI.LANDING]){
+            topView.setAction(ViewGUI.LANDING);
+            sideView.setAction(ViewGUI.LANDING);
+        }
+        topView.repaint();
+        sideView.repaint();
     }
 
     private class DistanceTableModel extends AbstractTableModel {

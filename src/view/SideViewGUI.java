@@ -1,8 +1,6 @@
 package view;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
 
 public class SideViewGUI extends ViewGUI {
