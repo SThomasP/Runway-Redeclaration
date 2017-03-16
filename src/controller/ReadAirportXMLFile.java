@@ -62,7 +62,7 @@ public class ReadAirportXMLFile {
 
 					newRun = new Runway(orientation,location,tora,toda,asda,lda,displacedThreshold,50);
 					Element obstacle =  (Element) doc.getElementsByTagName("obstacle").item(0);
-					if (obstacle != null)
+					if (obstacle.hasChildNodes() == true)
 					{
 						Obstacle newObs;
 						int height;
