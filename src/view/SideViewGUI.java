@@ -1,6 +1,9 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.Line2D;
 
 public class SideViewGUI extends ViewGUI {
 
@@ -18,6 +21,32 @@ public class SideViewGUI extends ViewGUI {
         todaString = "TODA";
         asdaString = "ASDA";
         ldaString = "LDA";
+        addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("("+e.getX()+","+e.getY()+")");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
     }
 
     
@@ -25,6 +54,7 @@ public class SideViewGUI extends ViewGUI {
     public void redrawView() {
         int width = getWidth();
         int height = getHeight();
+        System.out.println(height);
         int x4 = (int) (width * 0.87);
         int x1 = (int) (width * 0.12);
         runwayRec = new Rectangle((int) (0.05*width), (int) (0.8*height), (int) (0.9*width),(int) (0.05*height));
@@ -32,6 +62,10 @@ public class SideViewGUI extends ViewGUI {
         takeOffTri.addPoint(x4,(int) (0.8*height));
         takeOffTri.addPoint(width,(int) (0.8*height));
         takeOffTri.addPoint(width, (int)(0.8*height) - rescaleVertical(inverseRescaleHorizontal(width - x4)/50));
+        toraLine = new Line2D.Float((float) x4, (float) (height / 1.31), (float) x1, (float) (height / 1.31));
+        todaLine = new Line2D.Float((float) width, (float) (height / 1.40), (float) x1, (float) (height / 1.40));
+        asdaLine = new Line2D.Float((float) runwayRec.getMaxX(), (float) (height / 1.49), (float) x1, (float) (height / 1.49));
+        ldaLine = new Line2D.Float((float) x4, (float) (height / 1.58), (float) x1 + thresholdDistance, (float) (height / 1.58));
         repaint();
     }
 
@@ -64,6 +98,39 @@ public class SideViewGUI extends ViewGUI {
 
     }
 
+    public void redrawDistances(int toda, int tora, int lda, int asda) {
+        super.redrawDistances(toda, tora, lda, asda);
+        int height = getHeight();
+        int width = getWidth();
+        int x1 = (int) (width * 0.12);
+        int x4 = (int) (width * 0.87);
+        if (obstacleOnRunway){
+            if(obstacleRec.getCenterX() > width/2) {
+                toraLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 1.31), (float) x1, (float) (height / 1.31));
+                todaLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 1.40), (float) x1 , (float) (height / 1.40));
+                asdaLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 1.49), (float) x1, (float) (height / 1.49));
+                ldaLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 1.58), (float) x1 + thresholdDistance, (float) (height / 1.58));
+            }
+            else {
+                toraLine = new Line2D.Float((float) x4, (float) (height / 1.31), (float) obstacleRec.getMaxX(), (float) (height / 1.31));
+                todaLine = new Line2D.Float((float) width, (float) (height / 1.4), (float) obstacleRec.getMaxX(), (float) (height / 1.4));
+                asdaLine = new Line2D.Float((float) runwayRec.getMaxX(), (float) (height / 1.49), (float) obstacleRec.getMaxX(), (float) (height / 1.49));
+                if (obstacleRec.getMaxX() > x1 +thresholdDistance) {
+                    ldaLine = new Line2D.Float((float) x4, (float) (height / 1.58), (float) obstacleRec.getMaxX(), (float) (height / 1.58));
+                }
+                else {
+                    ldaLine = new Line2D.Float((float) x4, (float) (height / 1.58), (float) x1+thresholdDistance, (float) (height / 1.58));
+                }
+            }
+        }
+        else {
+            toraLine = new Line2D.Float((float) x4, (float) (height / 1.31), (float) x1, (float) (height / 1.31));
+            todaLine = new Line2D.Float((float) width, (float) (height / 1.40), (float) x1, (float) (height / 1.40));
+            asdaLine = new Line2D.Float((float) runwayRec.getMaxX(), (float) (height / 1.49), (float) x1, (float) (height / 1.49));
+            ldaLine = new Line2D.Float((float) x4, (float) (height / 1.58), (float) x1 + thresholdDistance, (float) (height / 1.58));
+        }
+    }
+
     @Override
     public void addObstacle(int width, int length, int height, int dFromT, int dFromCL) {
         obstacleOnRunway = true;
@@ -85,8 +152,16 @@ public class SideViewGUI extends ViewGUI {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        outlineShape(Color.black,g, runwayRec, new BasicStroke(2,BasicStroke.CAP_BUTT,BasicStroke.JOIN_BEVEL));
+        outlineShape(Color.black,g, runwayRec,outline);
         fillShape(Color.black,g,takeOffTri);
+        outlineShape(Color.black, g, toraLine, outline);
+        outlineShape(Color.black, g, todaLine, outline);
+        outlineShape(Color.black, g, asdaLine, outline);
+        outlineShape(Color.black, g, ldaLine, outline);
+        g.drawString(toraString, (int) toraLine.getX2(), (int) toraLine.getY1() + 15);
+        g.drawString(todaString, (int) todaLine.getX2(), (int) todaLine.getY1() + 15);
+        g.drawString(asdaString, (int) asdaLine.getX2(), (int) asdaLine.getY1() + 15);
+        g.drawString(ldaString, (int) ldaLine.getX2(), (int) ldaLine.getY1() + 15);
         if  (obstacleOnRunway){
             fillShape(Color.RED,g,obstacleRec);
         }

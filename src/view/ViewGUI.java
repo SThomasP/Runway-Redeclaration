@@ -17,6 +17,9 @@ public abstract class ViewGUI extends JPanel {
     protected boolean landing;
 
 
+    protected final static Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+    protected final static Stroke outline = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+
     public  void redrawDistances(int toda, int tora, int lda, int asda){
         this.todaString = "TODA: "+toda+"m";
         this.toraString = "TORA: "+tora+"m";
@@ -54,6 +57,21 @@ public abstract class ViewGUI extends JPanel {
 
     public abstract void addObstacle(int width, int length, int height, int dFromT, int dFromCL);
 
+    public Line2D getTodaLine() {
+        return todaLine;
+    }
+
+    public Line2D getToraLine() {
+        return toraLine;
+    }
+
+    public Line2D getLdaLine() {
+        return ldaLine;
+    }
+
+    public Line2D getAsdaLine() {
+        return asdaLine;
+    }
 
     protected static void fillShape(Color c, Graphics g, Shape shape){
         Graphics2D g2d = (Graphics2D) g.create();

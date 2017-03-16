@@ -10,9 +10,6 @@ public class TopViewGUI extends ViewGUI {
     private Polygon clearArea;
     private Line2D[] sideLines;
     private Rectangle obstacleRec;
-    private final static Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
-    private final static Stroke outline = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
-    private boolean landing = true;
     
     public void init() {
         setBackground(new Color(51, 204, 51));
@@ -26,23 +23,17 @@ public class TopViewGUI extends ViewGUI {
 
 
     private int rescaleVertical(int original){
-
-        System.out.println("Width:"+ (10.0/runwayRec.getHeight()*runwayWidth));
         return (int) ((float) (original)/runwayWidth*runwayRec.getHeight());
     }
 
     protected int rescaleHorizontal(int original){
-        System.out.println("Length:"+  (10.0/runwayRec.getWidth()*runwayLength));
-        return  (int) ((float) (original)/runwayLength*runwayRec.getWidth());
+        return  (int) ((float) (original)/runwayLength*(getWidth()*(0.83 - 0.17)));
     }
 
     public Rectangle getObstacleRec(){
         return obstacleRec;
     }
 
-    public Point[] getPoints(){
-
-    }
 
     @Override
     public void redrawDistances(int toda, int tora, int lda, int asda) {
