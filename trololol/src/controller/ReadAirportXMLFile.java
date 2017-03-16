@@ -141,6 +141,7 @@ public class ReadAirportXMLFile {
 					one.appendChild(doc.createTextNode(Integer.toString(o.getObstacleHeight())));
 					obstacle.appendChild(one);
 					
+					
 				}
 
 			}
