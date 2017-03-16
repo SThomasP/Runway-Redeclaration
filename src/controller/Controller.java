@@ -170,8 +170,8 @@ public class Controller {
 				gui.updateGraphicRunway();
 				Runway currentRunway = airport.getCurrentRunway();
 				// add the figures to the gui
-				gui.setOriginalFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),
-						currentRunway.getAsda());
+				gui.setOriginalFigures(currentRunway.getTodaOriginal(), currentRunway.getToraOriginal(), currentRunway.getLdaOriginal(),
+						currentRunway.getAsdaOriginal());
 				gui.setAdjustedFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),
 						currentRunway.getAsda());
 
@@ -296,7 +296,7 @@ public class Controller {
 		// create the model with a single runway
 		ArrayList<Runway> listOfRunways = new ArrayList<Runway>();
 		listOfRunways.add(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306, 50));
-		listOfRunways.add(new Runway(27, 'R', 3902, 3900, 3902, 3902, 0, 50));
+		listOfRunways.add(new Runway(27, 'R',3902,3900 ,3902,3900,0,50));
 
 		airport = new Airport(listOfRunways);
 		gui.updateRunwayList(airport.getListOfRunways());

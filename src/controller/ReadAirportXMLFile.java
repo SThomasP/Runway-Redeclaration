@@ -60,7 +60,7 @@ public class ReadAirportXMLFile {
 					lda = Integer.parseInt(eElement.getElementsByTagName("lda").item(0).getTextContent());
 					displacedThreshold = Integer.parseInt(eElement.getElementsByTagName("displacedThreshold").item(0).getTextContent());
 
-					newRun = new Runway(orientation,location,tora,toda,asda,lda,displacedThreshold,50);
+					newRun = new Runway(orientation,location,toda,tora,asda,lda,displacedThreshold,50);
 					Element obstacle =  (Element) doc.getElementsByTagName("obstacle").item(0);
 					if (obstacle.hasChildNodes() == true)
 					{
@@ -120,19 +120,19 @@ public class ReadAirportXMLFile {
 				runway.appendChild(orientation);
 
 				Element tora = doc.createElement("tora");
-				tora.appendChild(doc.createTextNode(Integer.toString(r.getTora())));
+				tora.appendChild(doc.createTextNode(Integer.toString(r.getToraOriginal())));
 				runway.appendChild(tora);
 
 				Element toda = doc.createElement("toda");
-				toda.appendChild(doc.createTextNode(Integer.toString(r.getToda())));
+				toda.appendChild(doc.createTextNode(Integer.toString(r.getTodaOriginal())));
 				runway.appendChild(toda);
 
 				Element asda = doc.createElement("asda");
-				asda.appendChild(doc.createTextNode(Integer.toString(r.getAsda())));
+				asda.appendChild(doc.createTextNode(Integer.toString(r.getAsdaOriginal())));
 				runway.appendChild(asda);
 
 				Element lda = doc.createElement("lda");
-				lda.appendChild(doc.createTextNode(Integer.toString(r.getLda())));
+				lda.appendChild(doc.createTextNode(Integer.toString(r.getLdaOriginal())));
 				runway.appendChild(lda);
 
 				Element displacedThreshold = doc.createElement("displacedThreshold");
