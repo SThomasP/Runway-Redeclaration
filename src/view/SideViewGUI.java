@@ -11,42 +11,18 @@ public class SideViewGUI extends ViewGUI {
     private Rectangle runwayRec;
     private Rectangle obstacleRec;
     private Polygon  takeOffTri;
+    private Polygon landingTri;
 
     @Override
     public void init() {
         setBackground(Color.cyan);
         runwayRec = new Rectangle();
         takeOffTri = new Polygon();
+        landingTri = new Polygon();
         toraString = "TORA";
         todaString = "TODA";
         asdaString = "ASDA";
         ldaString = "LDA";
-        addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("("+e.getX()+","+e.getY()+")");
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
     }
 
     
@@ -54,7 +30,6 @@ public class SideViewGUI extends ViewGUI {
     public void redrawView() {
         int width = getWidth();
         int height = getHeight();
-        System.out.println(height);
         int x4 = (int) (width * 0.87);
         int x1 = (int) (width * 0.12);
         runwayRec = new Rectangle((int) (0.05*width), (int) (0.8*height), (int) (0.9*width),(int) (0.05*height));
@@ -62,6 +37,11 @@ public class SideViewGUI extends ViewGUI {
         takeOffTri.addPoint(x4,(int) (0.8*height));
         takeOffTri.addPoint(width,(int) (0.8*height));
         takeOffTri.addPoint(width, (int)(0.8*height) - rescaleVertical(inverseRescaleHorizontal(width - x4)/50));
+
+        landingTri.reset();
+        landingTri.addPoint(x1+ thresholdDistance, (int) (0.8*height));
+        landingTri.addPoint(0, (int) (0.8*height));
+        landingTri.addPoint(0, (int) (0.8*height) - rescaleVertical(inverseRescaleHorizontal(x1+ thresholdDistance)/50));
         toraLine = new Line2D.Float((float) x4, (float) (height / 1.31), (float) x1, (float) (height / 1.31));
         todaLine = new Line2D.Float((float) width, (float) (height / 1.40), (float) x1, (float) (height / 1.40));
         asdaLine = new Line2D.Float((float) runwayRec.getMaxX(), (float) (height / 1.49), (float) x1, (float) (height / 1.49));
@@ -91,10 +71,15 @@ public class SideViewGUI extends ViewGUI {
         int width = getWidth();
         int height = getHeight();
         int x4 = (int) (width * 0.87);
+        int x1 = (int) (width * 0.12) + thresholdDistance;
         takeOffTri.reset();
         takeOffTri.addPoint(x4,(int) (0.8*height));
         takeOffTri.addPoint(width,(int) (0.8*height));
         takeOffTri.addPoint(width, (int)(0.8*height) -  rescaleVertical(inverseRescaleHorizontal(width - x4)/50));
+        landingTri.reset();
+        landingTri.addPoint(x1, (int) (0.8*height));
+        landingTri.addPoint(0, (int) (0.8*height));
+        landingTri.addPoint(0, (int) (0.8*height) - rescaleVertical(inverseRescaleHorizontal(x1)/50));
 
     }
 
@@ -146,6 +131,13 @@ public class SideViewGUI extends ViewGUI {
             takeOffTri.addPoint(triCorner, (int) (0.8 * getHeight()));
 
         }
+        else{
+            landingTri.reset();
+            int triCorner = (int) obstacleRec.getMaxX() + rescaleHorizontal(50*height);
+            landingTri.addPoint(0, (int) (0.8*getHeight()));
+            landingTri.addPoint(0, (int) (0.8*getHeight() - rescaleVertical(inverseRescaleHorizontal(triCorner)/50)));
+            landingTri.addPoint(triCorner,(int) (0.8 * getHeight()));
+        }
 
     }
 
@@ -153,15 +145,20 @@ public class SideViewGUI extends ViewGUI {
     public void paint(Graphics g) {
         super.paint(g);
         outlineShape(Color.black,g, runwayRec,outline);
-        fillShape(Color.black,g,takeOffTri);
-        outlineShape(Color.black, g, toraLine, outline);
-        outlineShape(Color.black, g, todaLine, outline);
-        outlineShape(Color.black, g, asdaLine, outline);
-        outlineShape(Color.black, g, ldaLine, outline);
-        g.drawString(toraString, (int) toraLine.getX2(), (int) toraLine.getY1() + 15);
-        g.drawString(todaString, (int) todaLine.getX2(), (int) todaLine.getY1() + 15);
-        g.drawString(asdaString, (int) asdaLine.getX2(), (int) asdaLine.getY1() + 15);
-        g.drawString(ldaString, (int) ldaLine.getX2(), (int) ldaLine.getY1() + 15);
+        if (action == TAKEOFF) {
+            fillShape(Color.black,g,takeOffTri);
+            outlineShape(Color.black, g, toraLine, outline);
+            outlineShape(Color.black, g, todaLine, outline);
+            outlineShape(Color.black, g, asdaLine, outline);
+            g.drawString(toraString, (int) toraLine.getX2(), (int) toraLine.getY1() + 15);
+            g.drawString(todaString, (int) todaLine.getX2(), (int) todaLine.getY1() + 15);
+            g.drawString(asdaString, (int) asdaLine.getX2(), (int) asdaLine.getY1() + 15);
+        }
+        if (action == LANDING) {
+            fillShape(Color.black,g,landingTri);
+            outlineShape(Color.black, g, ldaLine, outline);
+            g.drawString(ldaString, (int) ldaLine.getX2(), (int) ldaLine.getY1() + 15);
+        }
         if  (obstacleOnRunway){
             fillShape(Color.RED,g,obstacleRec);
         }

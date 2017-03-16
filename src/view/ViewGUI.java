@@ -14,8 +14,11 @@ public abstract class ViewGUI extends JPanel {
     protected int thresholdDistance, runwayLength, runwayWidth;
     protected String name, inverseName;
     protected boolean obstacleOnRunway = false;
-    protected boolean landing;
+    protected int action = 0;
 
+
+    public final static int TAKEOFF  = 1;
+    public final static int LANDING = 0;
 
     protected final static Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
     protected final static Stroke outline = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
@@ -27,10 +30,14 @@ public abstract class ViewGUI extends JPanel {
         this.ldaString = "LDA: "+lda+"m";
     }
 
-    public  boolean checkLanding(){
-        return landing;
-    };
-    
+    public int getAction() {
+        return action;
+    }
+
+    public void setAction(int action){
+        this.action = action;
+    }
+
     public abstract void init();
 
     public abstract void redrawView();

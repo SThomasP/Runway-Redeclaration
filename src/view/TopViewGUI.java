@@ -138,14 +138,19 @@ public class TopViewGUI extends ViewGUI {
         fillShape(Color.gray, g, runwayRec);
         outlineShape(Color.black, g, runwayRec, outline);
         outlineShape(Color.white, g, centreLine, dashed);
-        outlineShape(Color.blue, g, toraLine, outline);
-        outlineShape(Color.blue, g, todaLine, outline);
-        outlineShape(Color.orange, g, asdaLine, outline);
-        outlineShape(Color.orange, g, ldaLine, outline);
-        g.drawString(toraString, (int) toraLine.getX2(), (int) toraLine.getY1() + 15);
-        g.drawString(todaString, (int) todaLine.getX2(), (int) todaLine.getY1() + 15);
-        g.drawString(asdaString, (int) asdaLine.getX2(), (int) asdaLine.getY1() + 15);
-        g.drawString(ldaString, (int) ldaLine.getX2(), (int) ldaLine.getY1() + 15);
+        if (action == TAKEOFF) {
+            outlineShape(Color.blue, g, toraLine, outline);
+            outlineShape(Color.blue, g, todaLine, outline);
+            outlineShape(Color.orange, g, asdaLine, outline);
+            g.drawString(toraString, (int) toraLine.getX2(), (int) toraLine.getY1() + 15);
+            g.drawString(todaString, (int) todaLine.getX2(), (int) todaLine.getY1() + 15);
+            g.drawString(asdaString, (int) asdaLine.getX2(), (int) asdaLine.getY1() + 15);
+
+        }
+        if (action == LANDING) {
+            outlineShape(Color.orange, g, ldaLine, outline);
+            g.drawString(ldaString, (int) ldaLine.getX2(), (int) ldaLine.getY1() + 15);
+        }
         for (Line2D line: sideLines){
             outlineShape(Color.white, g, line, outline);
         }
