@@ -34,10 +34,24 @@ public class TopViewGUI extends ViewGUI {
         return obstacleRec;
     }
 
-
+    public double[] rotate(double orientation,double x,double y)
+    {
+    	
+    	orientation = (Math.PI * 2) - orientation;
+    	//makes the middle 0
+    	x = x - getWidth()/2;
+    	y = y - getHeight()/2;
+    	double newx =  ((x * Math.cos(orientation)) - (y * Math.sin(orientation))) + getWidth()/2;
+    	double newy = ((x * Math.sin(orientation)) + (y * Math.cos(orientation))) + getHeight()/2;
+    	double[] rotated = {newx,newy};
+    	return rotated;
+    }
+    
     @Override
     public void redrawDistances(int toda, int tora, int lda, int asda) {
+  
         super.redrawDistances(toda, tora, lda, asda);
+        double orientation = Math.PI /4;
         int height = getHeight();
         int width = getWidth();
         int[] x = {0, (int) (width * 0.17), (int) (width * 0.25), (int) (width * 0.75), (int) (width * 0.83), width};
@@ -61,14 +75,16 @@ public class TopViewGUI extends ViewGUI {
             }
         }
         else {
-            toraLine = new Line2D.Float((float) x[4], (float) (height / 1.75), (float) x[1], (float) (height / 1.75));
+            toraLine = new Line2D.Float((float) rotate(orientation,x[4],(height / 1.75))[0], (float) rotate(orientation,x[4],(height / 1.75))[1], (float) rotate(orientation,x[1],(height / 1.75))[0], (float) rotate(orientation,x[1],(height / 1.75))[1]);
             todaLine = new Line2D.Float((float) width, (float) (height / 2.4), (float) x[1], (float) (height / 2.4));
             asdaLine = new Line2D.Float((float) (width*0.95), (float) (height / 1.65), (float) x[1], (float) (height / 1.65));
             ldaLine = new Line2D.Float((float) x[4], (float) (height / 2.7), (float) x[1] + thresholdDistance, (float) (height / 2.7));
         }
+        
     }
 
     public void redrawView() {
+        double orientation = Math.PI;
         clearArea.reset();
         int height = getHeight();
         int[] y = {(int) (height * 0.3), (int) (height * 0.2), (int) (height * 0.7), (int) (height * 0.8)};
@@ -88,7 +104,7 @@ public class TopViewGUI extends ViewGUI {
         clearArea.addPoint(x[0], y[2]);
         runwayRec = new Rectangle((int) (0.05 * width), (int) (0.45 * height), (int) (0.9 * width), (int) (0.10 * height));
         centreLine = new Line2D.Float((float) x[2], (float) (height / 2), (float) x[3], (float) (height / 2));
-        toraLine = new Line2D.Float((float) x[4], (float) (height/1.75), (float) x[1], (float) (height/1.75));
+        toraLine = new Line2D.Float((float) rotate(orientation,x[4],(height / 1.75))[0], (float) rotate(orientation,x[4],(height / 1.75))[1], (float) rotate(orientation,x[1],(height / 1.75))[0], (float) rotate(orientation,x[1],(height / 1.75))[1]);
         todaLine = new Line2D.Float((float) width, (float) (height/2.4), (float) x[1], (float) (height/2.4));
         asdaLine = new Line2D.Float((float) 0.95*width, (float) (height/1.65), (float) x[1], (float) (height/1.65));
         ldaLine = new Line2D.Float((float) x[4], (float) (height/2.7), (float) x[1], (float) (height/2.7));
