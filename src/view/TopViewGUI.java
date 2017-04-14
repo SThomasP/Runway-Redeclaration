@@ -5,16 +5,16 @@ import java.awt.geom.Line2D;
 
 public class TopViewGUI extends ViewGUI {
 
-    private Rectangle runwayRec;
+    private Polygon runwayRec;
     private Line2D centreLine;
     private Polygon clearArea;
     private Line2D[] sideLines;
-    private Rectangle obstacleRec;
+    private Polygon obstacleRec;
     
     public void init() {
         setBackground(new Color(51, 204, 51));
         clearArea = new Polygon();
-        runwayRec = new Rectangle();
+        runwayRec = new Polygon();
         toraString = "TORA";
         todaString = "TODA";
         asdaString = "ASDA";
@@ -23,14 +23,14 @@ public class TopViewGUI extends ViewGUI {
 
 
     private int rescaleVertical(int original){
-        return (int) ((float) (original)/runwayWidth*runwayRec.getHeight());
+        return (int) ((float) (original)/runwayWidth*runwayRec.getBounds().getHeight());
     }
 
     protected int rescaleHorizontal(int original){
         return  (int) ((float) (original)/runwayLength*(getWidth()*(0.83 - 0.17)));
     }
 
-    public Rectangle getObstacleRec(){
+    public Polygon getObstacleRec(){
         return obstacleRec;
     }
 
@@ -58,18 +58,18 @@ public class TopViewGUI extends ViewGUI {
         int[] x = {0, (int) (width * 0.17), (int) (width * 0.25), (int) (width * 0.75), (int) (width * 0.83), width};
         //TODO this part is confusing what does it do
         if (obstacleOnRunway){
-            if(obstacleRec.getCenterX() > width/2) {
-                toraLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 1.75), (float) x[1], (float) (height / 1.75));
-                todaLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 2.4), (float) x[1] , (float) (height / 2.4));
-                asdaLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 1.65), (float) x[1], (float) (height / 1.65));
-                ldaLine = new Line2D.Float((float) obstacleRec.getX(), (float) (height / 2.7), (float) x[1] + thresholdDistance, (float) (height / 2.7));
+            if(obstacleRec.getBounds().getCenterX() > width/2) {
+                toraLine = new Line2D.Float((float) obstacleRec.getBounds().getX(), (float) (height / 1.75), (float) x[1], (float) (height / 1.75));
+                todaLine = new Line2D.Float((float) obstacleRec.getBounds().getX(), (float) (height / 2.4), (float) x[1] , (float) (height / 2.4));
+                asdaLine = new Line2D.Float((float) obstacleRec.getBounds().getX(), (float) (height / 1.65), (float) x[1], (float) (height / 1.65));
+                ldaLine = new Line2D.Float((float) obstacleRec.getBounds().getX(), (float) (height / 2.7), (float) x[1] + thresholdDistance, (float) (height / 2.7));
             }
             else {
-                toraLine = new Line2D.Float((float) x[4], (float) (height / 1.75), (float) obstacleRec.getMaxX(), (float) (height / 1.75));
-                todaLine = new Line2D.Float((float) width, (float) (height / 2.4), (float) obstacleRec.getMaxX(), (float) (height / 2.4));
-                asdaLine = new Line2D.Float((float) (width*0.95), (float) (height / 1.65), (float) obstacleRec.getMaxX(), (float) (height / 1.65));
-                if (obstacleRec.getMaxX() > x[1] +thresholdDistance) {
-                    ldaLine = new Line2D.Float((float) x[4], (float) (height / 2.7), (float) obstacleRec.getMaxX(), (float) (height / 2.7));
+                toraLine = new Line2D.Float((float) x[4], (float) (height / 1.75), (float) obstacleRec.getBounds().getMaxX(), (float) (height / 1.75));
+                todaLine = new Line2D.Float((float) width, (float) (height / 2.4), (float) obstacleRec.getBounds().getMaxX(), (float) (height / 2.4));
+                asdaLine = new Line2D.Float((float) (width*0.95), (float) (height / 1.65), (float) obstacleRec.getBounds().getMaxX(), (float) (height / 1.65));
+                if (obstacleRec.getBounds().getMaxX() > x[1] +thresholdDistance) {
+                    ldaLine = new Line2D.Float((float) x[4], (float) (height / 2.7), (float) obstacleRec.getBounds().getMaxX(), (float) (height / 2.7));
                 }
                 else {
                     ldaLine = new Line2D.Float((float) x[4], (float) (height / 2.7), (float) x[1]+thresholdDistance, (float) (height / 2.7));
@@ -106,7 +106,9 @@ public class TopViewGUI extends ViewGUI {
         clearArea.addPoint((int)rotateandzoom(orientation,x[1],y[2],zoom)[0],(int)rotateandzoom(orientation,x[1],y[2],zoom)[1] );
         clearArea.addPoint((int)rotateandzoom(orientation,x[0],y[2],zoom)[0],(int)rotateandzoom(orientation,x[0],y[2],zoom)[1] );
         //TODO rectangles don work
-        runwayRec = new Rectangle((int) (0.05 * width), (int) (0.45 * height), (int) (0.9 * width), (int) (0.10 * height));
+        int[] runwayX = {(int) (0.05 * width),(int) (0.05 * width),(int) (0.05 * width + 0.9 * width),(int) (0.05 * width + 0.9 * width)};
+        int[] runwayY = {(int) (0.45 * height), (int) (0.45 * height + 0.10 * height), (int) (0.45 * height + 0.10 * height) , (int) (0.45 * height)};
+        runwayRec = new Polygon(runwayX, runwayY, 4);
         centreLine = new Line2D.Float((float) rotateandzoom(orientation,x[2],(height / 2),zoom)[0], (float) rotateandzoom(orientation,x[2],(height / 2),zoom)[1], (float) rotateandzoom(orientation,x[3],(height / 2),zoom)[0], (float) rotateandzoom(orientation,x[3],(height / 2),zoom)[1]);
         toraLine = new Line2D.Float((float) rotateandzoom(orientation,x[4],(height / 1.75),zoom)[0], (float) rotateandzoom(orientation,x[4],(height / 1.75),zoom)[1], (float) rotateandzoom(orientation,x[1],(height / 1.75),zoom)[0], (float) rotateandzoom(orientation,x[1],(height / 1.75),zoom)[1]);
         todaLine = new Line2D.Float((float) rotateandzoom(orientation,width,(height / 2.4),zoom)[0], (float) rotateandzoom(orientation,width,(height / 2.4),zoom)[1], (float) rotateandzoom(orientation,x[1],(height / 2.4),zoom)[0], (float) rotateandzoom(orientation,x[1],(height / 2.4),zoom)[1]);
@@ -136,7 +138,7 @@ public class TopViewGUI extends ViewGUI {
         width = Math.max(rescaleVertical(width), 10);
         length = Math.max(rescaleHorizontal(length), 10);
         dFromCL = getHeight()/2 + rescaleVertical(dFromCL);
-        obstacleRec = new Rectangle(dFromT,dFromCL,length, width);
+        obstacleRec = new Polygon(new int[] {dFromT,  dFromT, dFromT + length, dFromT + length},new  int[] {dFromCL, dFromCL + width, dFromCL + width , dFromCL},4);
         repaint();
     }
 
