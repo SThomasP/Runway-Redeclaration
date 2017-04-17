@@ -81,6 +81,7 @@ public class MainPageGUI extends JFrame {
             topView.addObstacle(o.getObstacleWidth(), o.getObstacleLength(), o.getObstacleHeight(), o.getDistanceFromThreshold(), o.getDistanceFromCentreLine());
             sideView.addObstacle(o.getObstacleWidth(), o.getObstacleLength(), o.getObstacleHeight(), o.getDistanceFromThreshold(), o.getDistanceFromCentreLine());
         }
+        topView.setOrientation(Math.toRadians(r.getOrientation()*10));
         topView.repaint();
         sideView.repaint();
     }

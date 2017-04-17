@@ -1,10 +1,20 @@
 package view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
+
+import model.Runway;
 
 public class TopViewGUI extends ViewGUI {
 
+	private double orientation = Math.PI * 2;
+	private double zoom = 1;
+	private double pointx =-1;
+	private double pointy =-1;
 	private Polygon runwayRec;
 	private Line2D centreLine;
 	private Polygon clearArea;
@@ -23,6 +33,24 @@ public class TopViewGUI extends ViewGUI {
 	}
 
 
+
+	public void setOrientation(double orientation) {
+		this.orientation = orientation;
+	}
+
+
+	public void setPoint(double x,double y) {
+		pointx = x;
+	    pointy = y;
+	}
+
+	public void setZoom(double zoom) {
+		this.zoom = zoom;
+	}
+
+	
+
+
 	private int rescaleVertical(int original){
 		return (int) ((float) (original)/runwayWidth*runwayRec.getBounds().getHeight());
 	}
@@ -37,13 +65,20 @@ public class TopViewGUI extends ViewGUI {
 
 	public double[] rotateandzoom(double orientation,double x,double y,double zoom)
 	{
-
-		orientation = (Math.PI * 2) - orientation;
 		//makes the middle 0
 		x = x - getWidth()/2;
 		y = y - getHeight()/2;
 		double newx =  ((x * Math.cos(orientation)) - (y * Math.sin(orientation))) + getWidth()/2;
 		double newy = ((x * Math.sin(orientation)) + (y * Math.cos(orientation))) + getHeight()/2;
+		
+		//shift to the point
+		newx = newx - pointx + getWidth()/2;
+		newy = newy - pointy + getHeight()/2;		
+	
+		//zoom in
+		newx = ((newx - getWidth()/2) * zoom) + getWidth()/2 ;
+		newy = ((newy - getHeight()/2) * zoom) + getHeight()/2;
+		
 		double[] rotated = {newx,newy};
 		return rotated;
 	}
@@ -51,9 +86,7 @@ public class TopViewGUI extends ViewGUI {
 	@Override
 	public void redrawDistances(int toda, int tora, int lda, int asda) {
 
-		double zoom = 1;
 		super.redrawDistances(toda, tora, lda, asda);
-		double orientation = Math.PI /4;
 		int height = getHeight();
 		int width = getWidth();
 		int[] x = {0, (int) (width * 0.17), (int) (width * 0.25), (int) (width * 0.75), (int) (width * 0.83), width};
@@ -88,8 +121,7 @@ public class TopViewGUI extends ViewGUI {
 	}
 
 	public void redrawView() {
-		double orientation = Math.PI /4;
-		double zoom = 1;
+
 		clearArea.reset();
 		int height = getHeight();
 		int[] y = {(int) (height * 0.3), (int) (height * 0.2), (int) (height * 0.7), (int) (height * 0.8)};
@@ -143,8 +175,7 @@ public class TopViewGUI extends ViewGUI {
 	//TODO Rectangles dont work
 	@Override
 	public void addObstacle(int width, int length, int height, int dFromT, int dFromCL) {
-		double orientation = Math.PI /4;
-		double zoom = 1;
+
 		obstacleOnRunway = true;
 		dFromT = (int) (getWidth()*0.17) + thresholdDistance + rescaleHorizontal(dFromT);
 		width = Math.max(rescaleVertical(width), 10);
@@ -165,11 +196,43 @@ public class TopViewGUI extends ViewGUI {
 		g2d.drawString(name,newX,newY);
 		g2d.dispose();
 	}
+	private void writeDistances(Graphics g)
+	{
+		Graphics2D g2d =  (Graphics2D) g.create();
+		g2d.rotate(orientation);
+		int newX = (int) (toraLine.getX2()*Math.cos(orientation) + (toraLine.getY2() + 15)*Math.sin(orientation));
+		int  newY = (int) (-toraLine.getX2()*Math.sin(orientation) + (toraLine.getY2() + 15)*Math.cos(orientation));
+		g2d.drawString(toraString,newX,newY);
+		g2d.dispose();
+
+		g2d =  (Graphics2D) g.create();
+		g2d.rotate(orientation);
+		newX = (int) (todaLine.getX2()*Math.cos(orientation) + (todaLine.getY2() + 15)*Math.sin(orientation));
+		newY = (int) (-todaLine.getX2()*Math.sin(orientation) + (todaLine.getY2() + 15)*Math.cos(orientation));
+		g2d.drawString(todaString,newX,newY);
+		g2d.dispose();
+
+		g2d =  (Graphics2D) g.create();
+		g2d.rotate(orientation);
+		newX = (int) (asdaLine.getX2()*Math.cos(orientation) + (asdaLine.getY2() + 15)*Math.sin(orientation));
+		newY = (int) (-asdaLine.getX2()*Math.sin(orientation) + (asdaLine.getY2() + 15)*Math.cos(orientation));
+		g2d.drawString(asdaString,newX,newY);
+		g2d.dispose();
+	}
+	
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		double orientation = Math.PI /4;
-		double zoom = 1;
+		//default to middle
+		if(pointx ==-1)
+		{
+			pointx = getWidth()/2;
+		}
+		if(pointy ==-1)
+		{
+			pointy = getHeight()/2;
+		}
+		redrawView();
 		fillShape(new Color(141, 44, 159), g, clearArea);
 		outlineShape(Color.black, g, clearArea, outline);
 		fillShape(Color.gray, g, runwayRec);
@@ -179,9 +242,8 @@ public class TopViewGUI extends ViewGUI {
 			outlineShape(Color.blue, g, toraLine, outline);
 			outlineShape(Color.blue, g, todaLine, outline);
 			outlineShape(Color.orange, g, asdaLine, outline);
-			g.drawString(toraString, (int) toraLine.getX2(), (int) toraLine.getY2() + 15);
-			g.drawString(todaString, (int) todaLine.getX2(), (int) todaLine.getY2() + 15);
-			g.drawString(asdaString, (int) asdaLine.getX2(), (int) asdaLine.getY2() + 15);
+			writeDistances(g);
+
 
 		}
 		if (action == LANDING) {
@@ -199,4 +261,8 @@ public class TopViewGUI extends ViewGUI {
 		drawRunwayName(name,orientation,(int)rotateandzoom(orientation,getWidth()/5,getHeight()/2 - 18,zoom)[0],(int)rotateandzoom(orientation,getWidth()/5,getHeight()/2 - 18,zoom)[1], g);
 		drawRunwayName(inverseName, orientation,(int)rotateandzoom(orientation,4 * getWidth()/5,getHeight()/2 + 18,zoom)[0], (int)rotateandzoom(orientation,4 * getWidth()/5,getHeight()/2 + 18,zoom)[1], g);
 	}
+
+
+
+
 }

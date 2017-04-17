@@ -86,6 +86,9 @@ public abstract class ViewGUI extends JPanel {
         g2d.fill(shape);
         g2d.dispose();
     }
+    
+   
 
 }
+
 
