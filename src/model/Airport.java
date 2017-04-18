@@ -12,9 +12,13 @@ public class Airport {
 	
 	public Airport(ArrayList<Runway> runways){
 		
-		currentRunway = runways.get(0);
+		if (runways.size() != 0)
+		{
+			currentRunway = runways.get(0);
+		}
 		listOfRunways = runways;
 	}
+	
 
 	public Runway getCurrentRunway(){
 		return currentRunway;
@@ -26,6 +30,15 @@ public class Airport {
 
 	public void setCurrentRunway(Runway currentRunway) {
 		this.currentRunway = currentRunway;
+	}
+	
+	public void addRunway(Runway r)
+	{
+		if(currentRunway == null)
+		{
+			currentRunway = r;
+		}
+		listOfRunways.add(r);
 	}
 
 	
