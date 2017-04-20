@@ -61,7 +61,12 @@ public class Runway {
 
 	public void addObstacle(Obstacle obstacle) {
 		this.obstacle = obstacle;
-		recalculate();
+		if (obstacle.getDistanceFromCentreLine() < 75 && obstacle.getDistanceFromThreshold() > -60)
+		{
+			recalculate();
+		}
+		
+		
 	}
 
 	
