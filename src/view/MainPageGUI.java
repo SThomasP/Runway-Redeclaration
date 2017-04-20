@@ -139,12 +139,28 @@ public class MainPageGUI extends JFrame {
     public JComboBox<Runway> getRunways() {
         return runways;
     }
-
+    
+    
     public void setOriginalFigures(int toda, int tora, int lda, int asda) {
         distances.setValueAt(String.valueOf(tora), 0, 2);
         distances.setValueAt(String.valueOf(toda), 1, 2);
         distances.setValueAt(String.valueOf(asda), 2, 2);
         distances.setValueAt(String.valueOf(lda), 3, 2);
+    }
+
+    public void setRecipAdjustedFigures(int toda, int tora, int lda, int asda) {
+    	reciprocalDistances.setValueAt(String.valueOf(tora), 0, 1);
+    	reciprocalDistances.setValueAt(String.valueOf(toda), 1, 1);
+    	reciprocalDistances.setValueAt(String.valueOf(asda), 2, 1);
+    	reciprocalDistances.setValueAt(String.valueOf(lda), 3, 1);
+        
+    }
+
+    public void setRecipOriginalFigures(int toda, int tora, int lda, int asda) {
+    	reciprocalDistances.setValueAt(String.valueOf(tora), 0, 2);
+    	reciprocalDistances.setValueAt(String.valueOf(toda), 1, 2);
+    	reciprocalDistances.setValueAt(String.valueOf(asda), 2, 2);
+    	reciprocalDistances.setValueAt(String.valueOf(lda), 3, 2);
     }
 
     public void init(Controller c) {

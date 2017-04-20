@@ -339,6 +339,16 @@ public class Controller {
 						airport.getCurrentRunway().getAsdaOriginal());
 				gui.setAdjustedFigures(airport.getCurrentRunway().getToda(), airport.getCurrentRunway().getTora(),
 						airport.getCurrentRunway().getLda(), airport.getCurrentRunway().getAsda());
+				
+				Runway inverse = airport.findReciprocal(airport.getCurrentRunway());
+				
+				gui.setRecipOriginalFigures(inverse.getTodaOriginal(),
+						inverse.getToraOriginal(), inverse.getLdaOriginal(),
+						inverse.getAsdaOriginal());
+				gui.setRecipAdjustedFigures(inverse.getToda(), inverse.getTora(),
+						inverse.getLda(), inverse.getAsda());
+				
+				
 				gui.updateGraphicRunway();
 			}
 		};

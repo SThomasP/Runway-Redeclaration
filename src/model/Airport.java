@@ -40,6 +40,18 @@ public class Airport {
 		}
 		listOfRunways.add(r);
 	}
+	
+	public Runway findReciprocal(Runway r)
+	{
+		for(Runway ru : listOfRunways)
+		{
+			if (ru.inverse().equals(r.toString()))
+			{
+				return ru;
+			}
+		}
+		return null;
+	}
 
 	
 

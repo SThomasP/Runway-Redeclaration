@@ -41,8 +41,12 @@ public class Runway {
 		if (location == 'L'){
 			inverseLocation = 'R';
 		}
-		else{
+		else if (location == 'R') {
 			inverseLocation = 'L';
+		}
+		else
+		{
+			inverseLocation = 'C';
 		}
 		this.todaCurrent = toda;
 		this.toraCurrent = tora;
