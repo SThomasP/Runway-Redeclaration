@@ -59,22 +59,17 @@ public class Controller {
 		return importAirport;
 	}
 
-
 	public ActionListener getSelectAllItems() {
 		return selectAllItems;
 	}
 
-
-
 	public ActionListener getImportSomeRunways() {
 		return importSomeRunways;
 	}
-	
-	
-	public ActionListener getOverwriteAirport	() {
+
+	public ActionListener getOverwriteAirport() {
 		return overwriteAirport;
 	}
-
 
 	public ActionListener getExportAirport() {
 		return exportAirport;
@@ -100,7 +95,7 @@ public class Controller {
 		return addObstacleButtonPress;
 	}
 
-	public MainPageGUI getGui(){
+	public MainPageGUI getGui() {
 		return gui;
 	}
 
@@ -170,99 +165,108 @@ public class Controller {
 		}
 	}
 
-
 	public Controller() {
 		// create an action listener for when the export button is pressed.
 		exportAirport = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				airportXML.write(airport);
+				if (JOptionPane.showConfirmDialog(null, "Would you like to export the current runway details?", "Confirm",
+				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					airportXML.write(airport);
+					JOptionPane.showMessageDialog(gui, "Runway Exported.");
+				} else {
+					JOptionPane.showMessageDialog(gui, "Runway not exported.");
+				}
 			}
-
 		};
 
 		selectAllItems = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JList<Runway> list = sir.getList();
 				list.setSelectionInterval(0, list.getModel().getSize());
+				JOptionPane.showMessageDialog(null, "Selecting all runways to be imported.");
 			}
-			
-			
 		};
-				
+
 		importSomeRunways = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JList<Runway> list = sir.getList();
-	            for (int i = 0; i < list.getModel().getSize(); i++) {
-	            	if (list.isSelectedIndex(i)) {
-	                    airport.addRunway(list.getModel().getElementAt(i));
-	                }
-	            }
-	         // needs to remove choose current runway or it will output a
+				for (int i = 0; i < list.getModel().getSize(); i++) {
+					if (list.isSelectedIndex(i)) {
+						airport.addRunway(list.getModel().getElementAt(i));
+					}
+				}
+				// needs to remove choose current runway or it will output a
 				// null pointer exception
 				// this is because a time the list will be empty
-				gui.getRunways().removeActionListener(chooseCurrentRunway);
-				gui.updateRunwayList(airport.getListOfRunways());
-				gui.getRunways().addActionListener(chooseCurrentRunway);
-				gui.updateGraphicRunway();
-				Runway currentRunway = airport.getCurrentRunway();
-				//add the figures to the gui
-				gui.setOriginalFigures(currentRunway.getTodaOriginal(), currentRunway.getToraOriginal(), currentRunway.getLdaOriginal(),
-						currentRunway.getAsdaOriginal());
-				gui.setAdjustedFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),
-						currentRunway.getAsda());
-				
-				sir.setVisible(false);
-				
+				if (JOptionPane.showConfirmDialog(null, "Would you like to import this runway?", "Confirm",
+				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					gui.getRunways().removeActionListener(chooseCurrentRunway);
+					gui.updateRunwayList(airport.getListOfRunways());
+					gui.getRunways().addActionListener(chooseCurrentRunway);
+					gui.updateGraphicRunway();
+					Runway currentRunway = airport.getCurrentRunway();
+					// add the figures to the gui
+					gui.setOriginalFigures(currentRunway.getTodaOriginal(), currentRunway.getToraOriginal(),
+							currentRunway.getLdaOriginal(), currentRunway.getAsdaOriginal());
+					gui.setAdjustedFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),
+							currentRunway.getAsda());
+
+					sir.setVisible(false);
+					JOptionPane.showMessageDialog(gui, "Runway added. List updated.");
+				} else {
+					JOptionPane.showMessageDialog(gui, "Runway not added.");
+				}
 			}
 		};
-		
+
 		overwriteAirport = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JList<Runway> list = sir.getList();
 				airport = new Airport(new ArrayList<Runway>());
-	            for (int i = 0; i < list.getModel().getSize(); i++) {
-	            	if (list.isSelectedIndex(i)) {
-	                    airport.addRunway(list.getModel().getElementAt(i));
-	                }
-	            }
-	         // needs to remove choose current runway or it will output a
-				// null pointer exception
-				// this is because a time the list will be empty
-				gui.getRunways().removeActionListener(chooseCurrentRunway);
-				gui.updateRunwayList(airport.getListOfRunways());
-				gui.getRunways().addActionListener(chooseCurrentRunway);
-				gui.updateGraphicRunway();
-				Runway currentRunway = airport.getCurrentRunway();
-				//add the figures to the gui
-				gui.setOriginalFigures(currentRunway.getTodaOriginal(), currentRunway.getToraOriginal(), currentRunway.getLdaOriginal(),
-						currentRunway.getAsdaOriginal());
-				gui.setAdjustedFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),
-						currentRunway.getAsda());
+				for (int i = 0; i < list.getModel().getSize(); i++) {
+					if (list.isSelectedIndex(i)) {
+						airport.addRunway(list.getModel().getElementAt(i));
+					}
+				}
 				
-				sir.setVisible(false);
-				
+				if (JOptionPane.showConfirmDialog(null, "Would you like to import this runway and overwrite the current?",
+						"Confirm",
+				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					// needs to remove choose current runway or it will output a
+					// null pointer exception
+					// this is because a time the list will be empty
+					gui.getRunways().removeActionListener(chooseCurrentRunway);
+					gui.updateRunwayList(airport.getListOfRunways());
+					gui.getRunways().addActionListener(chooseCurrentRunway);
+					gui.updateGraphicRunway();
+					Runway currentRunway = airport.getCurrentRunway();
+					// add the figures to the gui
+					gui.setOriginalFigures(currentRunway.getTodaOriginal(), currentRunway.getToraOriginal(),
+							currentRunway.getLdaOriginal(), currentRunway.getAsdaOriginal());
+					gui.setAdjustedFigures(currentRunway.getToda(), currentRunway.getTora(), currentRunway.getLda(),
+							currentRunway.getAsda());
+
+					sir.setVisible(false);
+					JOptionPane.showMessageDialog(gui, "Runway added. Old runway is overwritten.");
+				} else {
+					JOptionPane.showMessageDialog(gui, "Runway not added. Data isn't overwritten.");
+				}
 			}
 		};
 
 		importAirport = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				ArrayList<Runway> readRunways = airportXML.read().getListOfRunways();
-
-				sir = new SelectImportRunwaysGUI(readRunways,Controller.this);
-
+				sir = new SelectImportRunwaysGUI(readRunways, Controller.this);
 
 			}
-
 		};
 
 		// create an action listener for when the submit button is pressed.
@@ -274,6 +278,7 @@ public class Controller {
 				inputRunway.addObstacle(gui.getNewObstacle());
 				gui.setAdjustedFigures(inputRunway.getToda(), inputRunway.getTora(), inputRunway.getLda(),
 						inputRunway.getAsda());
+				JOptionPane.showMessageDialog(gui, "Obstacle added to runway.");
 
 			}
 
@@ -285,6 +290,7 @@ public class Controller {
 				gui.setToraWorking(Runway.toraworking);
 				gui.setAsdaWorking(Runway.asdaworking);
 				gui.setLdaWorking(Runway.ldaworking);
+				JOptionPane.showMessageDialog(null, "Calculations updated.");
 			}
 		};
 
@@ -292,13 +298,13 @@ public class Controller {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				int yesNoButton = JOptionPane.YES_NO_OPTION;
-				JOptionPane.showConfirmDialog(null, "Would you like to add this obstacle?", "Confirm", yesNoButton);
-				if (yesNoButton == JOptionPane.YES_OPTION) {
+				if (JOptionPane.showConfirmDialog(null, "Would you like to add this obstacle?", "Confirm",
+				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					writeObstacleList();
 					putObstacle();
-					JOptionPane.showMessageDialog(gui, "Obstacle Added");
+					JOptionPane.showMessageDialog(gui, "Obstacle Added.");
+				} else {
+					JOptionPane.showMessageDialog(gui, "Obstacle not added to the list.");
 				}
 			}
 		};
@@ -306,8 +312,25 @@ public class Controller {
 		changeRunwayUse = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+								
 				JComboBox box = (JComboBox) e.getSource();
-				gui.changeRunwayUse((String) box.getSelectedItem());
+				if (box.getSelectedItem().toString().equals("Landing")) {
+					if (JOptionPane.showConfirmDialog(null, "Would you like to change to Landing view?", "Confirm",
+					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						gui.changeRunwayUse((String) box.getSelectedItem());
+						JOptionPane.showMessageDialog(gui, "View Changed to Landing. See Below.");
+					} else {
+						JOptionPane.showMessageDialog(gui, "View Unchanged.");
+					}
+				} else if (box.getSelectedItem().toString().equals("Take Off")) {
+					if (JOptionPane.showConfirmDialog(null, "Would you like to change to Take Off view?", "Confirm",
+					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						gui.changeRunwayUse((String) box.getSelectedItem());
+						JOptionPane.showMessageDialog(gui, "View Changed to Take Off. See Below.");
+					} else {
+						JOptionPane.showMessageDialog(gui, "View Unchanged.");
+					}
+				}
 			}
 		};
 
@@ -339,21 +362,18 @@ public class Controller {
 						airport.getCurrentRunway().getAsdaOriginal());
 				gui.setAdjustedFigures(airport.getCurrentRunway().getToda(), airport.getCurrentRunway().getTora(),
 						airport.getCurrentRunway().getLda(), airport.getCurrentRunway().getAsda());
-				
+
 				Runway inverse = airport.findReciprocal(airport.getCurrentRunway());
-				
-				if (inverse != null)
-				{
-				
-				gui.setRecipOriginalFigures(inverse.getTodaOriginal(),
-						inverse.getToraOriginal(), inverse.getLdaOriginal(),
-						inverse.getAsdaOriginal());
-				gui.setRecipAdjustedFigures(inverse.getToda(), inverse.getTora(),
-						inverse.getLda(), inverse.getAsda());
-				
+
+				if (inverse != null) {
+
+					gui.setRecipOriginalFigures(inverse.getTodaOriginal(), inverse.getToraOriginal(),
+							inverse.getLdaOriginal(), inverse.getAsdaOriginal());
+					gui.setRecipAdjustedFigures(inverse.getToda(), inverse.getTora(), inverse.getLda(),
+							inverse.getAsda());
+
 				}
-				
-				
+
 				gui.updateGraphicRunway();
 			}
 		};
@@ -370,7 +390,6 @@ public class Controller {
 				gui.refreshViews();
 			}
 
-
 		});
 
 		gui.getViewObstaclesList().addActionListener(new ActionListener() {
@@ -383,9 +402,9 @@ public class Controller {
 					for (Obstacle o : listOfObstacles) {
 						if (gui.getViewObstaclesList().getSelectedItem().toString().equals(o.getName())) {
 							gui.getDisplayObstacle()
-							.append("Name   " + o.getName() + "\t" + "Height:   " + o.getObstacleHeight() + "\t"
-									+ "Width:   " + o.getObstacleWidth() + "\t" + "Length:   "
-									+ o.getObstacleLength() + "\n");
+									.append("Name   " + o.getName() + "\t" + "Height:   " + o.getObstacleHeight() + "\t"
+											+ "Width:   " + o.getObstacleWidth() + "\t" + "Length:   "
+											+ o.getObstacleLength() + "\n");
 						}
 					}
 				}
@@ -393,11 +412,10 @@ public class Controller {
 
 		});
 
-
 		// create the model with a single runway
 		ArrayList<Runway> listOfRunways = new ArrayList<Runway>();
 		listOfRunways.add(new Runway(9, 'L', 3902, 3900, 3902, 3595, 306, 50));
-		listOfRunways.add(new Runway(27, 'R',3902,3900 ,3902,3900,0,50));
+		listOfRunways.add(new Runway(27, 'R', 3902, 3900, 3902, 3900, 0, 50));
 
 		airport = new Airport(listOfRunways);
 		gui.updateRunwayList(airport.getListOfRunways());

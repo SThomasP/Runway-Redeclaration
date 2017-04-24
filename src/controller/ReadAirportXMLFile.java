@@ -1,6 +1,5 @@
 package controller;
 
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -23,8 +22,8 @@ import java.util.ArrayList;
 
 public class ReadAirportXMLFile {
 
-
 	File file = new File("airport.xml");
+
 	public Airport read() {
 
 		try {
@@ -40,7 +39,6 @@ public class ReadAirportXMLFile {
 
 				Node nNode = nList.item(temp);
 
-
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
 					Element eElement = (Element) nNode;
@@ -53,27 +51,29 @@ public class ReadAirportXMLFile {
 					int lda;
 					int displacedThreshold;
 					location = eElement.getElementsByTagName("location").item(0).getTextContent().charAt(0);
-					orientation = Integer.parseInt(eElement.getElementsByTagName("orientation").item(0).getTextContent());
+					orientation = Integer
+							.parseInt(eElement.getElementsByTagName("orientation").item(0).getTextContent());
 					tora = Integer.parseInt(eElement.getElementsByTagName("tora").item(0).getTextContent());
 					toda = Integer.parseInt(eElement.getElementsByTagName("toda").item(0).getTextContent());
 					asda = Integer.parseInt(eElement.getElementsByTagName("asda").item(0).getTextContent());
 					lda = Integer.parseInt(eElement.getElementsByTagName("lda").item(0).getTextContent());
-					displacedThreshold = Integer.parseInt(eElement.getElementsByTagName("displacedThreshold").item(0).getTextContent());
+					displacedThreshold = Integer
+							.parseInt(eElement.getElementsByTagName("displacedThreshold").item(0).getTextContent());
 
-					newRun = new Runway(orientation,location,toda,tora,asda,lda,displacedThreshold,50);
-					Element obstacle =  (Element) doc.getElementsByTagName("obstacle").item(0);
-					if (obstacle.hasChildNodes() == true)
-					{
+					newRun = new Runway(orientation, location, toda, tora, asda, lda, displacedThreshold, 50);
+					Element obstacle = (Element) doc.getElementsByTagName("obstacle").item(0);
+					if (obstacle.hasChildNodes() == true) {
 						Obstacle newObs;
 						int height;
 						int distanceFromCentreLine;
 						int distanceFromThreshold;
 						height = Integer.parseInt(obstacle.getElementsByTagName("height").item(0).getTextContent());
-						distanceFromCentreLine = Integer.parseInt(obstacle.getElementsByTagName("distanceFromCentreLine").item(0).getTextContent());
-						distanceFromThreshold = Integer.parseInt(obstacle.getElementsByTagName("distanceFromThreshold").item(0).getTextContent());
+						distanceFromCentreLine = Integer.parseInt(
+								obstacle.getElementsByTagName("distanceFromCentreLine").item(0).getTextContent());
+						distanceFromThreshold = Integer.parseInt(
+								obstacle.getElementsByTagName("distanceFromThreshold").item(0).getTextContent());
 
-
-						newObs = new Obstacle(height,distanceFromCentreLine,distanceFromThreshold);
+						newObs = new Obstacle(height, distanceFromCentreLine, distanceFromThreshold);
 						newRun.addObstacle(newObs);
 					}
 					listOfRunways.add(newRun);
@@ -88,8 +88,7 @@ public class ReadAirportXMLFile {
 
 	}
 
-	public void write(Airport a)
-	{
+	public void write(Airport a) {
 		try {
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -99,8 +98,7 @@ public class ReadAirportXMLFile {
 			Document doc = docBuilder.newDocument();
 			Element rootElement = doc.createElement("Airport");
 			doc.appendChild(rootElement);
-			for(Runway r : a.getListOfRunways())
-			{
+			for (Runway r : a.getListOfRunways()) {
 				// runway elements
 				Element runway = doc.createElement("runway");
 				rootElement.appendChild(runway);
@@ -139,28 +137,25 @@ public class ReadAirportXMLFile {
 				displacedThreshold.appendChild(doc.createTextNode(Integer.toString(r.getDisplacedThreshold())));
 				runway.appendChild(displacedThreshold);
 
-
 				Element obstacle = doc.createElement("obstacle");
 				runway.appendChild(obstacle);
-				if(r.getObstacle() != null)
-				{
-
+				if (r.getObstacle() != null) {
 
 					Element obstacleHeight = doc.createElement("height");
-					obstacleHeight.appendChild(doc.createTextNode(Integer.toString(r.getObstacle().getObstacleHeight())));
+					obstacleHeight
+							.appendChild(doc.createTextNode(Integer.toString(r.getObstacle().getObstacleHeight())));
 					obstacle.appendChild(obstacleHeight);
 
 					Element distanceFromCentreLine = doc.createElement("distanceFromCentreLine");
-					distanceFromCentreLine.appendChild(doc.createTextNode(Integer.toString(r.getObstacle().getDistanceFromCentreLine())));
+					distanceFromCentreLine.appendChild(
+							doc.createTextNode(Integer.toString(r.getObstacle().getDistanceFromCentreLine())));
 					obstacle.appendChild(distanceFromCentreLine);
 
 					Element distanceFromThreshold = doc.createElement("distanceFromThreshold");
-					distanceFromThreshold.appendChild(doc.createTextNode(Integer.toString(r.getObstacle().getDistanceFromThreshold())));
+					distanceFromThreshold.appendChild(
+							doc.createTextNode(Integer.toString(r.getObstacle().getDistanceFromThreshold())));
 					obstacle.appendChild(distanceFromThreshold);
 				}
-
-
-
 
 			}
 			// write the content into xml file
@@ -168,10 +163,9 @@ public class ReadAirportXMLFile {
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(file);
-			//StreamResult result = new StreamResult(System.out);
+			// StreamResult result = new StreamResult(System.out);
 
 			transformer.transform(source, result);
-
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -179,4 +173,3 @@ public class ReadAirportXMLFile {
 	}
 
 }
-
