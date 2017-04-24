@@ -40,6 +40,11 @@ public class MainPageGUI extends JFrame {
     private JButton importButton;
     private JButton exportButton;
     private JButton refreshMain;
+    private JButton resetView;
+    private JButton rotateView;
+    private JButton zoomInView;
+    private JButton zoomOutView;
+    private JButton printView;
     private JPanel differentViews;
     private JTextArea todaCalcBreakdown;
     private JTextArea asdaCalcBreakdown;
@@ -181,12 +186,44 @@ public class MainPageGUI extends JFrame {
         JScrollPane dScroll = new JScrollPane(distances, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
+        JPanel recipAndFunc = new JPanel();
+        recipAndFunc.setLayout(new GridLayout(2,1));
+        
         JPanel declaredRecipDistance = new JPanel();
         declaredRecipDistance.setLayout(new BorderLayout());
         reciprocalDistances = new JTable(new DistanceTableModel());
         reciprocalDistances.setFont(displayFont);
         JScrollPane rdScroll = new JScrollPane(reciprocalDistances, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        
+        JPanel functionButtonPanel = new JPanel();
+        functionButtonPanel.setLayout(new GridLayout(5,3));
+        
+        resetView = new JButton("Reset");
+        rotateView = new JButton("Rotate");
+        printView = new JButton("Print");
+        zoomInView = new JButton("Zoom In");
+        zoomOutView = new JButton("Zoom Out");
+
+        functionButtonPanel.add(new JPanel());
+        functionButtonPanel.add(resetView);
+        functionButtonPanel.add(new JPanel());
+        
+        functionButtonPanel.add(new JPanel());
+        functionButtonPanel.add(rotateView);
+        functionButtonPanel.add(new JPanel());
+        
+        functionButtonPanel.add(new JPanel());
+        functionButtonPanel.add(printView);
+        functionButtonPanel.add(new JPanel());
+        
+        functionButtonPanel.add(new JPanel());
+        functionButtonPanel.add(zoomInView);
+        functionButtonPanel.add(new JPanel());
+        
+        functionButtonPanel.add(new JPanel());
+        functionButtonPanel.add(zoomOutView);
+        functionButtonPanel.add(new JPanel());
 
         JPanel obstacleInfo = new JPanel();
         obstacleInfo.setLayout(new GridLayout(7, 2));
@@ -226,7 +263,11 @@ public class MainPageGUI extends JFrame {
 
         declaredDistance.add(new JLabel("Declared Distances For Runway"), BorderLayout.NORTH);
         declaredDistance.add(dScroll, BorderLayout.CENTER);
-        calculations.add(declaredDistance);
+        
+        
+        recipAndFunc.add(functionButtonPanel);
+        recipAndFunc.add(declaredDistance);
+        calculations.add(recipAndFunc);
 
         declaredRecipDistance.add(new JLabel("Declared Reciprocal Distances For Runway"), BorderLayout.NORTH);
         declaredRecipDistance.add(rdScroll, BorderLayout.CENTER);
