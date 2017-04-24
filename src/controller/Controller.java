@@ -3,6 +3,8 @@ package controller;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -51,8 +53,44 @@ public class Controller {
 	private ActionListener importSomeRunways;
 	private ActionListener overwriteAirport;
 	private ActionListener selectAllItems;
+	private ActionListener zoomIn;
+	private ActionListener rotate;
+	private ActionListener rotateToHeading;
+	private ActionListener reset;
+	private MouseListener getTopViewPoint;
+
+
+	
+	
 
 	private File obstacleList;
+	
+	
+	
+	public MouseListener getGetTopViewPoint() {
+		return getTopViewPoint;
+	}
+
+
+	public ActionListener getReset() {
+		return reset;
+	}
+
+
+	public ActionListener getRotateToHeading() {
+		return rotateToHeading;
+	}
+
+
+	public ActionListener getZoomIn() {
+		return zoomIn;
+	}
+
+
+	public ActionListener getRotate() {
+		return rotate;
+	}
+
 	public ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
 
 	public ActionListener getImportAirport() {
@@ -181,7 +219,89 @@ public class Controller {
 			}
 
 		};
+		
+		getTopViewPoint = new MouseListener() {
 
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				JTextField x = gui.getPointx();
+				JTextField y = gui.getPointy();
+				
+				x.setText(String.valueOf(arg0.getX()));
+				y.setText(String.valueOf(arg0.getY()));
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+
+		};
+		
+		zoomIn = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				TopViewGUI a = gui.getTopView();
+				a.setZoom(Double.parseDouble(gui.getZoomFactor().getText()));
+				a.setPoint((Double.parseDouble(gui.getPointx().getText())), (Double.parseDouble(gui.getPointy().getText())));
+				a.repaint();
+			}
+
+		};
+		
+		reset = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				gui.updateGraphicRunway();
+			}
+
+		};
+		
+		rotate = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				TopViewGUI a = gui.getTopView();
+				a.setOrientation(Math.toRadians(Double.parseDouble(gui.getRotationDegree().getText())));
+				a.repaint();
+			}
+
+		};
+		rotateToHeading = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				TopViewGUI a = gui.getTopView();
+				a.setOrientation(Math.toRadians(airport.getCurrentRunway().getOrientation()*10));
+				a.repaint();
+
+			}
+
+		};
+	
 		selectAllItems = new ActionListener() {
 
 			@Override
