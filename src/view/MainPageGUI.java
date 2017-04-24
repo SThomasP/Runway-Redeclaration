@@ -23,6 +23,9 @@ public class MainPageGUI extends JFrame {
     public static Font displayFont = new Font("Arial", Font.PLAIN, 18);
     public static final String[] runwayViews = {"Top Down View", "Side View"};
     private  static final String[] runwayUsesArray = {"Take Off", "Landing"};
+    private JTextField rotationDegree;
+    private JTextField pointx;
+    private JTextField pointy;
     private JTable distances;
     private JTable reciprocalDistances;
     private JPanel viewRunway;
@@ -34,6 +37,7 @@ public class MainPageGUI extends JFrame {
     private JTextField oLength;
     private JTextField oDistanceFromCL;
     private JTextField oDistanceFromT;
+    private JTextField zoomFactor;
     private JComboBox<String> runwayUses;
     private JComboBox<Runway> runways;
     private JComboBox<String> runwayViewType;
@@ -42,6 +46,7 @@ public class MainPageGUI extends JFrame {
     private JButton refreshMain;
     private JButton resetView;
     private JButton rotateView;
+    private JButton rotateViewToCompass;
     private JButton zoomInView;
     private JButton zoomOutView;
     private JButton printView;
@@ -62,7 +67,33 @@ public class MainPageGUI extends JFrame {
         super("Runway Redeclaration");
     }
 
-    public void addObstacleToViews() {
+    
+    
+    public JTextField getRotationDegree() {
+		return rotationDegree;
+	}
+
+ 
+
+	public JTextField getPointx() {
+		return pointx;
+	}
+
+
+
+	public JTextField getPointy() {
+		return pointy;
+	}
+
+
+
+	public JTextField getZoomFactor() {
+		return zoomFactor;
+	}
+
+
+
+	public void addObstacleToViews() {
         topView.removeObstacle();
         sideView.removeObstacle();
         topView.addObstacle(getCurrentObstacleWidth(), getCurrentObstacleLength(), getCurrentObstacleHeight(), getDistanceFromT(), getDistanceFromCL());
@@ -86,7 +117,9 @@ public class MainPageGUI extends JFrame {
             topView.addObstacle(o.getObstacleWidth(), o.getObstacleLength(), o.getObstacleHeight(), o.getDistanceFromThreshold(), o.getDistanceFromCentreLine());
             sideView.addObstacle(o.getObstacleWidth(), o.getObstacleLength(), o.getObstacleHeight(), o.getDistanceFromThreshold(), o.getDistanceFromCentreLine());
         }
-        topView.setOrientation(Math.toRadians(r.getOrientation()*10));
+        topView.setOrientation(0);
+        topView.setZoom(1);
+        topView.setPoint(-1, -1);
         topView.repaint();
         sideView.repaint();
     }
@@ -197,34 +230,49 @@ public class MainPageGUI extends JFrame {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         
         JPanel functionButtonPanel = new JPanel();
-        functionButtonPanel.setLayout(new GridLayout(5,3));
+        functionButtonPanel.setLayout(new GridLayout(6,3));
         
         resetView = new JButton("Reset");
+        resetView.addActionListener(c.getReset());
         rotateView = new JButton("Rotate");
+        rotateView.addActionListener(c.getRotate());
+        rotateViewToCompass = new JButton("Rotate To Heading");
+        rotateViewToCompass.addActionListener(c.getRotateToHeading());
         printView = new JButton("Print");
         zoomInView = new JButton("Zoom In");
+        zoomInView.addActionListener(c.getZoomIn());
         zoomOutView = new JButton("Zoom Out");
-
-        functionButtonPanel.add(new JPanel());
+        rotationDegree = new JTextField();
+        pointx = new JTextField("0");
+        pointy = new JTextField("0");
+        zoomFactor = new JTextField();
+        
         functionButtonPanel.add(resetView);
         functionButtonPanel.add(new JPanel());
-        
         functionButtonPanel.add(new JPanel());
+        
+       
         functionButtonPanel.add(rotateView);
+        functionButtonPanel.add(new JLabel("Rotation in Degrees"));
+        functionButtonPanel.add(rotationDegree);
+        
+        
+        functionButtonPanel.add(rotateViewToCompass);
+        functionButtonPanel.add(new JPanel());
         functionButtonPanel.add(new JPanel());
         
-        functionButtonPanel.add(new JPanel());
+        functionButtonPanel.add(zoomInView);
+        functionButtonPanel.add(new JLabel("Zoom Factor"));
+        functionButtonPanel.add(zoomFactor);
+        
+        functionButtonPanel.add(new JLabel("Point"));
+        functionButtonPanel.add(pointx);
+        functionButtonPanel.add(pointy);
+
         functionButtonPanel.add(printView);
         functionButtonPanel.add(new JPanel());
-        
-        functionButtonPanel.add(new JPanel());
-        functionButtonPanel.add(zoomInView);
         functionButtonPanel.add(new JPanel());
         
-        functionButtonPanel.add(new JPanel());
-        functionButtonPanel.add(zoomOutView);
-        functionButtonPanel.add(new JPanel());
-
         JPanel obstacleInfo = new JPanel();
         obstacleInfo.setLayout(new GridLayout(7, 2));
 
@@ -427,6 +475,7 @@ public class MainPageGUI extends JFrame {
         menuBar.add(runwayUses);
 
         topView = new TopViewGUI();
+        topView.addMouseListener(c.getGetTopViewPoint());
         sideView = new SideViewGUI();
         differentViews = new JPanel(new CardLayout());
         differentViews.add(topView,runwayViews[0]);
