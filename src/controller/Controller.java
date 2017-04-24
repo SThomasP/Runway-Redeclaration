@@ -342,11 +342,16 @@ public class Controller {
 				
 				Runway inverse = airport.findReciprocal(airport.getCurrentRunway());
 				
+				if (inverse != null)
+				{
+				
 				gui.setRecipOriginalFigures(inverse.getTodaOriginal(),
 						inverse.getToraOriginal(), inverse.getLdaOriginal(),
 						inverse.getAsdaOriginal());
 				gui.setRecipAdjustedFigures(inverse.getToda(), inverse.getTora(),
 						inverse.getLda(), inverse.getAsda());
+				
+				}
 				
 				
 				gui.updateGraphicRunway();
