@@ -496,6 +496,7 @@ public class Controller {
 				}
 
 				gui.updateGraphicRunway();
+				gui.updateGraphicRunway();
 			}
 		};
 
