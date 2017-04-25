@@ -476,6 +476,7 @@ public class Controller {
 		chooseCurrentRunway = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				airport.setCurrentRunway(gui.getSelectedRunway());
 				gui.setOriginalFigures(airport.getCurrentRunway().getTodaOriginal(),
 						airport.getCurrentRunway().getToraOriginal(), airport.getCurrentRunway().getLdaOriginal(),
