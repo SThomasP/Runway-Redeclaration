@@ -229,9 +229,8 @@ public class MainPageGUI extends JFrame {
         JScrollPane rdScroll = new JScrollPane(reciprocalDistances, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
       
-        
-        JPanel functionButtonPanel = new JPanel();
-        functionButtonPanel.setLayout(new GridLayout(8,3));
+        JPanel moreFunction = new JPanel();
+        moreFunction.setLayout(new GridLayout(4, 3));     
         
         resetView = new JButton("Reset");
         resetView.addActionListener(c.getReset());
@@ -248,31 +247,55 @@ public class MainPageGUI extends JFrame {
         pointy = new JTextField("0");
         zoomFactor = new JTextField();
         
-        functionButtonPanel.add(resetView);
-        functionButtonPanel.add(new JPanel());
-        functionButtonPanel.add(new JPanel());
+        JPanel zoomWholePanel = new JPanel();
+        zoomWholePanel.setLayout(new BorderLayout());
         
-       
-        functionButtonPanel.add(rotateView);
-        functionButtonPanel.add(new JLabel("Rotation in Degrees"));
-        functionButtonPanel.add(rotationDegree);
+        JPanel zoomPanel = new JPanel();
+        zoomPanel.setLayout(new GridLayout(3,3));
         
+        zoomPanel.add(new JLabel("Select Zoom Point"));
+        zoomPanel.add(pointx);
+        zoomPanel.add(pointy);
         
-        functionButtonPanel.add(rotateViewToCompass);
-        functionButtonPanel.add(new JPanel());
-        functionButtonPanel.add(new JPanel());
+        zoomPanel.add(new JLabel("Zoom Factor"));  
+        zoomPanel.add(new JPanel());
+        zoomPanel.add(zoomFactor);
+        zoomPanel.add(new JPanel());
+        zoomPanel.add(new JPanel());
+        zoomPanel.add(zoomInView);
         
-        functionButtonPanel.add(zoomInView);
-        functionButtonPanel.add(new JLabel("Zoom Factor"));
-        functionButtonPanel.add(zoomFactor);
+        zoomWholePanel.add(new JLabel("Zoom Function"), BorderLayout.NORTH);
+        zoomWholePanel.add(zoomPanel, BorderLayout.CENTER);
         
-        functionButtonPanel.add(new JLabel("Point"));
-        functionButtonPanel.add(pointx);
-        functionButtonPanel.add(pointy);
-
+        JPanel rotateWholePanel = new JPanel();
+        rotateWholePanel.setLayout(new BorderLayout());
+        
+        JPanel rotatePanel = new JPanel();
+        rotatePanel.setLayout(new GridLayout(3,3));
+        rotatePanel.add(new JLabel("Rotation in Degrees"));
+        rotatePanel.add(rotationDegree);
+        rotatePanel.add(rotateView);
+        
+        rotatePanel.add(new JPanel());
+        rotatePanel.add(new JPanel());
+        rotatePanel.add(new JPanel());
+        
+        rotatePanel.add(new JLabel("Rotate View To Compass Heading"));
+        rotatePanel.add(new JPanel());
+        rotatePanel.add(rotateViewToCompass);            
+        
+        rotateWholePanel.add(new JLabel("Rotate View"), BorderLayout.NORTH);
+        rotateWholePanel.add(rotatePanel, BorderLayout.CENTER);
+        
+        JPanel functionButtonPanel = new JPanel();
+        
+        functionButtonPanel.setLayout(new FlowLayout());       
+        functionButtonPanel.add(resetView);       
         functionButtonPanel.add(printView);
-        functionButtonPanel.add(new JPanel());
-        functionButtonPanel.add(new JPanel());
+       
+        moreFunction.add(zoomWholePanel);
+        moreFunction.add(new JPanel());
+        moreFunction.add(rotateWholePanel);
         
         JPanel obstacleInfo = new JPanel();
         obstacleInfo.setLayout(new GridLayout(7, 2));
@@ -314,7 +337,7 @@ public class MainPageGUI extends JFrame {
         declaredDistance.add(dScroll, BorderLayout.CENTER);
         
         
-        recipAndFunc.add(functionButtonPanel);
+       // recipAndFunc.add(functionButtonPanel);
         recipAndFunc.add(declaredDistance);
         calculations.add(recipAndFunc);
 
@@ -453,7 +476,7 @@ public class MainPageGUI extends JFrame {
         selectOption.add("Calculations", calculations);
         selectOption.add("Obstacles", obstacles);
         selectOption.add("Breakdown", breakdownCalc);
-        selectOption.add("More Functions", functionButtonPanel);
+        selectOption.add("More Functions", moreFunction);
 
         // *******************************************
         viewRunway = new JPanel();
@@ -484,7 +507,7 @@ public class MainPageGUI extends JFrame {
         differentViews.add(sideView, runwayViews[1]);
         viewRunway.add(menuBar, BorderLayout.NORTH);
         viewRunway.add(differentViews, BorderLayout.CENTER);
-       // *viewRunway.add(new JPanel(), BorderLayout.SOUTH);
+        viewRunway.add(functionButtonPanel, BorderLayout.SOUTH);
         mainFrame.add(viewRunway);
         topView.init();
         sideView.init();
