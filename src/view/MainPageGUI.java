@@ -66,8 +66,6 @@ public class MainPageGUI extends JFrame {
     public MainPageGUI() {
         super("Runway Redeclaration");
     }
-
-    
     
     public JTextField getRotationDegree() {
 		return rotationDegree;

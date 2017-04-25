@@ -58,34 +58,23 @@ public class Controller {
 	private ActionListener rotateToHeading;
 	private ActionListener reset;
 	private MouseListener getTopViewPoint;
-
-
-	
-	
-
 	private File obstacleList;
-	
-	
-	
+
 	public MouseListener getGetTopViewPoint() {
 		return getTopViewPoint;
 	}
-
 
 	public ActionListener getReset() {
 		return reset;
 	}
 
-
 	public ActionListener getRotateToHeading() {
 		return rotateToHeading;
 	}
 
-
 	public ActionListener getZoomIn() {
 		return zoomIn;
 	}
-
 
 	public ActionListener getRotate() {
 		return rotate;
@@ -265,6 +254,7 @@ public class Controller {
 				a.setZoom(Double.parseDouble(gui.getZoomFactor().getText()));
 				a.setPoint((Double.parseDouble(gui.getPointx().getText())), (Double.parseDouble(gui.getPointy().getText())));
 				a.repaint();
+				JOptionPane.showMessageDialog(null, "Zoom Completed.");
 			}
 
 		};
@@ -272,11 +262,10 @@ public class Controller {
 		reset = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				gui.updateGraphicRunway();
 				gui.updateGraphicRunway();
+				JOptionPane.showMessageDialog(null, "View Reset.");
 			}
-
 		};
 		
 		rotate = new ActionListener() {
@@ -394,16 +383,25 @@ public class Controller {
 		submitButtonPress = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gui.addObstacleToViews();
-				Runway inputRunway = airport.getCurrentRunway();
-				inputRunway.addObstacle(gui.getNewObstacle());
-				gui.setAdjustedFigures(inputRunway.getToda(), inputRunway.getTora(), inputRunway.getLda(),
-						inputRunway.getAsda());
-				JOptionPane.showMessageDialog(gui, "Obstacle added to runway.");
+				try {
+					gui.addObstacleToViews();
+					Runway inputRunway = airport.getCurrentRunway();
+					inputRunway.addObstacle(gui.getNewObstacle());
+					gui.setAdjustedFigures(inputRunway.getToda(), inputRunway.getTora(), inputRunway.getLda(),
+							inputRunway.getAsda());
+					JOptionPane.showMessageDialog(gui, "Obstacle added to runway.");
 
+				} catch (NumberFormatException nfe){
+					gui.updateGraphicRunway();
+					gui.updateGraphicRunway();
+					JOptionPane.showMessageDialog(null, "Textfield is empty. Check again.", "Error", JOptionPane.ERROR_MESSAGE);
+				//	throw new NumberFormatException("Format Incorrect. Check Again.");
+				}
+			
 			}
 
 		};
+		
 		refreshButtonPress = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
