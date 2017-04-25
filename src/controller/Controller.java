@@ -224,7 +224,7 @@ public class Controller {
 			public void mouseClicked(MouseEvent arg0) {
 				JTextField x = gui.getPointx();
 				JTextField y = gui.getPointy();
-				
+								
 				x.setText(String.valueOf(arg0.getX()));
 				y.setText(String.valueOf(arg0.getY()));
 
@@ -268,11 +268,12 @@ public class Controller {
 			}
 
 		};
-		
+		//has to do it twice dunno why
 		reset = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+				gui.updateGraphicRunway();
 				gui.updateGraphicRunway();
 			}
 

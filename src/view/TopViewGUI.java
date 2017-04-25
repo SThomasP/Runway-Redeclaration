@@ -21,7 +21,11 @@ public class TopViewGUI extends ViewGUI {
 	private Line2D[] sideLines;
 	private Polygon obstacleRec;
 	private Polygon obstacleRotatedRec;
-
+	private int width;
+	private  int length;
+	private int height;
+	private int dFromT;
+	private int dFromCL;
 	public void init() {
 		setBackground(new Color(51, 204, 51));
 		clearArea = new Polygon();
@@ -177,10 +181,16 @@ public class TopViewGUI extends ViewGUI {
 	public void addObstacle(int width, int length, int height, int dFromT, int dFromCL) {
 
 		obstacleOnRunway = true;
-		dFromT = (int) (getWidth()*0.17) + thresholdDistance + rescaleHorizontal(dFromT);
-		width = Math.max(rescaleVertical(width), 10);
-		length = Math.max(rescaleHorizontal(length), 10);
-		dFromCL = getHeight()/2 + rescaleVertical(dFromCL);
+		this.dFromT = (int) (getWidth()*0.17) + thresholdDistance + rescaleHorizontal(dFromT);
+		this.width = Math.max(rescaleVertical(width), 10);
+		this.length = Math.max(rescaleHorizontal(length), 10);
+		this.dFromCL = getHeight()/2 + rescaleVertical(-dFromCL);
+		obstacleDraw();
+	}
+	
+	public void obstacleDraw()
+	{
+		
 		obstacleRec = new Polygon(new int[] {dFromT,  dFromT, dFromT + length, dFromT + length},new  int[] {dFromCL, dFromCL + width, dFromCL + width , dFromCL},4);
 		obstacleRotatedRec = new Polygon(new int[] {(int) rotateandzoom(orientation,dFromT,dFromCL,zoom)[0],  (int) rotateandzoom(orientation,dFromT,dFromCL + width,zoom)[0], (int) rotateandzoom(orientation,dFromT + length,dFromCL + width,zoom)[0], (int) rotateandzoom(orientation,dFromT + length,dFromCL,zoom)[0]},new  int[] {(int) rotateandzoom(orientation,dFromT,dFromCL,zoom)[1],  (int) rotateandzoom(orientation,dFromT,dFromCL + width,zoom)[1], (int) rotateandzoom(orientation,dFromT + length,dFromCL + width,zoom)[1], (int) rotateandzoom(orientation,dFromT + length,dFromCL,zoom)[1]},4);
 		repaint();
@@ -224,6 +234,7 @@ public class TopViewGUI extends ViewGUI {
 	public void paint(Graphics g) {
 		super.paint(g);
 		//default to middle
+		obstacleDraw();
 		if(pointx ==-1)
 		{
 			pointx = getWidth()/2;
