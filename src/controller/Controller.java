@@ -197,8 +197,8 @@ public class Controller {
 		exportAirport = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "Would you like to export the current aiport details?", "Confirm",
-				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				if (JOptionPane.showConfirmDialog(null, "Would you like to export the current aiport details?",
+						"Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					airportXML.write(airport);
 					JOptionPane.showMessageDialog(gui, "Aiport Exported.");
 				} else {
@@ -206,14 +206,14 @@ public class Controller {
 				}
 			}
 		};
-		
+
 		getTopViewPoint = new MouseListener() {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				JTextField x = gui.getPointx();
 				JTextField y = gui.getPointy();
-								
+
 				x.setText(String.valueOf(arg0.getX()));
 				y.setText(String.valueOf(arg0.getY()));
 
@@ -222,43 +222,51 @@ public class Controller {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
 
 		};
-		
+
 		zoomIn = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				TopViewGUI a = gui.getTopView();
-				a.setZoom(Double.parseDouble(gui.getZoomFactor().getText()));
-				a.setPoint((Double.parseDouble(gui.getPointx().getText())), (Double.parseDouble(gui.getPointy().getText())));
-				a.repaint();
-				JOptionPane.showMessageDialog(null, "Zoom Completed.");
+				try {
+					if (gui.getZoomFactor().getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Zoom Factor is empty. Check again.", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						TopViewGUI a = gui.getTopView();
+						a.setZoom(Double.parseDouble(gui.getZoomFactor().getText()));
+						a.setPoint((Double.parseDouble(gui.getPointx().getText())),
+								(Double.parseDouble(gui.getPointy().getText())));
+						a.repaint();
+						JOptionPane.showMessageDialog(null, "Zoom Completed.");
+					}
+				} catch (NumberFormatException nfe) {
+					nfe.printStackTrace();
+				}
 			}
 
 		};
-		//has to do it twice dunno why
+		// has to do it twice dunno why
 		reset = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -267,29 +275,36 @@ public class Controller {
 				JOptionPane.showMessageDialog(null, "View Reset.");
 			}
 		};
-		
+
 		rotate = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
-				TopViewGUI a = gui.getTopView();
-				a.setOrientation(Math.toRadians(Double.parseDouble(gui.getRotationDegree().getText())));
-				a.repaint();
+				try {
+					if (gui.getRotationDegree().getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Rotation degree is empty. Check again.", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						TopViewGUI a = gui.getTopView();
+						a.setOrientation(Math.toRadians(Double.parseDouble(gui.getRotationDegree().getText())));
+						a.repaint();
+						JOptionPane.showMessageDialog(null, "View Rotated.");
+					}
+				} catch (NumberFormatException nfe) {
+					nfe.printStackTrace();
+				}
 			}
-
 		};
 		rotateToHeading = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				TopViewGUI a = gui.getTopView();
-				a.setOrientation(Math.toRadians(airport.getCurrentRunway().getOrientation()*10));
+				a.setOrientation(Math.toRadians(airport.getCurrentRunway().getOrientation() * 10));
 				a.repaint();
-
+				JOptionPane.showMessageDialog(null, "View rotated to match compass heading.");
 			}
 
 		};
-	
+
 		selectAllItems = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -313,7 +328,7 @@ public class Controller {
 				// null pointer exception
 				// this is because a time the list will be empty
 				if (JOptionPane.showConfirmDialog(null, "Would you like to import this runway?", "Confirm",
-				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					gui.getRunways().removeActionListener(chooseCurrentRunway);
 					gui.updateRunwayList(airport.getListOfRunways());
 					gui.getRunways().addActionListener(chooseCurrentRunway);
@@ -344,10 +359,10 @@ public class Controller {
 						airport.addRunway(list.getModel().getElementAt(i));
 					}
 				}
-				
-				if (JOptionPane.showConfirmDialog(null, "Would you like to import this runway and overwrite the current?",
-						"Confirm",
-				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+				if (JOptionPane.showConfirmDialog(null,
+						"Would you like to import this runway and overwrite the current?", "Confirm",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					// needs to remove choose current runway or it will output a
 					// null pointer exception
 					// this is because a time the list will be empty
@@ -391,17 +406,14 @@ public class Controller {
 							inputRunway.getAsda());
 					JOptionPane.showMessageDialog(gui, "Obstacle added to runway.");
 
-				} catch (NumberFormatException nfe){
+				} catch (NumberFormatException nfe) {
 					gui.updateGraphicRunway();
 					gui.updateGraphicRunway();
-					JOptionPane.showMessageDialog(null, "Textfield is empty. Check again.", "Error", JOptionPane.ERROR_MESSAGE);
-				//	throw new NumberFormatException("Format Incorrect. Check Again.");
+					nfe.printStackTrace();
 				}
-			
 			}
-
 		};
-		
+
 		refreshButtonPress = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -417,13 +429,23 @@ public class Controller {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "Would you like to add this obstacle?", "Confirm",
-				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					writeObstacleList();
-					putObstacle();
-					JOptionPane.showMessageDialog(gui, "Obstacle Added.");
-				} else {
-					JOptionPane.showMessageDialog(gui, "Obstacle not added to the list.");
+				try {
+					if (JOptionPane.showConfirmDialog(null, "Would you like to add this obstacle?", "Confirm",
+							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						if (gui.getHeightBox().getText().isEmpty() || gui.getWidthBox().getText().isEmpty()
+								|| gui.getObstacleNameBox().getText().isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Textfield is empty. Check again.", "Error",
+									JOptionPane.ERROR_MESSAGE);
+						} else {
+							writeObstacleList();
+							putObstacle();
+							JOptionPane.showMessageDialog(gui, "Obstacle Added.");
+						}
+					} else {
+						JOptionPane.showMessageDialog(gui, "Obstacle not added to the list.");
+					}
+				} catch (NumberFormatException nfe) {
+					nfe.printStackTrace();
 				}
 			}
 		};
@@ -431,11 +453,10 @@ public class Controller {
 		changeRunwayUse = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-								
 				JComboBox box = (JComboBox) e.getSource();
 				if (box.getSelectedItem().toString().equals("Landing")) {
 					if (JOptionPane.showConfirmDialog(null, "Would you like to change to Landing view?", "Confirm",
-					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 						gui.changeRunwayUse((String) box.getSelectedItem());
 						JOptionPane.showMessageDialog(gui, "View Changed to Landing. See Below.");
 					} else {
@@ -443,7 +464,7 @@ public class Controller {
 					}
 				} else if (box.getSelectedItem().toString().equals("Take Off")) {
 					if (JOptionPane.showConfirmDialog(null, "Would you like to change to Take Off view?", "Confirm",
-					        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 						gui.changeRunwayUse((String) box.getSelectedItem());
 						JOptionPane.showMessageDialog(gui, "View Changed to Take Off. See Below.");
 					} else {
@@ -475,7 +496,6 @@ public class Controller {
 		chooseCurrentRunway = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				airport.setCurrentRunway(gui.getSelectedRunway());
 				gui.setOriginalFigures(airport.getCurrentRunway().getTodaOriginal(),
 						airport.getCurrentRunway().getToraOriginal(), airport.getCurrentRunway().getLdaOriginal(),
@@ -505,12 +525,10 @@ public class Controller {
 		putObstacle();
 
 		gui.getRunwayViews().addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				gui.refreshViews();
 			}
-
 		});
 
 		gui.getViewObstaclesList().addActionListener(new ActionListener() {
