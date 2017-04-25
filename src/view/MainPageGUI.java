@@ -228,9 +228,10 @@ public class MainPageGUI extends JFrame {
         reciprocalDistances.setFont(displayFont);
         JScrollPane rdScroll = new JScrollPane(reciprocalDistances, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+      
         
         JPanel functionButtonPanel = new JPanel();
-        functionButtonPanel.setLayout(new GridLayout(6,3));
+        functionButtonPanel.setLayout(new GridLayout(8,3));
         
         resetView = new JButton("Reset");
         resetView.addActionListener(c.getReset());
@@ -452,6 +453,7 @@ public class MainPageGUI extends JFrame {
         selectOption.add("Calculations", calculations);
         selectOption.add("Obstacles", obstacles);
         selectOption.add("Breakdown", breakdownCalc);
+        selectOption.add("More Functions", functionButtonPanel);
 
         // *******************************************
         viewRunway = new JPanel();
@@ -482,6 +484,7 @@ public class MainPageGUI extends JFrame {
         differentViews.add(sideView, runwayViews[1]);
         viewRunway.add(menuBar, BorderLayout.NORTH);
         viewRunway.add(differentViews, BorderLayout.CENTER);
+       // *viewRunway.add(new JPanel(), BorderLayout.SOUTH);
         mainFrame.add(viewRunway);
         topView.init();
         sideView.init();
