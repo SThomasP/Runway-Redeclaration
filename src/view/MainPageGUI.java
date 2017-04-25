@@ -508,7 +508,7 @@ public class MainPageGUI extends JFrame {
     }
 
     public Obstacle getNewObstacle() {
-        Obstacle toReturn = new Obstacle(Integer.valueOf(oHeight.getText()), Integer.valueOf(oDistanceFromCL.getText()),
+        Obstacle toReturn = new Obstacle(Integer.valueOf(oWidth.getText()),Integer.valueOf(oLength.getText()),Integer.valueOf(oHeight.getText()), Integer.valueOf(oDistanceFromCL.getText()),
                 Integer.valueOf(oDistanceFromT.getText()));
         return toReturn;
     }

@@ -21,7 +21,7 @@ public class RunwayTest {
 	@Test
 	public void landingOver() throws Exception {
 		Runway testRunway = new Runway(27, 'R',3962, 3884,3884,3884,0,50);
-		Obstacle testObstacle = new Obstacle(25,10,500);
+		Obstacle testObstacle = new Obstacle(0,0,25,10,500);
 		testRunway.addObstacle(testObstacle);
 		assertEquals(testRunway.getLda(),2074);
 	}
@@ -29,7 +29,7 @@ public class RunwayTest {
 	@Test
 	public void landingTowards() throws Exception {
 		Runway testRunway = new Runway(9, 'L',3902, 3902,3902,3595,306,50);
-		Obstacle testObstacle = new Obstacle(25,10,2600);
+		Obstacle testObstacle = new Obstacle(0,0,25,10,2600);
 		testRunway.addObstacle(testObstacle);
 		assertEquals(testRunway.getLda(),2300);
 	}
@@ -37,7 +37,7 @@ public class RunwayTest {
 	@Test
 	public void takeOffTowards() throws Exception {
 		Runway testRunway = new Runway(9, 'L',3902, 3902,3902,3595,306,50);
-		Obstacle testObstacle = new Obstacle(25,10,2500);
+		Obstacle testObstacle = new Obstacle(0,0,25,10,2500);
 		testRunway.addObstacle(testObstacle);
 		assertEquals(testRunway.getTora(),1496);
 		assertEquals(testRunway.getToda(),1496);
@@ -48,7 +48,7 @@ public class RunwayTest {
 	@Test
 	public void takeOffAway() throws Exception {
 		Runway testRunway = new Runway(27, 'R',3962, 3884,3884,3884,0,50);
-		Obstacle testObstacle = new Obstacle(25,10,500);
+		Obstacle testObstacle = new Obstacle(0,0,25,10,500);
 		testRunway.addObstacle(testObstacle);
 		assertEquals(testRunway.getTora(),3084);
 		assertEquals(testRunway.getToda(),3162);
@@ -63,7 +63,7 @@ public class RunwayTest {
 		Runway testRunway = new Runway(16, 'C',3900, 3902,3902,3595,306,50);
 		for(int i = 1; i <= 4;i++)
 		{
-			Obstacle testObstacle = new Obstacle(i,10,2000);
+			Obstacle testObstacle = new Obstacle(0,0,i,10,2000);
 			testRunway.addObstacle(testObstacle);
 			assertEquals(testRunway.getTora(),2006);
 			assertEquals(testRunway.getToda(),2006);
@@ -74,7 +74,7 @@ public class RunwayTest {
 	@Test
 	public void heighSlopeFactorBoundryTowards() throws Exception {
 		Runway testRunway = new Runway(16, 'C',3900, 3902,3902,3595,306,50);
-		Obstacle testObstacle = new Obstacle(5,10,2000);
+		Obstacle testObstacle = new Obstacle(0,0,5,10,2000);
 		testRunway.addObstacle(testObstacle);
 		assertEquals(testRunway.getTora(),1996);
 		assertEquals(testRunway.getToda(),1996);
@@ -86,7 +86,7 @@ public class RunwayTest {
 		Runway testRunway = new Runway(16, 'C',3900, 3902,3902,3595,306,50);
 		for(int i = 1; i <= 4;i++)
 		{
-			Obstacle testObstacle = new Obstacle(i,10,50);
+			Obstacle testObstacle = new Obstacle(0,0,i,10,50);
 			testRunway.addObstacle(testObstacle);
 			assertEquals(testRunway.getLda(),3245);
 
@@ -96,7 +96,7 @@ public class RunwayTest {
 	@Test
 	public void heighSlopeFactorBoundryAway() throws Exception {
 		Runway testRunway = new Runway(16, 'C',3900, 3902,3902,3595,306,50);
-		Obstacle testObstacle = new Obstacle(5,10,50);
+		Obstacle testObstacle = new Obstacle(0,0,5,10,50);
 		testRunway.addObstacle(testObstacle);
 		assertEquals(testRunway.getLda(),3235);
 	}
@@ -108,7 +108,7 @@ public class RunwayTest {
 	public void testImportObstacle() throws Exception {
 
 		Runway runway1 = new Runway(27, 'R',3902,3900 ,3902,3900,0,50);
-		Obstacle obstacle1 = new Obstacle(12,0,500);
+		Obstacle obstacle1 = new Obstacle(0,0,12,0,500);
 
 		runway1.addObstacle(obstacle1);
 		ArrayList<Runway> r = new ArrayList<Runway>();

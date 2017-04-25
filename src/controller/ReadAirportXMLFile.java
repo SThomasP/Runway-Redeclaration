@@ -64,16 +64,20 @@ public class ReadAirportXMLFile {
 					Element obstacle = (Element) doc.getElementsByTagName("obstacle").item(0);
 					if (obstacle.hasChildNodes() == true) {
 						Obstacle newObs;
+						int width;
+						int length;
 						int height;
 						int distanceFromCentreLine;
 						int distanceFromThreshold;
+						width = Integer.parseInt(obstacle.getElementsByTagName("width").item(0).getTextContent());
+						length = Integer.parseInt(obstacle.getElementsByTagName("length").item(0).getTextContent());
 						height = Integer.parseInt(obstacle.getElementsByTagName("height").item(0).getTextContent());
 						distanceFromCentreLine = Integer.parseInt(
 								obstacle.getElementsByTagName("distanceFromCentreLine").item(0).getTextContent());
 						distanceFromThreshold = Integer.parseInt(
 								obstacle.getElementsByTagName("distanceFromThreshold").item(0).getTextContent());
 
-						newObs = new Obstacle(height, distanceFromCentreLine, distanceFromThreshold);
+						newObs = new Obstacle(width,length,height, distanceFromCentreLine, distanceFromThreshold);
 						newRun.addObstacle(newObs);
 					}
 					listOfRunways.add(newRun);
@@ -141,6 +145,17 @@ public class ReadAirportXMLFile {
 				runway.appendChild(obstacle);
 				if (r.getObstacle() != null) {
 
+					
+					Element obstacleWidth = doc.createElement("width");
+					obstacleWidth.appendChild(doc.createTextNode(Integer.toString(r.getObstacle().getObstacleWidth())));
+					obstacle.appendChild(obstacleWidth);
+
+					Element obstacleLength = doc.createElement("length");
+					obstacleLength
+							.appendChild(doc.createTextNode(Integer.toString(r.getObstacle().getObstacleLength())));
+					obstacle.appendChild(obstacleLength);
+
+					
 					Element obstacleHeight = doc.createElement("height");
 					obstacleHeight
 							.appendChild(doc.createTextNode(Integer.toString(r.getObstacle().getObstacleHeight())));
