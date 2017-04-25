@@ -208,12 +208,12 @@ public class Controller {
 		exportAirport = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "Would you like to export the current runway details?", "Confirm",
+				if (JOptionPane.showConfirmDialog(null, "Would you like to export the current aiport details?", "Confirm",
 				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					airportXML.write(airport);
-					JOptionPane.showMessageDialog(gui, "Runway Exported.");
+					JOptionPane.showMessageDialog(gui, "Aiport Exported.");
 				} else {
-					JOptionPane.showMessageDialog(gui, "Runway not exported.");
+					JOptionPane.showMessageDialog(gui, "Aiport not exported.");
 				}
 			}
 		};

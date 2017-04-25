@@ -61,7 +61,7 @@ public class ReadAirportXMLFile {
 							.parseInt(eElement.getElementsByTagName("displacedThreshold").item(0).getTextContent());
 
 					newRun = new Runway(orientation, location, toda, tora, asda, lda, displacedThreshold, 50);
-					Element obstacle = (Element) doc.getElementsByTagName("obstacle").item(0);
+					Element obstacle = (Element) eElement.getElementsByTagName("obstacle").item(0);
 					if (obstacle.hasChildNodes() == true) {
 						Obstacle newObs;
 						int width;
