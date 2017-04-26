@@ -60,6 +60,17 @@ public abstract class ViewGUI extends JPanel {
         g2d.dispose();
     }
 
+    protected static void drawRunwayName(String name, double rotation, int x, int y, Graphics g, Color c){
+        Graphics2D g2d =  (Graphics2D) g.create();
+        g2d.rotate(rotation);
+        g2d.setColor(c);
+        g2d.setFont(MainPageGUI.displayFont);
+        int newX = (int) (x*Math.cos(rotation) + y*Math.sin(rotation));
+        int  newY = (int) (-x*Math.sin(rotation) + y*Math.cos(rotation));
+        g2d.drawString(name,newX,newY);
+        g2d.dispose();
+    }
+
     public abstract void removeObstacle();
 
     public abstract void addObstacle(int width, int length, int height, int dFromT, int dFromCL);

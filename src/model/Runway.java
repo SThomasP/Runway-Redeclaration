@@ -189,6 +189,8 @@ public class Runway {
 		return format.format(orientation)+location;
 	}
 
+
+
 	public int getTodaOriginal() {
 		return todaOriginal;
 	}
@@ -245,6 +247,7 @@ public class Runway {
 		DecimalFormat format  = new DecimalFormat("00");
 		return format.format(inverseOrientation)+inverseLocation;
 	}
+
 
 	public int getWidth() {
 		return width;

@@ -7,6 +7,8 @@ public class SideViewGUI extends ViewGUI {
 
 
     private Rectangle runwayRec;
+    private Rectangle leftClearwayRec;
+    private Rectangle rightClearwayRec;
     private Rectangle obstacleRec;
     private Polygon  takeOffTri;
     private Polygon landingTri;
@@ -15,6 +17,8 @@ public class SideViewGUI extends ViewGUI {
     public void init() {
         setBackground(Color.cyan);
         runwayRec = new Rectangle();
+        leftClearwayRec = new Rectangle();
+        rightClearwayRec = new Rectangle();
         takeOffTri = new Polygon();
         landingTri = new Polygon();
         toraString = "TORA";
@@ -31,6 +35,8 @@ public class SideViewGUI extends ViewGUI {
         int x4 = (int) (width * 0.87);
         int x1 = (int) (width * 0.12);
         runwayRec = new Rectangle((int) (0.05*width), (int) (0.8*height), (int) (0.9*width),(int) (0.05*height));
+        leftClearwayRec = new Rectangle((int) (0.05*width), (int) (0.8*height),(int) (0.07*width), (int) (0.05*height));
+        rightClearwayRec = new Rectangle((int) (0.88*width), (int) (0.8*height),(int) (0.07*width), (int) (0.05*height));
         takeOffTri.reset();
         takeOffTri.addPoint(x4,(int) (0.8*height));
         takeOffTri.addPoint(width,(int) (0.8*height));
@@ -143,6 +149,12 @@ public class SideViewGUI extends ViewGUI {
     public void paint(Graphics g) {
         super.paint(g);
         outlineShape(Color.black,g, runwayRec,outline);
+        fillShape(Color.GRAY,g,leftClearwayRec);
+        fillShape(Color.GRAY,g,rightClearwayRec);
+        outlineShape(Color.black,g, rightClearwayRec,outline);
+        outlineShape(Color.black,g, leftClearwayRec,outline);
+        drawRunwayName(name,0,(int) (getWidth()*0.05),(int) (0.9*getHeight()) , g, Color.black);
+        drawRunwayName(inverseName, 0, (int) (getWidth()*0.87),(int) (0.9*getHeight()) , g, Color.black);
         if (action == TAKEOFF) {
             fillShape(Color.black,g,takeOffTri);
             outlineShape(Color.black, g, toraLine, outline);
