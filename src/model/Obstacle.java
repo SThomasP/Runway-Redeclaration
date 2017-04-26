@@ -17,9 +17,7 @@ public final class Obstacle implements Serializable {
 	private String type;
 	//ArrayList<Obstacle> listOfObstacles = new ArrayList<Obstacle>();
 	
-	public Obstacle(int obstacleWidth, int obstacleLength,int height, int distanceFromCentreLine, int distanceFromThreshold) {
-		this.width = obstacleWidth;
-		this.length = obstacleLength;
+	public Obstacle(int height, int distanceFromCentreLine, int distanceFromThreshold) {
 		this.height = height;
 		this.distanceFromCentreLine = distanceFromCentreLine;
 		this.distanceFromThreshold = distanceFromThreshold;

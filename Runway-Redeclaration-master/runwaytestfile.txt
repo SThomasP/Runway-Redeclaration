@@ -1,4 +1,0 @@
-TEXT FILE OUTPUT FROM RUNWAY REDECLARATION
-Runway name 09L
-Direction of usage Take Off
-
