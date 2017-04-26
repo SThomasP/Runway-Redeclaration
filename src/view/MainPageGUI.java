@@ -5,8 +5,15 @@ import model.Obstacle;
 import model.Runway;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.smartcardio.Card;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -23,9 +30,6 @@ public class MainPageGUI extends JFrame {
     public static Font displayFont = new Font("Arial", Font.PLAIN, 18);
     public static final String[] runwayViews = {"Top Down View", "Side View"};
     private  static final String[] runwayUsesArray = {"Take Off", "Landing"};
-    private JTextField rotationDegree;
-    private JTextField pointx;
-    private JTextField pointy;
     private JTable distances;
     private JTable reciprocalDistances;
     private JPanel viewRunway;
@@ -37,7 +41,6 @@ public class MainPageGUI extends JFrame {
     private JTextField oLength;
     private JTextField oDistanceFromCL;
     private JTextField oDistanceFromT;
-    private JTextField zoomFactor;
     private JComboBox<String> runwayUses;
     private JComboBox<Runway> runways;
     private JComboBox<String> runwayViewType;
@@ -46,10 +49,13 @@ public class MainPageGUI extends JFrame {
     private JButton refreshMain;
     private JButton resetView;
     private JButton rotateView;
-    private JButton rotateViewToCompass;
     private JButton zoomInView;
     private JButton zoomOutView;
     private JButton printView;
+    private JButton printFileButton;
+    private JLabel saveFormatLabel;
+    private JComboBox<String> saveFormatCombo;
+    private JButton saveFormatButton; 
     private JPanel differentViews;
     private JTextArea todaCalcBreakdown;
     private JTextArea asdaCalcBreakdown;
@@ -66,32 +72,8 @@ public class MainPageGUI extends JFrame {
     public MainPageGUI() {
         super("Runway Redeclaration");
     }
-    
-    public JTextField getRotationDegree() {
-		return rotationDegree;
-	}
 
- 
-
-	public JTextField getPointx() {
-		return pointx;
-	}
-
-
-
-	public JTextField getPointy() {
-		return pointy;
-	}
-
-
-
-	public JTextField getZoomFactor() {
-		return zoomFactor;
-	}
-
-
-
-	public void addObstacleToViews() {
+    public void addObstacleToViews() {
         topView.removeObstacle();
         sideView.removeObstacle();
         topView.addObstacle(getCurrentObstacleWidth(), getCurrentObstacleLength(), getCurrentObstacleHeight(), getDistanceFromT(), getDistanceFromCL());
@@ -115,9 +97,7 @@ public class MainPageGUI extends JFrame {
             topView.addObstacle(o.getObstacleWidth(), o.getObstacleLength(), o.getObstacleHeight(), o.getDistanceFromThreshold(), o.getDistanceFromCentreLine());
             sideView.addObstacle(o.getObstacleWidth(), o.getObstacleLength(), o.getObstacleHeight(), o.getDistanceFromThreshold(), o.getDistanceFromCentreLine());
         }
-        topView.setOrientation(0);
-        topView.setZoom(1);
-        topView.setPoint(-1, -1);
+        topView.setOrientation(Math.toRadians(r.getOrientation()*10));
         topView.repaint();
         sideView.repaint();
     }
@@ -226,75 +206,66 @@ public class MainPageGUI extends JFrame {
         reciprocalDistances.setFont(displayFont);
         JScrollPane rdScroll = new JScrollPane(reciprocalDistances, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-      
-        JPanel moreFunction = new JPanel();
-        moreFunction.setLayout(new GridLayout(4, 3));     
-        
-        resetView = new JButton("Reset");
-        resetView.addActionListener(c.getReset());
-        rotateView = new JButton("Rotate");
-        rotateView.addActionListener(c.getRotate());
-        rotateViewToCompass = new JButton("Rotate To Heading");
-        rotateViewToCompass.addActionListener(c.getRotateToHeading());
-        printView = new JButton("Print");
-        zoomInView = new JButton("Zoom In");
-        zoomInView.addActionListener(c.getZoomIn());
-        zoomOutView = new JButton("Zoom Out");
-        rotationDegree = new JTextField();
-        pointx = new JTextField("0");
-        pointy = new JTextField("0");
-        zoomFactor = new JTextField();
-        
-        JPanel zoomWholePanel = new JPanel();
-        zoomWholePanel.setLayout(new BorderLayout());
-        
-        JPanel zoomPanel = new JPanel();
-        zoomPanel.setLayout(new GridLayout(3,3));
-        
-        zoomPanel.add(new JLabel("Select Zoom Point"));
-        zoomPanel.add(pointx);
-        zoomPanel.add(pointy);
-        
-        zoomPanel.add(new JLabel("Zoom Factor"));  
-        zoomPanel.add(new JPanel());
-        zoomPanel.add(zoomFactor);
-        zoomPanel.add(new JPanel());
-        zoomPanel.add(new JPanel());
-        zoomPanel.add(zoomInView);
-        
-        zoomWholePanel.add(new JLabel("Zoom Function"), BorderLayout.NORTH);
-        zoomWholePanel.add(zoomPanel, BorderLayout.CENTER);
-        
-        JPanel rotateWholePanel = new JPanel();
-        rotateWholePanel.setLayout(new BorderLayout());
-        
-        JPanel rotatePanel = new JPanel();
-        rotatePanel.setLayout(new GridLayout(3,3));
-        rotatePanel.add(new JLabel("Rotation in Degrees"));
-        rotatePanel.add(rotationDegree);
-        rotatePanel.add(rotateView);
-        
-        rotatePanel.add(new JPanel());
-        rotatePanel.add(new JPanel());
-        rotatePanel.add(new JPanel());
-        
-        rotatePanel.add(new JLabel("Rotate View To Compass Heading"));
-        rotatePanel.add(new JPanel());
-        rotatePanel.add(rotateViewToCompass);            
-        
-        rotateWholePanel.add(new JLabel("Rotate View"), BorderLayout.NORTH);
-        rotateWholePanel.add(rotatePanel, BorderLayout.CENTER);
         
         JPanel functionButtonPanel = new JPanel();
+        functionButtonPanel.setLayout(new GridLayout(7,3)); 
         
-        functionButtonPanel.setLayout(new FlowLayout());       
-        functionButtonPanel.add(resetView);       
+        resetView = new JButton("Reset");
+        rotateView = new JButton("Rotate");
+        printView = new JButton("Print");
+        zoomInView = new JButton("Zoom In");
+        zoomOutView = new JButton("Zoom Out");
+        printFileButton = new JButton("Print readble file");
+        saveFormatLabel = new JLabel("Save display in a format:");
+        String[] formatStrings = {"jpeg","jpg", "png", "gif"};
+        saveFormatCombo = new JComboBox(formatStrings);
+        saveFormatButton = new JButton("Save");
+
+        functionButtonPanel.add(new JPanel());
+        functionButtonPanel.add(resetView);
+        functionButtonPanel.add(new JPanel());
+        
+        functionButtonPanel.add(new JPanel());
+        functionButtonPanel.add(rotateView);
+        functionButtonPanel.add(new JPanel());
+        
+        functionButtonPanel.add(new JPanel());
         functionButtonPanel.add(printView);
-       
-        moreFunction.add(zoomWholePanel);
-        moreFunction.add(new JPanel());
-        moreFunction.add(rotateWholePanel);
+        functionButtonPanel.add(new JPanel());
         
+        functionButtonPanel.add(new JPanel());
+        functionButtonPanel.add(zoomInView);
+        functionButtonPanel.add(new JPanel());
+        
+        functionButtonPanel.add(new JPanel());
+        functionButtonPanel.add(zoomOutView);
+        functionButtonPanel.add(new JPanel());
+        
+        functionButtonPanel.add(new JPanel());
+        functionButtonPanel.add(printFileButton);
+        functionButtonPanel.add(new JPanel());
+        
+        functionButtonPanel.add(saveFormatLabel);
+        functionButtonPanel.add(saveFormatCombo);
+        functionButtonPanel.add(saveFormatButton);
+        
+        printFileButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				printReadableFile();
+				
+			}});
+        
+        saveFormatButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String format = (String) saveFormatCombo.getSelectedItem();
+				exportToFormats(differentViews, format);
+				
+			}});
+
         JPanel obstacleInfo = new JPanel();
         obstacleInfo.setLayout(new GridLayout(7, 2));
 
@@ -335,7 +306,7 @@ public class MainPageGUI extends JFrame {
         declaredDistance.add(dScroll, BorderLayout.CENTER);
         
         
-       // recipAndFunc.add(functionButtonPanel);
+        recipAndFunc.add(functionButtonPanel);
         recipAndFunc.add(declaredDistance);
         calculations.add(recipAndFunc);
 
@@ -474,7 +445,6 @@ public class MainPageGUI extends JFrame {
         selectOption.add("Calculations", calculations);
         selectOption.add("Obstacles", obstacles);
         selectOption.add("Breakdown", breakdownCalc);
-        selectOption.add("More Functions", moreFunction);
 
         // *******************************************
         viewRunway = new JPanel();
@@ -498,14 +468,12 @@ public class MainPageGUI extends JFrame {
         menuBar.add(runwayUses);
 
         topView = new TopViewGUI();
-        topView.addMouseListener(c.getGetTopViewPoint());
         sideView = new SideViewGUI();
         differentViews = new JPanel(new CardLayout());
         differentViews.add(topView,runwayViews[0]);
         differentViews.add(sideView, runwayViews[1]);
         viewRunway.add(menuBar, BorderLayout.NORTH);
         viewRunway.add(differentViews, BorderLayout.CENTER);
-        viewRunway.add(functionButtonPanel, BorderLayout.SOUTH);
         mainFrame.add(viewRunway);
         topView.init();
         sideView.init();
@@ -520,8 +488,62 @@ public class MainPageGUI extends JFrame {
         sideView.changeRunway("D", "DD", 1, 1, 1);
         topView.redrawView();
         sideView.redrawView();
+        
+        printFileButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try{
+					PrintWriter writer = new PrintWriter("runwayredoutputfile.txt", "UTF-8");
+					writer.println("TEXT FILE OUTPUT FROM RUNWAY REDECLARATION");
+					writer.println("Runway name " + runways.getSelectedItem());
+					writer.println("Direction of usage "+ runwayUses.getSelectedItem());
+					writer.println();
+					if(c.getcheckForObstacle()){
+						writer.println("There is an obstacle on the runway");
+						writer.println("These are its details:");
+						writer.println("Obstacle name: " + obstacleNames.getSelectedItem());
+						writer.println("Height: " + oHeight.getText());
+						writer.println("Width: " + oWidth.getText());
+						writer.println("Lenght: " + oLength.getText());
+						if (oDistanceFromCL.getText() == null){
+						}else {
+							writer.println("Distance from Centre Line: " + oDistanceFromCL.getText());
+						}
+						if(oDistanceFromT.getText() == null){
+						}else {
+							writer.println("Distance from Threshold: " + oDistanceFromT.getText());
+						}
+					} else {
+						writer.println("There are no obstacles on the runway");
+						writer.println("It is safe for usage");
+					}
+					
+					writer.close();
+				}
+				catch (IOException e){
+					e.printStackTrace();
+				}
+				
+			}});
 
 
+    };
+    
+    private void exportToFormats(JPanel panel, String string){
+    	BufferedImage img = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
+    	panel.print(img.getGraphics());
+    	try{
+    		ImageIO.write(img, string, new File("JPanel." + string));
+    	}
+    	catch(IOException e){
+    		e.printStackTrace();
+    	}
+    }
+    //.........................................................................
+    private void printReadableFile(){
+    
     }
 
     public JComboBox<String> getObstacleNames() {
@@ -529,7 +551,7 @@ public class MainPageGUI extends JFrame {
     }
 
     public Obstacle getNewObstacle() {
-        Obstacle toReturn = new Obstacle(Integer.valueOf(oWidth.getText()),Integer.valueOf(oLength.getText()),Integer.valueOf(oHeight.getText()), Integer.valueOf(oDistanceFromCL.getText()),
+        Obstacle toReturn = new Obstacle(Integer.valueOf(oHeight.getText()), Integer.valueOf(oDistanceFromCL.getText()),
                 Integer.valueOf(oDistanceFromT.getText()));
         return toReturn;
     }
@@ -566,10 +588,6 @@ public class MainPageGUI extends JFrame {
         return oDistanceFromT;
     }
 
-    public JTextField getObstacleNameBox() {
-    	return obstacleName;
-    }
-    
     public String getObstacleType() {
         return obstacleType.getSelectedItem().toString();
     }
