@@ -149,10 +149,7 @@ public class TopViewGUI extends ViewGUI {
         }
         runwayRec = new Polygon(rotatedandzoomedX, rotatedandzoomedY, 4);
         centreLine = new Line2D.Float((float) rotateandzoom(orientation, x[2], (height / 2), zoom)[0], (float) rotateandzoom(orientation, x[2], (height / 2), zoom)[1], (float) rotateandzoom(orientation, x[3], (height / 2), zoom)[0], (float) rotateandzoom(orientation, x[3], (height / 2), zoom)[1]);
-        toraLine = new Line2D.Float((float) rotateandzoom(orientation, x[4], (height / 1.75), zoom)[0], (float) rotateandzoom(orientation, x[4], (height / 1.75), zoom)[1], (float) rotateandzoom(orientation, x[1], (height / 1.75), zoom)[0], (float) rotateandzoom(orientation, x[1], (height / 1.75), zoom)[1]);
-        todaLine = new Line2D.Float((float) rotateandzoom(orientation, width, (height / 2.4), zoom)[0], (float) rotateandzoom(orientation, width, (height / 2.4), zoom)[1], (float) rotateandzoom(orientation, x[1], (height / 2.4), zoom)[0], (float) rotateandzoom(orientation, x[1], (height / 2.4), zoom)[1]);
-        asdaLine = new Line2D.Float((float) rotateandzoom(orientation, (width * 0.95), (height / 1.65), zoom)[0], (float) rotateandzoom(orientation, (width * 0.95), (height / 1.65), zoom)[1], (float) rotateandzoom(orientation, x[1], (height / 1.65), zoom)[0], (float) rotateandzoom(orientation, x[1], (height / 1.65), zoom)[1]);
-        ldaLine = new Line2D.Float((float) rotateandzoom(orientation, x[4], (height / 2.7), zoom)[0], (float) rotateandzoom(orientation, x[4], (height / 2.7), zoom)[1], (float) rotateandzoom(orientation, x[1] + thresholdDistance, (height / 2.7), zoom)[0], (float) rotateandzoom(orientation, x[1] + thresholdDistance, (height / 2.7), zoom)[1]);
+        redrawDistances(toda,tora,asda,lda);
         sideLines = new Line2D[20];
         double halfway = height / 2;
         for (int i = 0; i < 10; i++) {
@@ -189,33 +186,35 @@ public class TopViewGUI extends ViewGUI {
 
 
     private void writeDistances(Graphics g) {
+        
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.rotate(orientation);
-        int newX = (int) (toraLine.getX2() * Math.cos(orientation) + (toraLine.getY2() + 15) * Math.sin(orientation));
-        int newY = (int) (-toraLine.getX2() * Math.sin(orientation) + (toraLine.getY2() + 15) * Math.cos(orientation));
-        g2d.drawString(toraString, newX, newY);
-        g2d.dispose();
+        if (action == TAKEOFF) {
+            int newX = (int) (toraLine.getX2() * Math.cos(orientation) + (toraLine.getY2() + 15) * Math.sin(orientation));
+            int newY = (int) (-toraLine.getX2() * Math.sin(orientation) + (toraLine.getY2() + 15) * Math.cos(orientation));
+            g2d.drawString(toraString, newX, newY);
 
-        g2d = (Graphics2D) g.create();
-        g2d.rotate(orientation);
-        newX = (int) (todaLine.getX2() * Math.cos(orientation) + (todaLine.getY2() + 15) * Math.sin(orientation));
-        newY = (int) (-todaLine.getX2() * Math.sin(orientation) + (todaLine.getY2() + 15) * Math.cos(orientation));
-        g2d.drawString(todaString, newX, newY);
-        g2d.dispose();
+            newX = (int) (todaLine.getX2() * Math.cos(orientation) + (todaLine.getY2() + 15) * Math.sin(orientation));
+            newY = (int) (-todaLine.getX2() * Math.sin(orientation) + (todaLine.getY2() + 15) * Math.cos(orientation));
+            g2d.drawString(todaString, newX, newY);
 
-        g2d = (Graphics2D) g.create();
-        g2d.rotate(orientation);
-        newX = (int) (asdaLine.getX2() * Math.cos(orientation) + (asdaLine.getY2() + 15) * Math.sin(orientation));
-        newY = (int) (-asdaLine.getX2() * Math.sin(orientation) + (asdaLine.getY2() + 15) * Math.cos(orientation));
-        g2d.drawString(asdaString, newX, newY);
-        g2d.dispose();
+            newX = (int) (asdaLine.getX2() * Math.cos(orientation) + (asdaLine.getY2() + 15) * Math.sin(orientation));
+            newY = (int) (-asdaLine.getX2() * Math.sin(orientation) + (asdaLine.getY2() + 15) * Math.cos(orientation));
+            g2d.drawString(asdaString, newX, newY);
+        }
+        else if (action == LANDING){
+            int newX = (int) (ldaLine.getX2() * Math.cos(orientation) + (ldaLine.getY2() + 15) * Math.sin(orientation));
+            int newY = (int) (-ldaLine.getX2() * Math.sin(orientation) + (ldaLine.getY2() + 15) * Math.cos(orientation));
+            g2d.drawString(ldaString, newX, newY);
+
+        }
+        
+        
     }
 
 
     public void paint(Graphics g) {
         super.paint(g);
-        //default to middle
-        obstacleDraw();
         if (pointx == -1) {
             pointx = getWidth() / 2;
         }
@@ -232,14 +231,11 @@ public class TopViewGUI extends ViewGUI {
             outlineShape(Color.blue, g, toraLine, outline);
             outlineShape(Color.blue, g, todaLine, outline);
             outlineShape(Color.orange, g, asdaLine, outline);
-            writeDistances(g);
-
-
         }
         if (action == LANDING) {
             outlineShape(Color.orange, g, ldaLine, outline);
-            g.drawString(ldaString, (int) ldaLine.getX2(), (int) ldaLine.getY2() + 15);
         }
+        writeDistances(g);
         for (Line2D line : sideLines) {
             outlineShape(Color.white, g, line, outline);
         }
@@ -248,8 +244,10 @@ public class TopViewGUI extends ViewGUI {
 
         }
 
-        drawRunwayName(name, orientation + Math.toRadians(90), (int) rotateandzoom(orientation, getWidth() / 5, getHeight() / 2 - 18, zoom)[0], (int) rotateandzoom(orientation, getWidth() / 5, getHeight() / 2 - 18, zoom)[1], g, Color.white);
-        drawRunwayName(inverseName, orientation + Math.toRadians(-90), (int) rotateandzoom(orientation, 4 * getWidth() / 5, getHeight() / 2 + 18, zoom)[0], (int) rotateandzoom(orientation, 4 * getWidth() / 5, getHeight() / 2 + 18, zoom)[1], g, Color.white);
+        drawRunwayName(name[0], orientation + Math.toRadians(90), (int) rotateandzoom(orientation, getWidth() / 5+ 18, getHeight() / 2 - 9, zoom)[0], (int) rotateandzoom(orientation, getWidth() / 5 + 18, getHeight() / 2 - 9, zoom)[1], g, Color.white);
+        drawRunwayName(name[1], orientation + Math.toRadians(90), (int) rotateandzoom(orientation, getWidth() / 5+ 7, getHeight() / 2 - 3, zoom)[0], (int) rotateandzoom(orientation, getWidth() / 5 + 7, getHeight() / 2 - 3, zoom)[1], g, Color.white);
+        drawRunwayName(inverseName[0], orientation + Math.toRadians(-90), (int) rotateandzoom(orientation, 4 *getWidth() / 5 - 18, getHeight() / 2 + 9, zoom)[0], (int) rotateandzoom(orientation, 4 * getWidth() / 5 - 18, getHeight() / 2 + 9, zoom)[1], g, Color.white);
+        drawRunwayName(inverseName[1], orientation + Math.toRadians(-90), (int) rotateandzoom(orientation, 4 *getWidth() / 5 - 7, getHeight() / 2 + 3, zoom)[0], (int) rotateandzoom(orientation, 4 * getWidth() / 5 - 7, getHeight() / 2 + 3, zoom)[1], g, Color.white);
     }
 
 

@@ -153,8 +153,11 @@ public class SideViewGUI extends ViewGUI {
         fillShape(Color.GRAY,g,rightClearwayRec);
         outlineShape(Color.black,g, rightClearwayRec,outline);
         outlineShape(Color.black,g, leftClearwayRec,outline);
-        drawRunwayName(name,0,(int) (getWidth()*0.05),(int) (0.9*getHeight()) , g, Color.black);
-        drawRunwayName(inverseName, 0, (int) (getWidth()*0.87),(int) (0.9*getHeight()) , g, Color.black);
+        drawRunwayName(name[0],0,(int) (getWidth()*0.05),(int) (0.9*getHeight()) , g, Color.black);
+        drawRunwayName(name[1],0,(int) (getWidth()*0.05),(int) (0.9*getHeight()+ 12 ) , g, Color.black);
+        drawRunwayName(inverseName[0], 0, (int) (getWidth()*0.87),(int) (0.9*getHeight()) , g, Color.black);
+        drawRunwayName(inverseName[1], 0, (int) (getWidth()*0.87),(int) (0.9*getHeight() + 12 ) , g, Color.black);
+
         if (action == TAKEOFF) {
             fillShape(Color.black,g,takeOffTri);
             outlineShape(Color.black, g, toraLine, outline);

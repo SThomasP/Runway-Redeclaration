@@ -182,11 +182,14 @@ public class Runway {
 		}
 	}
 
-
-	@Override
-	public String toString() {
-		DecimalFormat format  = new DecimalFormat("00");
+	public String toString(){
+		DecimalFormat format = new DecimalFormat("00");
 		return format.format(orientation)+location;
+	}
+
+	public String[] getName() {
+		DecimalFormat format  = new DecimalFormat("00");
+		return new String[] {format.format(orientation),Character.toString(location)};
 	}
 
 
@@ -243,13 +246,18 @@ public class Runway {
 		return obstacle != null;
 	}
 
-	public String inverse() {
+	public String[] inverse() {
 		DecimalFormat format  = new DecimalFormat("00");
-		return format.format(inverseOrientation)+inverseLocation;
+		return new String[] {format.format(inverseOrientation),Character.toString(inverseLocation)};
 	}
 
 
 	public int getWidth() {
 		return width;
 	}
+
+    public String inverseToString() {
+		DecimalFormat format = new DecimalFormat("00");
+		return format.format(inverseOrientation)+inverseLocation;
+    }
 }

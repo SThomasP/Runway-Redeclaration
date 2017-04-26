@@ -403,6 +403,7 @@ public class Controller {
 					Runway inputRunway = airport.getCurrentRunway();
 					inputRunway.addObstacle(gui.getNewObstacle());
 					Runway recip = airport.findReciprocal(inputRunway);
+					System.out.println(recip.toString());
 					if (recip != null)
 					{
 						recip.addObstacle(gui.getRecipObstacle());
@@ -520,7 +521,6 @@ public class Controller {
 
 				}
 
-				gui.updateGraphicRunway();
 				gui.updateGraphicRunway();
 			}
 		};
