@@ -402,8 +402,14 @@ public class Controller {
 					gui.addObstacleToViews();
 					Runway inputRunway = airport.getCurrentRunway();
 					inputRunway.addObstacle(gui.getNewObstacle());
+					Runway recip = airport.findReciprocal(inputRunway);
+					if (recip != null)
+					{
+						recip.addObstacle(gui.getRecipObstacle());
+					}
 					gui.setAdjustedFigures(inputRunway.getToda(), inputRunway.getTora(), inputRunway.getLda(),
 							inputRunway.getAsda());
+					gui.setRecipAdjustedFigures(recip.getToda(), recip.getTora(), recip.getLda(), recip.getAsda());
 					JOptionPane.showMessageDialog(gui, "Obstacle added to runway.");
 
 				} catch (NumberFormatException nfe) {

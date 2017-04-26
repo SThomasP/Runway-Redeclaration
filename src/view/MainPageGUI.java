@@ -533,6 +533,13 @@ public class MainPageGUI extends JFrame {
                 Integer.valueOf(oDistanceFromT.getText()));
         return toReturn;
     }
+    
+    public Obstacle getRecipObstacle()
+    {
+    	Obstacle toReturn = new Obstacle(Integer.valueOf(oWidth.getText()),Integer.valueOf(oLength.getText()),Integer.valueOf(oHeight.getText()), -Integer.valueOf(oDistanceFromCL.getText()),
+                getSelectedRunway().getToraOriginal() - Integer.valueOf(oLength.getText()) - Integer.valueOf(oDistanceFromT.getText()));
+        return toReturn;
+    }
 
     public JComboBox getObstacleBox() {
         return obstacleNames;
