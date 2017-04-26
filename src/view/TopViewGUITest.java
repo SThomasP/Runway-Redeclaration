@@ -14,7 +14,7 @@ public class TopViewGUITest {
         frame.add(tvg);
         tvg.init();
         frame.setVisible(true);
-        tvg.changeRunway("09L","27R",3902,50,306);
+        tvg.changeRunway(new String[] {"09","L"}, new String[] {"27","R"},3902,50,306);
         tvg.redrawView();
         return tvg;
     }

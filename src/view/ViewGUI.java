@@ -1,5 +1,6 @@
 package view;
 
+import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -9,10 +10,14 @@ import java.awt.geom.Line2D;
  */
 public abstract class ViewGUI extends JPanel {
 
-    protected Line2D todaLine, toraLine, ldaLine, asdaLine;
+
+
+    protected Line2D todaLine, toraLine, ldaLine, asdaLine, arrowLine;
+    protected Polygon arrowHead;
     protected String todaString, toraString, ldaString, asdaString;
+    protected int toda, tora, asda, lda;
     protected int thresholdDistance, runwayLength, runwayWidth;
-    protected String name, inverseName;
+    protected String[] name, inverseName;
     protected boolean obstacleOnRunway = false;
     protected int action = 0;
 
@@ -28,6 +33,10 @@ public abstract class ViewGUI extends JPanel {
         this.toraString = "TORA: "+tora+"m";
         this.asdaString = "ASDA: "+asda+"m";
         this.ldaString = "LDA: "+lda+"m";
+        this.tora = tora;
+        this.asda = asda;
+        this.toda = toda;
+        this.lda = lda;
     }
 
     public int getAction() {
@@ -44,7 +53,7 @@ public abstract class ViewGUI extends JPanel {
 
     protected abstract int rescaleHorizontal(int original);
 
-    public void changeRunway(String name, String inverseName, int tora, int width, int thresholdDistance){
+    public void changeRunway(String[] name, String[] inverseName, int tora, int width, int thresholdDistance){
         this.name = name;
         this.inverseName = inverseName;
         this.runwayLength = tora;

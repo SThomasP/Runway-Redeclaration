@@ -84,12 +84,12 @@ public class MainPageGUI extends JFrame {
 
     public void updateGraphicRunway() {
         Runway r = getSelectedRunway();
-        topView.changeRunway(r.toString(), r.inverse(), r.getToraOriginal(), r.getWidth(), r.getDisplacedThreshold());
-        sideView.changeRunway(r.toString(), r.inverse(), r.getToraOriginal(), r.getWidth(), r.getDisplacedThreshold());
+        topView.changeRunway(r.getName(), r.inverse(), r.getToraOriginal(), r.getWidth(), r.getDisplacedThreshold());
+        sideView.changeRunway(r.getName(), r.inverse(), r.getToraOriginal(), r.getWidth(), r.getDisplacedThreshold());
         topView.redrawView();
         sideView.redrawView();
-        topView.redrawDistances(r.getTodaOriginal(), r.getToraOriginal(), r.getLdaOriginal(), r.getAsdaOriginal());
-        sideView.redrawDistances(r.getTodaOriginal(), r.getToraOriginal(), r.getLdaOriginal(), r.getAsdaOriginal());
+        topView.redrawDistances(r.getToda(), r.getTora(), r.getLda(), r.getAsda());
+        sideView.redrawDistances(r.getToda(), r.getTora(), r.getLda(), r.getAsda());
         topView.removeObstacle();
         sideView.removeObstacle();
         if (r.isObstaclePresent()) {
@@ -484,8 +484,8 @@ public class MainPageGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
-        topView.changeRunway("D", "DD", 1, 1, 1);
-        sideView.changeRunway("D", "DD", 1, 1, 1);
+        topView.changeRunway( new String[] {"09","L"}, new String[] {"27","R"}, 1, 1, 1);
+        sideView.changeRunway(new String[] {"09","L"}, new String[] {"27","R"}, 1, 1, 1);
         topView.redrawView();
         sideView.redrawView();
         
@@ -553,6 +553,13 @@ public class MainPageGUI extends JFrame {
     public Obstacle getNewObstacle() {
         Obstacle toReturn = new Obstacle(Integer.valueOf(oHeight.getText()), Integer.valueOf(oDistanceFromCL.getText()),
                 Integer.valueOf(oDistanceFromT.getText()));
+        return toReturn;
+    }
+    
+    public Obstacle getRecipObstacle()
+    {
+    	Obstacle toReturn = new Obstacle(Integer.valueOf(oWidth.getText()),Integer.valueOf(oLength.getText()),Integer.valueOf(oHeight.getText()), -Integer.valueOf(oDistanceFromCL.getText()),
+                getSelectedRunway().getToraOriginal() - Integer.valueOf(oLength.getText()) - Integer.valueOf(oDistanceFromT.getText()));
         return toReturn;
     }
 

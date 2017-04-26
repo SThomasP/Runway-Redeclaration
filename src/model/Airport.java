@@ -45,7 +45,7 @@ public class Airport {
 	{
 		for(Runway ru : listOfRunways)
 		{
-			if (ru.inverse().equals(r.toString()))
+			if (ru.inverseToString().equals(r.toString()))
 			{
 				return ru;
 			}

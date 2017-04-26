@@ -273,13 +273,26 @@ public class Controller {
 		submitButtonPress = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 checkForObstacle = true;
-				gui.addObstacleToViews();
-				Runway inputRunway = airport.getCurrentRunway();
-				inputRunway.addObstacle(gui.getNewObstacle());
-				gui.setAdjustedFigures(inputRunway.getToda(), inputRunway.getTora(), inputRunway.getLda(),
-						inputRunway.getAsda());
+				try {
+					gui.addObstacleToViews();
+					Runway inputRunway = airport.getCurrentRunway();
+					inputRunway.addObstacle(gui.getNewObstacle());
+					Runway recip = airport.findReciprocal(inputRunway);
+					System.out.println(recip.toString());
+					if (recip != null)
+					{
+						recip.addObstacle(gui.getRecipObstacle());
+					}
+					gui.setAdjustedFigures(inputRunway.getToda(), inputRunway.getTora(), inputRunway.getLda(),
+							inputRunway.getAsda());
+					gui.setRecipAdjustedFigures(recip.getToda(), recip.getTora(), recip.getLda(), recip.getAsda());
+					JOptionPane.showMessageDialog(gui, "Obstacle added to runway.");
 
+				} catch (NumberFormatException nfe) {
+					gui.updateGraphicRunway();
+					gui.updateGraphicRunway();
+					nfe.printStackTrace();
+				}
 			}
 
 		};
@@ -357,8 +370,12 @@ public class Controller {
 						inverse.getLda(), inverse.getAsda());
 				
 				}
+<<<<<<< HEAD
 				
 				
+=======
+
+>>>>>>> 624787a6392c1389b8b817351aac08b7cfad21aa
 				gui.updateGraphicRunway();
 			}
 		};
