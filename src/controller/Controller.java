@@ -1,35 +1,25 @@
 package controller;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.text.View;
+import javax.swing.filechooser.FileFilter;
 
 import model.Airport;
 import model.Obstacle;
 import model.Runway;
 import view.MainPageGUI;
 import view.SelectImportRunwaysGUI;
-import view.SideViewGUI;
 import view.TopViewGUI;
-import view.ViewGUI;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /**
  * Created by steff on 01/03/2017.
@@ -42,6 +32,7 @@ public class Controller {
 	private SelectImportRunwaysGUI sir;
 	private Airport airport;
 	private MainPageGUI gui;
+	private ActionListener saveToFile;
 	private ActionListener importAirport;
 	private ActionListener exportAirport;
 	private ActionListener submitButtonPress;
@@ -273,6 +264,63 @@ public class Controller {
 				gui.updateGraphicRunway();
 				gui.updateGraphicRunway();
 				JOptionPane.showMessageDialog(null, "View Reset.");
+			}
+		};
+
+		saveToFile = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				JFileChooser jfc = new JFileChooser();
+				jfc.setAcceptAllFileFilterUsed(false);
+				jfc.addChoosableFileFilter(new FileFilter() {
+					@Override
+					public boolean accept(File file) {
+						return file.getName().endsWith(".txt") || file.isDirectory();
+					}
+
+					@Override
+					public String getDescription() {
+						return ".txt";
+					}
+				});
+				jfc.addChoosableFileFilter(new FileFilter() {
+					@Override
+					public boolean accept(File file) {
+						return file.getName().endsWith(".png") || file.isDirectory();
+					}
+
+					@Override
+					public String getDescription() {
+						return ".png";
+					}
+				});
+				jfc.addChoosableFileFilter(new FileFilter() {
+					@Override
+					public boolean accept(File file) {
+						return file.getName().endsWith(".jpg") || file.isDirectory();
+					}
+
+					@Override
+					public String getDescription() {
+						return ".jpg";
+					}
+				});
+				int returnVal = jfc.showSaveDialog(gui);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File theFile;
+					String format;
+					if (!jfc.getFileFilter().accept(jfc.getSelectedFile())) {
+						theFile = new File(jfc.getSelectedFile().getAbsolutePath() + jfc.getFileFilter().getDescription());
+					} else {
+						theFile = jfc.getSelectedFile();
+					}
+					format = jfc.getFileFilter().getDescription();
+					if (format.equals(".txt")) {
+						printReadableFile(theFile);
+					} else {
+						exportToFormats(theFile);
+					}
+				}
 			}
 		};
 
@@ -571,7 +619,59 @@ public class Controller {
 				currentRunway.getAsda());
 	}
 
+	private void printReadableFile(File f) {
+		try{
+			Runway r = airport.getCurrentRunway();
+			String use = gui.getDisplayUse();
+			PrintWriter writer = new PrintWriter(f, "UTF-8");
+			writer.println("TEXT FILE OUTPUT FROM RUNWAY REDECLARATION");
+			writer.println("Runway name " + r.toString());
+			writer.println("Runway is in use for: "+use);
+			writer.println();
+			if(r.isObstaclePresent()) {
+				writer.println("There is an obstacle on the runway");
+			}
+			else{
+				writer.println("There is no obstacle on the runway");
+			}
+			writer.println("The Safe Distances are:");
+			writer.println("TORA: "+r.getTora());
+			writer.println("TODA: "+r.getToda());
+			writer.println("ASDA: "+r.getAsda());
+			writer.println("LDA: "+ r.getLda());
+			writer.println("Fly Safely");
+			writer.close();
+
+			JOptionPane.showMessageDialog(null, "Text File Saved");
+		}
+		catch (IOException e){
+			e.printStackTrace();
+		}
+
+	}
+
+
+	private void exportToFormats( File theFile) {
+
+		String string = theFile.getName().split("\\.")[1];
+		JPanel panel = gui.getDifferentViews();
+		BufferedImage img = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_RGB);
+		panel.paint(img.getGraphics());
+		try{
+			ImageIO.write(img, string, theFile);
+			System.out.println(theFile.exists());
+			JOptionPane.showMessageDialog(null, "Image Saved");
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
 		Controller c = new Controller();
+	}
+
+	public ActionListener getSaveToFile() {
+		return saveToFile;
 	}
 }

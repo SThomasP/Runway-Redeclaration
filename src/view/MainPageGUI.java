@@ -5,10 +5,18 @@ import model.Obstacle;
 import model.Runway;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.smartcardio.Card;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.AbstractTableModel;
 
 import controller.Controller;
@@ -236,7 +244,7 @@ public class MainPageGUI extends JFrame {
         rotateView.addActionListener(c.getRotate());
         rotateViewToCompass = new JButton("Rotate To Heading");
         rotateViewToCompass.addActionListener(c.getRotateToHeading());
-        printView = new JButton("Print");
+        printView = new JButton("Save As");
         zoomInView = new JButton("Zoom In");
         zoomInView.addActionListener(c.getZoomIn());
         zoomOutView = new JButton("Zoom Out");
@@ -244,7 +252,10 @@ public class MainPageGUI extends JFrame {
         pointx = new JTextField("0");
         pointy = new JTextField("0");
         zoomFactor = new JTextField();
-        
+
+        printView.addActionListener(c.getSaveToFile());
+
+
         JPanel zoomWholePanel = new JPanel();
         zoomWholePanel.setLayout(new BorderLayout());
         
@@ -524,6 +535,8 @@ public class MainPageGUI extends JFrame {
 
     }
 
+
+
     public JComboBox<String> getObstacleNames() {
         return obstacleNames;
     }
@@ -692,6 +705,14 @@ public class MainPageGUI extends JFrame {
         }
         topView.repaint();
         sideView.repaint();
+    }
+
+    public JPanel getDifferentViews() {
+        return differentViews;
+    }
+
+    public String getDisplayUse() {
+        return (String) runwayUses.getSelectedItem();
     }
 
     private class DistanceTableModel extends AbstractTableModel {
