@@ -50,6 +50,16 @@ public class SideViewGUI extends ViewGUI {
         todaLine = new Line2D.Float((float) width, (float) (height / 1.40), (float) x1, (float) (height / 1.40));
         asdaLine = new Line2D.Float((float) runwayRec.getMaxX(), (float) (height / 1.49), (float) x1, (float) (height / 1.49));
         ldaLine = new Line2D.Float((float) x4, (float) (height / 1.58), (float) x1 + thresholdDistance, (float) (height / 1.58));
+
+        double arrowX1 = width * 0.1;
+        double arrowX2 = width * 0.9;
+        double arrowY = height * 0.1;
+        arrowLine = new Line2D.Double(arrowX1, arrowY,arrowX2 - 15 , arrowY);
+        arrowHead = new Polygon();
+        arrowHead.addPoint( (int) arrowX2-15, (int) arrowY -5);
+        arrowHead.addPoint( (int) arrowX2-15,(int) arrowY +5);
+        arrowHead.addPoint( (int) arrowX2, (int)arrowY);
+
         repaint();
     }
 
@@ -153,6 +163,10 @@ public class SideViewGUI extends ViewGUI {
         fillShape(Color.GRAY,g,rightClearwayRec);
         outlineShape(Color.black,g, rightClearwayRec,outline);
         outlineShape(Color.black,g, leftClearwayRec,outline);
+
+        fillShape(Color.black,g,arrowHead);
+        outlineShape(Color.black,g,arrowLine,outline);
+
         drawRunwayName(name[0],0,(int) (getWidth()*0.05),(int) (0.9*getHeight()) , g, Color.black);
         drawRunwayName(name[1],0,(int) (getWidth()*0.05),(int) (0.9*getHeight()+ 12 ) , g, Color.black);
         drawRunwayName(inverseName[0], 0, (int) (getWidth()*0.87),(int) (0.9*getHeight()) , g, Color.black);

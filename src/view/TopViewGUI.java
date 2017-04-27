@@ -141,6 +141,7 @@ public class TopViewGUI extends ViewGUI {
         int[] runwayY = {(int) (0.45 * height), (int) (0.45 * height + 0.10 * height), (int) (0.45 * height + 0.10 * height), (int) (0.45 * height)};
         int[] rotatedandzoomedX = new int[4];
         int[] rotatedandzoomedY = new int[4];
+
         for (int i = 0; i < 4; i++) {
             rotatedandzoomedX[i] = (int) rotateandzoom(orientation, runwayX[i], runwayY[i], zoom)[0];
             rotatedandzoomedY[i] = (int) rotateandzoom(orientation, runwayX[i], runwayY[i], zoom)[1];
@@ -158,6 +159,16 @@ public class TopViewGUI extends ViewGUI {
             sideLines[i] = new Line2D.Double(rotateandzoom(orientation, xpoint, ypoint, zoom)[0], rotateandzoom(orientation, xpoint, ypoint, zoom)[1], rotateandzoom(orientation, x[1], ypoint, zoom)[0], rotateandzoom(orientation, x[1], ypoint, zoom)[1]);
             sideLines[i + 10] = new Line2D.Double(rotateandzoom(orientation, x[4], ypoint, zoom)[0], rotateandzoom(orientation, x[4], ypoint, zoom)[1], rotateandzoom(orientation, width - xpoint, ypoint, zoom)[0], rotateandzoom(orientation, width - xpoint, ypoint, zoom)[1]);
         }
+        double arrowX1 = width * 0.1;
+        double arrowX2 = width * 0.9;
+        double arrowY = height * 0.1;
+        arrowLine = new Line2D.Double(rotateandzoom(orientation,arrowX1, arrowY, zoom)[0],rotateandzoom(orientation,arrowX1, arrowY, zoom)[1],rotateandzoom(orientation,arrowX2-15, arrowY, zoom)[0],rotateandzoom(orientation,arrowX2 - 15 , arrowY, zoom)[1]);
+        arrowHead = new Polygon();
+        arrowHead.addPoint( (int) rotateandzoom(orientation,arrowX2-15,arrowY -5,zoom)[0], (int) rotateandzoom(orientation,arrowX2-15,arrowY -5,zoom)[1]);
+        arrowHead.addPoint( (int) rotateandzoom(orientation,arrowX2-15,arrowY +5,zoom)[0], (int) rotateandzoom(orientation,arrowX2-15,arrowY +5,zoom)[1]);
+        arrowHead.addPoint( (int) rotateandzoom(orientation,arrowX2,arrowY,zoom)[0], (int) rotateandzoom(orientation,arrowX2,arrowY,zoom)[1]);
+
+
     }
 
 
@@ -243,6 +254,10 @@ public class TopViewGUI extends ViewGUI {
             fillShape(Color.black, g, obstacleRotatedRec);
 
         }
+
+        fillShape(Color.black,g,arrowHead);
+        outlineShape(Color.black,g,arrowLine,outline);
+
 
         drawRunwayName(name[0], orientation + Math.toRadians(90), (int) rotateandzoom(orientation, getWidth() / 5+ 18, getHeight() / 2 - 9, zoom)[0], (int) rotateandzoom(orientation, getWidth() / 5 + 18, getHeight() / 2 - 9, zoom)[1], g, Color.white);
         drawRunwayName(name[1], orientation + Math.toRadians(90), (int) rotateandzoom(orientation, getWidth() / 5+ 7, getHeight() / 2 - 3, zoom)[0], (int) rotateandzoom(orientation, getWidth() / 5 + 7, getHeight() / 2 - 3, zoom)[1], g, Color.white);
